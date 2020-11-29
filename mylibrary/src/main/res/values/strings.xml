@@ -12,4 +12,6 @@
     <string name="str_name_actor_2">Chris Evans</string>
     <string name="str_name_actor_3">Mark Ruffalo</string>
     <string name="str_name_actor_4">Chris Hemsworth</string>
+    <string name="movies_list">Movies list</string>
+    <string name="film_duration">137 min</string>
 </resources>

@@ -11,6 +11,9 @@
 
     <color name="app_black">#191926</color>
     <color name="app_grey">#6D6D80</color>
+    <color name="app_text_grey">#565665</color>
+    <color name="app_grey_bg">#1C1C29</color>
+    <color name="app_grey_2">#191926</color>
     <color name="app_white">#ECECEC</color>
     <color name="app_assent">#FF3466</color>
     <color name="app_grey_name_actor">#D8D8D8</color>
