@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+<style name="style_name_actor">
+    <item name="android:fontFamily">@font/roboto</item>
+    <item name="android:layout_marginTop">@dimen/space_1.5x</item>
+    <item name="android:textSize">14sp</item>
+    <item name="editTextStyle">@id/normal</item>
+    <item name="android:textFontWeight" tools:ignore="NewApi">900</item>
+</style>
+
+    <style name="style_roboto_normal_900">
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="editTextStyle">@id/normal</item>
+        <item name="android:textFontWeight" tools:ignore="NewApi">900</item>
+    </style>
+
+    <style name="style_roboto_normal_300">
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="editTextStyle">@id/normal</item>
+        <item name="android:textFontWeight" tools:ignore="NewApi">900</item>
+    </style>
+</resources>
