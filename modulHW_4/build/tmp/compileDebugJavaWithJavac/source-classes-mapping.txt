@@ -1,0 +1,2 @@
+com/adnroidapp/modulhw_4/BuildConfig.java
+ com.adnroidapp.modulhw_4.BuildConfig
