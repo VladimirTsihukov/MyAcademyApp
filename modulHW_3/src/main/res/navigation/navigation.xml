@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/movie_detail"
-        android:name="com.adnroidapp.modulhw_4.fragment.FragmentMoviesDetails"
+        android:name="ru.academyapp.modulhw_3.fragment.FragmentMoviesDetails"
         android:label="@string/label_frg_mov_details"
         tools:layout="@layout/fragment_movies_details">
         <action
