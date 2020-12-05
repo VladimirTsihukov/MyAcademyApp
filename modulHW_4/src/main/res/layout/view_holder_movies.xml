@@ -3,6 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/space_2x"
     xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
@@ -12,6 +13,7 @@
         android:src="@drawable/mask_film_avengers"
         app:layout_constraintCircleRadius="@dimen/space_2x"
         app:layout_constraintStart_toStartOf="@id/holder_image_film"
+        app:layout_constraintEnd_toEndOf="@id/holder_image_film"
         app:layout_constraintTop_toTopOf="@+id/holder_image_film"
         tools:ignore="ContentDescription,UnusedAttribute" />
 
@@ -21,7 +23,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/shape_image"
-        android:layout_marginStart="@dimen/space_4x"
+        android:layout_marginStart="@dimen/space_2x"
         android:foreground="@drawable/mask_poster"
         android:src="@drawable/poster_film_avengers"
         app:layout_constraintStart_toStartOf="parent"

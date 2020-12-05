@@ -204,100 +204,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mov_list_text_story_line" />
 
-        <ImageView
-            android:id="@+id/image_actor_1"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="@dimen/space_4x"
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_marginTop="@dimen/space_2x"
-            android:src="@drawable/actor_1"
-            app:layout_constraintEnd_toStartOf="@+id/image_actor_2"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toBottomOf="@id/cast"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cast"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:id="@+id/image_actor_2"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/actor_2"
-            app:layout_constraintEnd_toStartOf="@+id/image_actor_3"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/image_actor_1"
-            app:layout_constraintTop_toBottomOf="@id/cast"
-            app:layout_constraintTop_toTopOf="@+id/image_actor_1"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:id="@+id/image_actor_3"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/actor_3"
-            app:layout_constraintEnd_toStartOf="@+id/image_actor_4"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/image_actor_2"
-            app:layout_constraintTop_toBottomOf="@id/cast"
-            app:layout_constraintTop_toTopOf="@+id/image_actor_1"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:id="@+id/image_actor_4"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginEnd="@dimen/space_4x"
-            android:src="@drawable/actor_4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/image_actor_3"
-            app:layout_constraintTop_toBottomOf="@id/cast"
-            app:layout_constraintTop_toTopOf="@+id/image_actor_1"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:id="@+id/name_actor_1"
-            style="@style/style_name_actor"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/str_name_actor_1"
-            android:textColor="@color/app_grey_name_actor"
-            app:layout_constraintEnd_toEndOf="@id/image_actor_1"
-            app:layout_constraintStart_toStartOf="@id/image_actor_1"
-            app:layout_constraintTop_toBottomOf="@id/image_actor_1" />
-
-        <TextView
-            android:id="@+id/name_actor_2"
-            style="@style/style_name_actor"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/str_name_actor_2"
-            android:textColor="@color/app_grey_name_actor"
-            app:layout_constraintEnd_toEndOf="@id/image_actor_2"
-            app:layout_constraintStart_toStartOf="@id/image_actor_2"
-            app:layout_constraintTop_toBottomOf="@id/image_actor_2" />
-
-        <TextView
-            android:id="@+id/name_actor_3"
-            style="@style/style_name_actor"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/str_name_actor_3"
-            android:textColor="@color/app_grey_name_actor"
-            app:layout_constraintEnd_toEndOf="@id/image_actor_3"
-            app:layout_constraintStart_toStartOf="@id/image_actor_3"
-            app:layout_constraintTop_toBottomOf="@id/image_actor_3" />
-
-        <TextView
-            android:id="@+id/name_actor_4"
-            style="@style/style_name_actor"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/str_name_actor_4"
-            android:textColor="@color/app_grey_name_actor"
-            app:layout_constraintEnd_toEndOf="@id/image_actor_4"
-            app:layout_constraintStart_toStartOf="@id/image_actor_4"
-            app:layout_constraintTop_toBottomOf="@id/image_actor_4" />
+            android:layout_width="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            tools:listitem="@layout/view_holder_actor"
+            android:layout_height="wrap_content"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </ScrollView>
