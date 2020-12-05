@@ -162,7 +162,7 @@
         app:layout_constraintTop_toTopOf="@id/mov_list_star_level_1" />
 
     <TextView
-        android:id="@+id/story_line"
+        android:id="@+id/mov_list_story_line"
         style="@style/style_roboto_normal_900"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -174,7 +174,7 @@
         app:layout_constraintTop_toBottomOf="@id/mov_list_star_level_1" />
 
     <TextView
-        android:id="@+id/text_story_line"
+        android:id="@+id/mov_list_text_story_line"
         style="@style/style_roboto_normal_300"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -186,7 +186,7 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/story_line" />
+        app:layout_constraintTop_toBottomOf="@id/mov_list_story_line" />
 
     <TextView
         android:id="@+id/cast"
@@ -198,7 +198,7 @@
         android:textColor="@color/app_white"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_story_line" />
+        app:layout_constraintTop_toBottomOf="@id/mov_list_text_story_line" />
 
     <ImageView
         android:id="@+id/image_actor_1"

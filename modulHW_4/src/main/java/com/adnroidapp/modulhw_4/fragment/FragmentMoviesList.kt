@@ -12,7 +12,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<ImageView>(R.id.mov_list_image_film).run {
+        view.findViewById<ImageView>(R.id.holder_image_film).run {
             setOnClickListener {
                 findNavController().navigate(R.id.action_fragmentMoviesList_to_fragmentMoviesDetails)
             }
