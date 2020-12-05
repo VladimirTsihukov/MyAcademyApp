@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/movie_list"
         android:name="ru.academyapp.modulhw_3.fragment.FragmentMoviesList"
-        android:label="FragmentMoviesList"
+        android:label="@string/label_frg_mov_list"
         tools:layout="@layout/fragment_movies_list">
         <action
             android:id="@+id/action_fragmentMoviesList_to_fragmentMoviesDetails"
@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/movie_detail"
         android:name="ru.academyapp.modulhw_3.fragment.FragmentMoviesDetails"
-        android:label="FragmentMoviesDetails"
+        android:label="@string/label_frg_mov_details"
         tools:layout="@layout/fragment_movies_details">
         <action
             android:id="@+id/action_fragmentMoviesDetails_to_fragmentMoviesList"

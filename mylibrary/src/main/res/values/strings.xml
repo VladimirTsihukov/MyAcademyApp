@@ -14,4 +14,7 @@
     <string name="str_name_actor_4">Chris Hemsworth</string>
     <string name="movies_list">Movies list</string>
     <string name="film_duration">137 min</string>
+
+    <string name="label_frg_mov_list">FragmentMoviesList</string>
+    <string name="label_frg_mov_details">FragmentMoviesDetails</string>
 </resources>

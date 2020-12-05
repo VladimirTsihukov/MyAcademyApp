@@ -9,18 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import ru.academyapp.modulhw_3.R
 
-class FragmentMoviesList : Fragment() {
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_movies_list, container, false)
+class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<ImageView>(R.id.image_film).apply {
+        view.findViewById<ImageView>(R.id.image_film).run {
             setOnClickListener {
                 findNavController().navigate(R.id.action_fragmentMoviesList_to_fragmentMoviesDetails)
             }
