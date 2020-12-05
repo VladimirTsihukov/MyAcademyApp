@@ -40,6 +40,7 @@
         android:id="@+id/res_view_move_list"
         app:layout_constraintEnd_toEndOf="@id/top_menu"
         android:layout_width="match_parent"
+        android:layout_marginTop="24dp"
         android:layout_height="match_parent"
         android:gravity="center"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"

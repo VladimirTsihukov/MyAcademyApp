@@ -43,7 +43,7 @@
             android:layout_marginStart="13dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/image_film"
-            android:src="@drawable/list_grey_bg"
+            android:src="@drawable/poster_film_avengers"
             tools:ignore="ContentDescription,UnusedAttribute" />
 
         <ImageView
@@ -55,8 +55,8 @@
             android:background="@drawable/shape_image"
             android:layout_marginStart="@dimen/space_3.5x"
             app:layout_constraintStart_toStartOf="parent"
-            android:foreground="@drawable/list_frg_mask"
-            android:src="@drawable/list_frg_movie"
+            android:foreground="@drawable/mask_poster"
+            android:src="@drawable/poster_film_avengers"
             tools:ignore="ContentDescription,UnusedAttribute" />
 
     <TextView

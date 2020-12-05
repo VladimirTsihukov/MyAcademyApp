@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.modulhw_4.R
+import com.adnroidapp.modulhw_4.data.FilmName.*
 import com.adnroidapp.modulhw_4.data.Movies
 
 class AdapterMovies : RecyclerView.Adapter<HolderMovies>() {
@@ -49,7 +50,13 @@ class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
 
     @SuppressLint("SetTextI18n")
     fun onBind(film: Movies) {
-        imageFilm?.setImageResource(R.drawable.list_frg_movie)
+        when(film.imageFilm) {
+            AVENGERS_END_GAME -> imageFilm?.setImageResource(R.drawable.poster_film_avengers)
+            TENET -> imageFilm?.setImageResource(R.drawable.poster_film_tenet)
+            BLACK_WINDOW -> imageFilm?.setImageResource(R.drawable.poster_film_black_widow)
+            WONDER_WOMAN_1984 -> imageFilm?.setImageResource(R.drawable.poster_film_wonder_woman_1984)
+        }
+
         ageCategory?.text = "${film.ageCategory}+"
         movieGenre?.text = film.movieGenre
         if (film.star1) star1?.setImageResource(R.drawable.star_icon_on) ?: star1?.setImageResource(
@@ -70,7 +77,7 @@ class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
         reviews?.text = "${film.reviews} Reviews"
         filName?.text = film.filName
         min?.text = "${film.min} min"
-        if (film.iconLike) iconLike?.setImageResource(R.drawable.icon_like_on)
-            ?: iconLike?.setImageResource(R.drawable.icon_like_off)
+        if (film.iconLike) iconLike?.setImageResource(R.drawable.icon_like_off)
+            ?: iconLike?.setImageResource(R.drawable.icon_like_on)
     }
 }
