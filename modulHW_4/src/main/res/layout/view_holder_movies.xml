@@ -159,7 +159,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_3x"
         android:layout_marginEnd="@dimen/space_2x"
-        android:src="@drawable/icon_like"
+        android:src="@drawable/icon_like_on"
         app:layout_constraintEnd_toEndOf="@id/holder_image_film"
         app:layout_constraintTop_toTopOf="@+id/holder_image_film"
         tools:ignore="ContentDescription" />
