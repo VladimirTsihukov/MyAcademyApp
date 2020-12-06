@@ -1,7 +1,7 @@
 package com.adnroidapp.modulhw_4.data
 
 data class Movies (
-     val imageFilm: FilmName,
+     val imageMovie: MovieName,
      val ageCategory: Int,
      val movieGenre: String,
      val star1: Boolean,

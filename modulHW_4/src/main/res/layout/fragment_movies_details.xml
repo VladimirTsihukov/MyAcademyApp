@@ -201,6 +201,7 @@
         app:layout_constraintTop_toBottomOf="@id/mov_list_text_story_line" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rec_actors"
         android:layout_marginTop="@dimen/space_2x"
         app:layout_constraintTop_toBottomOf="@id/cast"
         app:layout_constraintStart_toStartOf="parent"

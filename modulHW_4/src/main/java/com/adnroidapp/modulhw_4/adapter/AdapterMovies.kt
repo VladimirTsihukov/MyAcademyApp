@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.modulhw_4.R
-import com.adnroidapp.modulhw_4.data.FilmName.*
+import com.adnroidapp.modulhw_4.data.MovieName.*
 import com.adnroidapp.modulhw_4.data.Movies
 
 class AdapterMovies : RecyclerView.Adapter<HolderMovies>() {
@@ -50,7 +50,7 @@ class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
 
     @SuppressLint("SetTextI18n")
     fun onBind(film: Movies) {
-        when(film.imageFilm) {
+        when(film.imageMovie) {
             AVENGERS_END_GAME -> imageFilm?.setImageResource(R.drawable.poster_film_avengers)
             TENET -> imageFilm?.setImageResource(R.drawable.poster_film_tenet)
             BLACK_WINDOW -> imageFilm?.setImageResource(R.drawable.poster_film_black_widow)
