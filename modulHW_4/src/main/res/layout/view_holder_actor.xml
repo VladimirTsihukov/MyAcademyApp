@@ -7,7 +7,7 @@
     android:padding="@dimen/space_2x">
 
     <ImageView
-        android:id="@+id/image_actor_1"
+        android:id="@+id/holder_actor_image"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:src="@drawable/actor_1"
@@ -17,14 +17,14 @@
         tools:ignore="ContentDescription" />
 
     <TextView
-        android:id="@+id/name_actor_1"
+        android:id="@+id/holder_actor_name"
         style="@style/style_name_actor"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/str_name_actor_1"
         android:textColor="@color/app_grey_name_actor"
-        app:layout_constraintEnd_toEndOf="@id/image_actor_1"
-        app:layout_constraintStart_toStartOf="@id/image_actor_1"
-        app:layout_constraintTop_toBottomOf="@id/image_actor_1" />
+        app:layout_constraintEnd_toEndOf="@id/holder_actor_image"
+        app:layout_constraintStart_toStartOf="@id/holder_actor_image"
+        app:layout_constraintTop_toBottomOf="@id/holder_actor_image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

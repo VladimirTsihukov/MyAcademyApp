@@ -1,6 +1,6 @@
 package com.adnroidapp.modulhw_4.data
 
-data class Actors(
+data class Actor(
     val imageActor: ActorsName,
     val nameActors: ActorsName,
 )
