@@ -2,6 +2,7 @@ package com.adnroidapp.modulhw_4.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,7 @@ import com.adnroidapp.modulhw_4.adapter.OnItemClickListener
 import com.adnroidapp.modulhw_4.data.Movies
 import com.adnroidapp.modulhw_4.data.MoviesDataSource
 
+const val MOVIES_KEY = "MOVIES"
 class FragmentMoviesList: Fragment(R.layout.fragment_movies_list) {
 
     private var recycler: RecyclerView? = null
@@ -35,7 +37,10 @@ class FragmentMoviesList: Fragment(R.layout.fragment_movies_list) {
 
     private val click = object: OnItemClickListener {
         override fun onItemClick(movie: Movies) {
-                findNavController().navigate(R.id.action_fragmentMoviesList_to_fragmentMoviesDetails)
+            val bundle = Bundle()
+            bundle.putParcelable(MOVIES_KEY, movie)
+                findNavController().navigate(R.id.action_fragmentMoviesList_to_fragmentMoviesDetails,
+                    bundle)
         }
     }
 }
