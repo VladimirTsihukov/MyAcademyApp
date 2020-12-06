@@ -36,11 +36,10 @@ class AdapterMovies(
     fun bindMovies(newMovies: List<Movies>) {
         movies = newMovies
     }
-
 }
 
 class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
-    public val imageFilm: ImageView? = item.findViewById(R.id.holder_image_film)
+     val imageFilm: ImageView? = item.findViewById(R.id.holder_image_film)
     private val ageCategory: TextView? = item.findViewById(R.id.holder_age_category)
     private val movieGenre: TextView? = item.findViewById(R.id.holder_movie_genre)
     private val star1: ImageView? = item.findViewById(R.id.holder_star_level_1)
