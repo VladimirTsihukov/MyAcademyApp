@@ -64,6 +64,10 @@
         "source": "D:\\Android\\AndroidStudioProjects\\_Android_Oh_My_Event\\MyAcademyApp\\modulHW_4\\build\\generated\\res\\pngs\\debug\\drawable-anydpi-v24\\ic_launcher_foreground.xml"
     },
     {
+        "merged": "D:\\Android\\AndroidStudioProjects\\_Android_Oh_My_Event\\MyAcademyApp\\modulHW_4\\build\\intermediates\\res\\merged\\debug\\layout_view_holder_actor.xml.flat",
+        "source": "D:\\Android\\AndroidStudioProjects\\_Android_Oh_My_Event\\MyAcademyApp\\modulHW_4\\src\\main\\res\\layout\\view_holder_actor.xml"
+    },
+    {
         "merged": "D:\\Android\\AndroidStudioProjects\\_Android_Oh_My_Event\\MyAcademyApp\\modulHW_4\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_launcher.png.flat",
         "source": "D:\\Android\\AndroidStudioProjects\\_Android_Oh_My_Event\\MyAcademyApp\\modulHW_4\\src\\main\\res\\mipmap-xhdpi\\ic_launcher.png"
     },

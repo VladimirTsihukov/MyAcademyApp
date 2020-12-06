@@ -11,7 +11,9 @@ import com.adnroidapp.modulhw_4.R
 import com.adnroidapp.modulhw_4.data.MovieName.*
 import com.adnroidapp.modulhw_4.data.Movies
 
-class AdapterMovies : RecyclerView.Adapter<HolderMovies>() {
+class AdapterMovies(
+    private val onItemClickListener: OnItemClickListener
+) : RecyclerView.Adapter<HolderMovies>() {
 
     private var movies = listOf<Movies>()
 
@@ -24,6 +26,9 @@ class AdapterMovies : RecyclerView.Adapter<HolderMovies>() {
 
     override fun onBindViewHolder(holder: HolderMovies, position: Int) {
         holder.onBind(movies[position])
+        holder.imageFilm?.setOnClickListener {
+            onItemClickListener.onItemClick(movies[position])
+        }
     }
 
     override fun getItemCount(): Int = movies.size
@@ -35,7 +40,7 @@ class AdapterMovies : RecyclerView.Adapter<HolderMovies>() {
 }
 
 class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
-    private val imageFilm: ImageView? = item.findViewById(R.id.holder_image_film)
+    public val imageFilm: ImageView? = item.findViewById(R.id.holder_image_film)
     private val ageCategory: TextView? = item.findViewById(R.id.holder_age_category)
     private val movieGenre: TextView? = item.findViewById(R.id.holder_movie_genre)
     private val star1: ImageView? = item.findViewById(R.id.holder_star_level_1)

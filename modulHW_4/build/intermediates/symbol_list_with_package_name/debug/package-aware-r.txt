@@ -1834,6 +1834,8 @@ id grouping
 id groups
 id guidLine
 id hideable
+id holder_actor_image
+id holder_actor_name
 id holder_age_category
 id holder_film_name
 id holder_icon_like
@@ -1855,10 +1857,6 @@ id ifRoom
 id ignore
 id ignoreRequest
 id image
-id image_actor_1
-id image_actor_2
-id image_actor_3
-id image_actor_4
 id info
 id invisible
 id italic
@@ -1921,10 +1919,6 @@ id mtrl_picker_text_input_range_end
 id mtrl_picker_text_input_range_start
 id mtrl_picker_title_text
 id multiply
-id name_actor_1
-id name_actor_2
-id name_actor_3
-id name_actor_4
 id nav_controller_view_tag
 id nav_host_fragment_container
 id navigation
@@ -1957,6 +1951,7 @@ id progress_circular
 id progress_horizontal
 id radio
 id ratio
+id rec_actors
 id rectangles
 id res_view_move_list
 id reverseSawtooth
@@ -2208,6 +2203,7 @@ layout text_view_with_line_height_from_layout
 layout text_view_with_line_height_from_style
 layout text_view_with_theme_line_height
 layout text_view_without_line_height
+layout view_holder_actor
 layout view_holder_movies
 mipmap ic_launcher
 mipmap ic_launcher_round
