@@ -20,16 +20,16 @@
         "source": "D:\\Android\\AndroidStudioProjects\\_Android_Oh_My_Event\\MyAcademyApp\\modulHW_4\\src\\main\\res\\mipmap-mdpi\\ic_launcher.png"
     },
     {
+        "merged": "D:\\Android\\AndroidStudioProjects\\_Android_Oh_My_Event\\MyAcademyApp\\modulHW_4\\build\\intermediates\\res\\merged\\debug\\layout_view_holder_movies.xml.flat",
+        "source": "D:\\Android\\AndroidStudioProjects\\_Android_Oh_My_Event\\MyAcademyApp\\modulHW_4\\src\\main\\res\\layout\\view_holder_movies.xml"
+    },
+    {
         "merged": "D:\\Android\\AndroidStudioProjects\\_Android_Oh_My_Event\\MyAcademyApp\\modulHW_4\\build\\intermediates\\res\\merged\\debug\\layout_fragment_movies_details.xml.flat",
         "source": "D:\\Android\\AndroidStudioProjects\\_Android_Oh_My_Event\\MyAcademyApp\\modulHW_4\\src\\main\\res\\layout\\fragment_movies_details.xml"
     },
     {
         "merged": "D:\\Android\\AndroidStudioProjects\\_Android_Oh_My_Event\\MyAcademyApp\\modulHW_4\\build\\intermediates\\res\\merged\\debug\\layout_activity_main.xml.flat",
         "source": "D:\\Android\\AndroidStudioProjects\\_Android_Oh_My_Event\\MyAcademyApp\\modulHW_4\\src\\main\\res\\layout\\activity_main.xml"
-    },
-    {
-        "merged": "D:\\Android\\AndroidStudioProjects\\_Android_Oh_My_Event\\MyAcademyApp\\modulHW_4\\build\\intermediates\\res\\merged\\debug\\layout_view_holder_movies.xml.flat",
-        "source": "D:\\Android\\AndroidStudioProjects\\_Android_Oh_My_Event\\MyAcademyApp\\modulHW_4\\src\\main\\res\\layout\\view_holder_movies.xml"
     },
     {
         "merged": "D:\\Android\\AndroidStudioProjects\\_Android_Oh_My_Event\\MyAcademyApp\\modulHW_4\\build\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_launcher_round.png.flat",
