@@ -1,3 +1,4 @@
+include ':modulHW_5'
 include ':modulHW_4'
 include ':modulHW_3'
 include ':mylibrary'
