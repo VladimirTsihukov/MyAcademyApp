@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.modulhw_5.R
 import com.adnroidapp.modulhw_5.data.Actor
-import com.adnroidapp.modulhw_5.data.ActorsName.*
 
 class AdapterActors : RecyclerView.Adapter<HolderActors>() {
 
@@ -38,19 +37,6 @@ class HolderActors(item: View) : RecyclerView.ViewHolder(item) {
     private val nameActors: TextView? = item.findViewById(R.id.holder_actor_name)
 
     fun onBindActor(actor: Actor) {
-        when (actor.imageActor) {
-            ROBERT_DOWNEY -> imageActor?.setImageResource(R.drawable.actor_1)
-            CHRIS_EVANS -> imageActor?.setImageResource(R.drawable.actor_2)
-            MARK_RUFFALO -> imageActor?.setImageResource(R.drawable.actor_3)
-            CHRIS_HAMSWORTH -> imageActor?.setImageResource(R.drawable.actor_4)
-        }
 
-        when (actor.nameActors) {
-            ROBERT_DOWNEY -> nameActors?.text = view.resources.getString(R.string.str_name_actor_1)
-            CHRIS_EVANS -> nameActors?.text = view.resources.getString(R.string.str_name_actor_2)
-            MARK_RUFFALO -> nameActors?.text = view.resources.getString(R.string.str_name_actor_3)
-            CHRIS_HAMSWORTH -> nameActors?.text =
-                view.resources.getString(R.string.str_name_actor_4)
-        }
     }
 }

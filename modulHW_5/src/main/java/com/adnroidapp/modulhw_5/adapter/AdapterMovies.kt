@@ -8,14 +8,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.modulhw_5.R
-import com.adnroidapp.modulhw_5.data.MovieName.*
-import com.adnroidapp.modulhw_5.data.Movies
+import com.adnroidapp.modulhw_5.data.Movie
 
 class AdapterMovies(
     private val onItemClickListener: OnItemClickListener
 ) : RecyclerView.Adapter<HolderMovies>() {
 
-    private var movies = listOf<Movies>()
+    private var movies = listOf<Movie>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HolderMovies {
         return HolderMovies(
@@ -33,7 +32,7 @@ class AdapterMovies(
 
     override fun getItemCount(): Int = movies.size
 
-    fun bindMovies(newMovies: List<Movies>) {
+    fun bindMovies(newMovies: List<Movie>) {
         movies = newMovies
     }
 }
@@ -53,13 +52,8 @@ class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
     private val iconLike: ImageView? = item.findViewById(R.id.holder_icon_like)
 
     @SuppressLint("SetTextI18n")
-    fun onBind(film: Movies) {
-        when(film.imageMovie) {
-            AVENGERS_END_GAME -> imageFilm?.setImageResource(R.drawable.poster_film_avengers)
-            TENET -> imageFilm?.setImageResource(R.drawable.poster_film_tenet)
-            BLACK_WINDOW -> imageFilm?.setImageResource(R.drawable.poster_film_black_widow)
-            WONDER_WOMAN_1984 -> imageFilm?.setImageResource(R.drawable.poster_film_wonder_woman_1984)
-        }
+    fun onBind(film: Movie) {
+
 
         ageCategory?.text = "${film.ageCategory}+"
         movieGenre?.text = film.movieGenre
@@ -79,8 +73,8 @@ class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
             R.drawable.star_icon_off
         )
         reviews?.text = "${film.reviews} Reviews"
-        filName?.text = film.filName
-        min?.text = "${film.min} min"
+        filName?.text = film.poster
+        min?.text = "${film.ratings} min"
         if (film.iconLike) iconLike?.setImageResource(R.drawable.icon_like_off)
             ?: iconLike?.setImageResource(R.drawable.icon_like_on)
     }
