@@ -52,6 +52,7 @@ class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
     private val star3: ImageView? = item.findViewById(R.id.holder_star_level_3)
     private val star4: ImageView? = item.findViewById(R.id.holder_star_level_4)
     private val star5: ImageView? = item.findViewById(R.id.holder_star_level_5)
+    private val listStar: List<ImageView> = listOfNotNull(star1, star2, star3, star4, star5)
     private val reviews: TextView? = item.findViewById(R.id.holder_reviews)
     private val filName: TextView? = item.findViewById(R.id.holder_film_name)
     private val min: TextView? = item.findViewById(R.id.holder_list_min)
@@ -78,43 +79,12 @@ class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
     }
 
     private fun setImageStars(current: Int) {
-        when (current) {
-            1 -> {
-                star1?.setImageResource(R.drawable.star_icon_on)
-                star2?.setImageResource(R.drawable.star_icon_off)
-                star3?.setImageResource(R.drawable.star_icon_off)
-                star4?.setImageResource(R.drawable.star_icon_off)
-                star5?.setImageResource(R.drawable.star_icon_off)
+        for (index in listStar.indices) {
+            if (index < current) {
+                (listStar[index] as? ImageView)?.setImageResource(R.drawable.star_icon_on)
+            } else {
+                (listStar[index] as? ImageView)?.setImageResource(R.drawable.star_icon_off)
             }
-            2 -> {
-                star1?.setImageResource(R.drawable.star_icon_on)
-                star2?.setImageResource(R.drawable.star_icon_on)
-                star3?.setImageResource(R.drawable.star_icon_off)
-                star4?.setImageResource(R.drawable.star_icon_off)
-                star5?.setImageResource(R.drawable.star_icon_off)
-            }
-            3 -> {
-                star1?.setImageResource(R.drawable.star_icon_on)
-                star2?.setImageResource(R.drawable.star_icon_on)
-                star3?.setImageResource(R.drawable.star_icon_on)
-                star4?.setImageResource(R.drawable.star_icon_off)
-                star5?.setImageResource(R.drawable.star_icon_off)
-            }
-            4 -> {
-                star1?.setImageResource(R.drawable.star_icon_on)
-                star2?.setImageResource(R.drawable.star_icon_on)
-                star3?.setImageResource(R.drawable.star_icon_on)
-                star4?.setImageResource(R.drawable.star_icon_on)
-                star5?.setImageResource(R.drawable.star_icon_off)
-            }
-            5 -> {
-                star1?.setImageResource(R.drawable.star_icon_on)
-                star2?.setImageResource(R.drawable.star_icon_on)
-                star3?.setImageResource(R.drawable.star_icon_on)
-                star4?.setImageResource(R.drawable.star_icon_on)
-                star5?.setImageResource(R.drawable.star_icon_on)
-            }
-            else -> ""
         }
     }
 }

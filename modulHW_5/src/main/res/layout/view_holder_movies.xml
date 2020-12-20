@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:foreground="@color/app_grey_bg"
         android:src="@drawable/mask_film_avengers"
@@ -20,7 +20,7 @@
     <ImageView
         android:id="@+id/holder_image_film"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/shape_image"
         android:layout_marginStart="@dimen/space_2x"

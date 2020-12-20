@@ -13,9 +13,8 @@
     <ImageView
         android:id="@+id/mask"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:foreground="@drawable/mask_back"
-        android:scaleType="centerCrop"
         android:src="@drawable/background_mask"
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

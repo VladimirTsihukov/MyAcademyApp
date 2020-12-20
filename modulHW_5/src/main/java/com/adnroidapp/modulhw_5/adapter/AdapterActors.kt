@@ -16,7 +16,6 @@ class AdapterActors : RecyclerView.Adapter<HolderActors>() {
 
     fun bindActors(newActor: List<Actor>) {
         actors = newActor
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HolderActors {
