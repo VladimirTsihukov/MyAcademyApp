@@ -13,35 +13,37 @@ import com.adnroidapp.modulhw_5.data.loadMovies
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 const val MOVIES_KEY = "MOVIES"
 
 class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     private var recycler: RecyclerView? = null
-    private val scope = CoroutineScope(Dispatchers.Main)
     private var listMovie: List<Movie>? = null
+    private val scope = CoroutineScope(Dispatchers.IO)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recycler = view.findViewById(R.id.res_view_move_list)
         recycler?.adapter = AdapterMovies(click)
-
+        recycler?.visibility = View.INVISIBLE
     }
 
     override fun onStart() {
         super.onStart()
 
         scope.launch {
-                listMovie = activity?.applicationContext?.let { loadMovies(it) }
+            listMovie = loadMovies(requireContext())
+            withContext(Dispatchers.Main) {
                 updateData(listMovie)
+                recycler?.visibility = View.VISIBLE
+            }
         }
     }
 
     private fun updateData(list: List<Movie>?) {
-        (recycler?.adapter as? AdapterMovies)?.run {
-            bindMovies(list)
-        }
+        (recycler?.adapter as? AdapterMovies)?.bindMovies(list)
     }
 
     private val click = object : OnItemClickListener {

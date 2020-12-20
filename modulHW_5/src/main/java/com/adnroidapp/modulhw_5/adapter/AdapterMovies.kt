@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.modulhw_5.R
 import com.adnroidapp.modulhw_5.data.Movie
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlin.math.roundToInt
 
 class AdapterMovies(
@@ -45,7 +44,6 @@ class AdapterMovies(
 }
 
 class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
-    private val view = item
     val imageFilm: ImageView = item.findViewById(R.id.holder_image_film)
     private val ageCategory: TextView? = item.findViewById(R.id.holder_age_category)
     private val movieGenre: TextView? = item.findViewById(R.id.holder_movie_genre)
@@ -62,17 +60,11 @@ class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
     @SuppressLint("SetTextI18n")
     fun onBind(movie: Movie, context: Context) {
 
-        //val arrStars: Array<Int> = context.resources.getStringArray(R.array.arr_stars)
-        //imageFilm.setImageResource(R.drawable.poster_film_tenet)
-
         setPosterIcon(movie.poster, context)
 
         ageCategory?.text = "${movie.minimumAge}+"
-        val genres = movie.genres.joinToString { it.name }
-        movieGenre?.text = genres
-
+        movieGenre?.text = movie.genres.joinToString { it.name }
         setImageStars((movie.ratings / 2).roundToInt())
-
         reviews?.text = "${movie.numberOfRatings} Reviews"
         filName?.text = movie.title
         min?.text = "${movie.runtime} min"
@@ -82,8 +74,6 @@ class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
     private fun setPosterIcon(poster: String, context: Context) {
         Glide.with(context)
             .load(poster)
-            .thumbnail(0.5f)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(imageFilm)
     }
 
