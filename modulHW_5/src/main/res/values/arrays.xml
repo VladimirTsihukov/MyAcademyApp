@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <integer-array name="arr_stars">
+        <item>@id/holder_star_level_1</item>
+        <item>@id/holder_star_level_2</item>
+        <item>@id/holder_star_level_3</item>
+        <item>@id/holder_star_level_4</item>
+        <item>@id/holder_star_level_5</item>
+    </integer-array>
+</resources>

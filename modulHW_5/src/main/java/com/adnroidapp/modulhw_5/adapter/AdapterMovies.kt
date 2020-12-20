@@ -1,6 +1,7 @@
 package com.adnroidapp.modulhw_5.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.modulhw_5.R
 import com.adnroidapp.modulhw_5.data.Movie
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import kotlin.math.roundToInt
 
 class AdapterMovies(
     private val onItemClickListener: OnItemClickListener
@@ -24,21 +28,25 @@ class AdapterMovies(
     }
 
     override fun onBindViewHolder(holder: HolderMovies, position: Int) {
-        holder.onBind(movies[position])
-        holder.imageFilm?.setOnClickListener {
+        holder.onBind(movies[position], holder.itemView.context)
+        holder.imageFilm.setOnClickListener {
             onItemClickListener.onItemClick(movies[position])
         }
     }
 
     override fun getItemCount(): Int = movies.size
 
-    fun bindMovies(newMovies: List<Movie>) {
-        movies = newMovies
+    fun bindMovies(newMovies: List<Movie>?) {
+        if (newMovies != null) {
+            movies = newMovies
+            notifyDataSetChanged()
+        }
     }
 }
 
 class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
-     val imageFilm: ImageView? = item.findViewById(R.id.holder_image_film)
+    private val view = item
+    val imageFilm: ImageView = item.findViewById(R.id.holder_image_film)
     private val ageCategory: TextView? = item.findViewById(R.id.holder_age_category)
     private val movieGenre: TextView? = item.findViewById(R.id.holder_movie_genre)
     private val star1: ImageView? = item.findViewById(R.id.holder_star_level_1)
@@ -52,30 +60,71 @@ class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
     private val iconLike: ImageView? = item.findViewById(R.id.holder_icon_like)
 
     @SuppressLint("SetTextI18n")
-    fun onBind(film: Movie) {
+    fun onBind(movie: Movie, context: Context) {
 
+        //val arrStars: Array<Int> = context.resources.getStringArray(R.array.arr_stars)
+        //imageFilm.setImageResource(R.drawable.poster_film_tenet)
 
-        ageCategory?.text = "${film.ageCategory}+"
-        movieGenre?.text = film.movieGenre
-        if (film.star1) star1?.setImageResource(R.drawable.star_icon_on) ?: star1?.setImageResource(
-            R.drawable.star_icon_off
-        )
-        if (film.star2) star2?.setImageResource(R.drawable.star_icon_on) ?: star2?.setImageResource(
-            R.drawable.star_icon_off
-        )
-        if (film.star3) star3?.setImageResource(R.drawable.star_icon_on) ?: star3?.setImageResource(
-            R.drawable.star_icon_off
-        )
-        if (film.star4) star4?.setImageResource(R.drawable.star_icon_on) ?: star4?.setImageResource(
-            R.drawable.star_icon_off
-        )
-        if (film.star5) star5?.setImageResource(R.drawable.star_icon_on) ?: star5?.setImageResource(
-            R.drawable.star_icon_off
-        )
-        reviews?.text = "${film.reviews} Reviews"
-        filName?.text = film.poster
-        min?.text = "${film.ratings} min"
-        if (film.iconLike) iconLike?.setImageResource(R.drawable.icon_like_off)
-            ?: iconLike?.setImageResource(R.drawable.icon_like_on)
+        setPosterIcon(movie.poster, context)
+
+        ageCategory?.text = "${movie.minimumAge}+"
+        val genres = movie.genres.joinToString { it.name }
+        movieGenre?.text = genres
+
+        setImageStars((movie.ratings / 2).roundToInt())
+
+        reviews?.text = "${movie.numberOfRatings} Reviews"
+        filName?.text = movie.title
+        min?.text = "${movie.runtime} min"
+        iconLike?.setImageResource(R.drawable.icon_like_on)
+    }
+
+    private fun setPosterIcon(poster: String, context: Context) {
+        Glide.with(context)
+            .load(poster)
+            .thumbnail(0.5f)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .into(imageFilm)
+    }
+
+    private fun setImageStars(current: Int) {
+        when (current) {
+            1 -> {
+                star1?.setImageResource(R.drawable.star_icon_on)
+                star2?.setImageResource(R.drawable.star_icon_off)
+                star3?.setImageResource(R.drawable.star_icon_off)
+                star4?.setImageResource(R.drawable.star_icon_off)
+                star5?.setImageResource(R.drawable.star_icon_off)
+            }
+            2 -> {
+                star1?.setImageResource(R.drawable.star_icon_on)
+                star2?.setImageResource(R.drawable.star_icon_on)
+                star3?.setImageResource(R.drawable.star_icon_off)
+                star4?.setImageResource(R.drawable.star_icon_off)
+                star5?.setImageResource(R.drawable.star_icon_off)
+            }
+            3 -> {
+                star1?.setImageResource(R.drawable.star_icon_on)
+                star2?.setImageResource(R.drawable.star_icon_on)
+                star3?.setImageResource(R.drawable.star_icon_on)
+                star4?.setImageResource(R.drawable.star_icon_off)
+                star5?.setImageResource(R.drawable.star_icon_off)
+            }
+            4 -> {
+                star1?.setImageResource(R.drawable.star_icon_on)
+                star2?.setImageResource(R.drawable.star_icon_on)
+                star3?.setImageResource(R.drawable.star_icon_on)
+                star4?.setImageResource(R.drawable.star_icon_on)
+                star5?.setImageResource(R.drawable.star_icon_off)
+            }
+            5 -> {
+                star1?.setImageResource(R.drawable.star_icon_on)
+                star2?.setImageResource(R.drawable.star_icon_on)
+                star3?.setImageResource(R.drawable.star_icon_on)
+                star4?.setImageResource(R.drawable.star_icon_on)
+                star5?.setImageResource(R.drawable.star_icon_on)
+            }
+            else -> ""
+        }
     }
 }
