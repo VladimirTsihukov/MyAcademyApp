@@ -3,28 +3,25 @@ package com.adnroidapp.modulhw_6.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.adnroidapp.modulhw_6.MovieListViewModel
 import com.adnroidapp.modulhw_6.R
 import com.adnroidapp.modulhw_6.adapter.AdapterMovies
 import com.adnroidapp.modulhw_6.adapter.OnItemClickListener
 import com.adnroidapp.modulhw_6.data.Movie
-import com.adnroidapp.modulhw_6.data.loadMovies
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 const val MOVIES_KEY = "MOVIES"
 
 class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     private var recycler: RecyclerView? = null
-    private var listMovie: List<Movie>? = null
-    private val scope = CoroutineScope(Dispatchers.IO)
+    lateinit var mViewModel : MovieListViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mViewModel = ViewModelProvider(this).get(MovieListViewModel::class.java)
         recycler = view.findViewById(R.id.res_view_move_list)
         recycler?.adapter = AdapterMovies(click)
         recycler?.visibility = View.INVISIBLE
@@ -32,14 +29,10 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
     override fun onStart() {
         super.onStart()
-
-        scope.launch {
-            listMovie = loadMovies(requireContext())
-            withContext(Dispatchers.Main) {
-                updateData(listMovie)
-                recycler?.visibility = View.VISIBLE
-            }
-        }
+        mViewModel.liveData.observe(this, {
+            updateData(it)
+            recycler?.visibility = View.VISIBLE
+        })
     }
 
     private fun updateData(list: List<Movie>?) {
