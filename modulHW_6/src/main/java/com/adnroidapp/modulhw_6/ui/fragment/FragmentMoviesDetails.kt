@@ -6,12 +6,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
-import com.adnroidapp.modulhw_6.ui.viewModel.ViewModelMovieDetails
 import com.adnroidapp.modulhw_6.R
-import com.adnroidapp.modulhw_6.ui.adapter.AdapterActors
 import com.adnroidapp.modulhw_6.data.Movie
+import com.adnroidapp.modulhw_6.ui.adapter.AdapterActors
+import com.adnroidapp.modulhw_6.ui.viewModel.ViewModelMovieDetails
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_movies_details.*
 import kotlinx.android.synthetic.main.fragment_movies_details.view.*
@@ -27,7 +27,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     private lateinit var star5: ImageView
     private lateinit var listStar: List<ImageView>
 
-    lateinit var mViewModelMovieDetails: ViewModelMovieDetails
+    private val mViewModelMovieDetails: ViewModelMovieDetails by viewModels()
 
     private val recyclerView: RecyclerView? by lazy {
         view?.findViewById<RecyclerView>(R.id.rec_actors)?.apply {
@@ -37,7 +37,6 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mViewModelMovieDetails = ViewModelProvider(this).get(ViewModelMovieDetails::class.java)
         mViewModelMovieDetails.initMovie(arguments)
 
         initView(view)
