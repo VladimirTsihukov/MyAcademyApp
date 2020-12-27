@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.adnroidapp.modulhw_6.MovieDetailsViewModel
 import com.adnroidapp.modulhw_6.R
 import com.adnroidapp.modulhw_6.adapter.AdapterActors
 import com.adnroidapp.modulhw_6.data.Movie
@@ -25,7 +27,8 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     private lateinit var star5: ImageView
     private lateinit var listStar: List<ImageView>
 
-    private val movie: Movie? by lazy { arguments?.getParcelable(MOVIES_KEY) }
+    lateinit var mViewModel: MovieDetailsViewModel
+
     private val recyclerView: RecyclerView? by lazy {
         view?.findViewById<RecyclerView>(R.id.rec_actors)?.apply {
             adapter = AdapterActors()
@@ -34,6 +37,28 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mViewModel = ViewModelProvider(this).get(MovieDetailsViewModel::class.java)
+        mViewModel.initMovie(arguments)
+
+        initView(view)
+
+        initObserver(view)
+    }
+
+    private fun initObserver(view: View) {
+        mViewModel.liveDataMoviesDetails.observe(viewLifecycleOwner, { movie ->
+            movie?.run {
+                getInitLayout(movie, view)
+                if (actors.isEmpty()) {
+                    cast.visibility = View.INVISIBLE
+                } else {
+                    updateDataActors(movie)
+                }
+            }
+        })
+    }
+
+    private fun initView(view: View) {
         imagePoster = view.findViewById(R.id.mask)
 
         star1 = view.findViewById(R.id.mov_list_star_level_1)
@@ -42,20 +67,9 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         star4 = view.findViewById(R.id.mov_list_star_level_4)
         star5 = view.findViewById(R.id.mov_list_star_level_5)
         listStar = listOf(star1, star2, star3, star4, star5)
-
-        movie?.let { getInitLayout(it, view) }
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (movie?.actors?.isEmpty() == true) {
-            cast.visibility = View.INVISIBLE
-        } else {
-            updateDataActors()
-        }
-    }
-
-    private fun updateDataActors() {
+    private fun updateDataActors(movie: Movie) {
         (recyclerView?.adapter as? AdapterActors)
             ?.bindActors((movie ?: return).actors)
     }

@@ -10,7 +10,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MovieListViewModel(application: Application) : AndroidViewModel(application) {
-    val liveData = MutableLiveData<List<Movie>>()
+    val liveDataMovieList = MutableLiveData<List<Movie>>()
+
     private val scope = CoroutineScope(Dispatchers.IO)
 
     init {
@@ -20,7 +21,8 @@ class MovieListViewModel(application: Application) : AndroidViewModel(applicatio
     private fun setLoadMovies() {
         scope.launch {
             val listMovie = loadMovies(getApplication())
-            liveData.postValue(listMovie)
+            liveDataMovieList.postValue(listMovie)
         }
     }
+
 }
