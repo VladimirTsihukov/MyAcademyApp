@@ -79,7 +79,7 @@ class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
     }
 
     private fun setImageStars(current: Int) {
-        for (index in listStar.indices) {
+        listStar.forEachIndexed { index, _ ->
             if (index < current) {
                 (listStar[index] as? ImageView)?.setImageResource(R.drawable.star_icon_on)
             } else {
