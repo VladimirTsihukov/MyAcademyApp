@@ -1,13 +1,13 @@
-package com.adnroidapp.modulhw_6
+package com.adnroidapp.modulhw_6.ui.viewModel
 
 import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.adnroidapp.modulhw_6.data.Movie
-import com.adnroidapp.modulhw_6.fragment.MOVIES_KEY
+import com.adnroidapp.modulhw_6.ui.fragment.MOVIES_KEY
 
-class MovieDetailsViewModel(application: Application) : AndroidViewModel(application) {
+class ViewModelMovieDetails(application: Application) : AndroidViewModel(application) {
 
     val liveDataMoviesDetails = MutableLiveData<Movie>()
 

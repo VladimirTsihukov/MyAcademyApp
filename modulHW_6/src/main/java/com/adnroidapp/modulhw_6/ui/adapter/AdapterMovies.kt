@@ -1,4 +1,4 @@
-package com.adnroidapp.modulhw_6.adapter
+package com.adnroidapp.modulhw_6.ui.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context

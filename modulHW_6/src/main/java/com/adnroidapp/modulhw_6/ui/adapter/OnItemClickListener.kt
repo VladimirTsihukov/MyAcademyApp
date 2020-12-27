@@ -1,4 +1,4 @@
-package com.adnroidapp.modulhw_6.adapter
+package com.adnroidapp.modulhw_6.ui.adapter
 
 import com.adnroidapp.modulhw_6.data.Movie
 

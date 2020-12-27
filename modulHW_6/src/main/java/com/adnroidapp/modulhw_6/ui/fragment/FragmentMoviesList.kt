@@ -1,4 +1,4 @@
-package com.adnroidapp.modulhw_6.fragment
+package com.adnroidapp.modulhw_6.ui.fragment
 
 import android.os.Bundle
 import android.view.View
@@ -6,17 +6,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.adnroidapp.modulhw_6.MovieListViewModel
+import com.adnroidapp.modulhw_6.ui.viewModel.ViewModelMovieList
 import com.adnroidapp.modulhw_6.R
-import com.adnroidapp.modulhw_6.adapter.AdapterMovies
-import com.adnroidapp.modulhw_6.adapter.OnItemClickListener
+import com.adnroidapp.modulhw_6.ui.adapter.AdapterMovies
+import com.adnroidapp.modulhw_6.ui.adapter.OnItemClickListener
 import com.adnroidapp.modulhw_6.data.Movie
 
 const val MOVIES_KEY = "MOVIES"
 
 class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
-    private val mViewModel : MovieListViewModel by viewModels()
+    private val mViewModelMovieList : ViewModelMovieList by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -26,7 +26,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
             visibility = View.INVISIBLE
         }
 
-        mViewModel.liveDataMovieList.observe(viewLifecycleOwner, {movie ->
+        mViewModelMovieList.liveDataMovieList.observe(viewLifecycleOwner, { movie ->
                 updateData(movie, recycler)
                 recycler.visibility = View.VISIBLE
         })

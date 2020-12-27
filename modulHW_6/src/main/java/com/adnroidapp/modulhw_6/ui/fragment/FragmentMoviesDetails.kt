@@ -1,4 +1,4 @@
-package com.adnroidapp.modulhw_6.fragment
+package com.adnroidapp.modulhw_6.ui.fragment
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,9 +8,9 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.adnroidapp.modulhw_6.MovieDetailsViewModel
+import com.adnroidapp.modulhw_6.ui.viewModel.ViewModelMovieDetails
 import com.adnroidapp.modulhw_6.R
-import com.adnroidapp.modulhw_6.adapter.AdapterActors
+import com.adnroidapp.modulhw_6.ui.adapter.AdapterActors
 import com.adnroidapp.modulhw_6.data.Movie
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_movies_details.*
@@ -27,7 +27,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     private lateinit var star5: ImageView
     private lateinit var listStar: List<ImageView>
 
-    lateinit var mViewModel: MovieDetailsViewModel
+    lateinit var mViewModelMovieDetails: ViewModelMovieDetails
 
     private val recyclerView: RecyclerView? by lazy {
         view?.findViewById<RecyclerView>(R.id.rec_actors)?.apply {
@@ -37,8 +37,8 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mViewModel = ViewModelProvider(this).get(MovieDetailsViewModel::class.java)
-        mViewModel.initMovie(arguments)
+        mViewModelMovieDetails = ViewModelProvider(this).get(ViewModelMovieDetails::class.java)
+        mViewModelMovieDetails.initMovie(arguments)
 
         initView(view)
 
@@ -46,7 +46,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     }
 
     private fun initObserver(view: View) {
-        mViewModel.liveDataMoviesDetails.observe(viewLifecycleOwner, { movie ->
+        mViewModelMovieDetails.liveDataMoviesDetails.observe(viewLifecycleOwner, { movie ->
             movie?.run {
                 getInitLayout(movie, view)
                 if (actors.isEmpty()) {

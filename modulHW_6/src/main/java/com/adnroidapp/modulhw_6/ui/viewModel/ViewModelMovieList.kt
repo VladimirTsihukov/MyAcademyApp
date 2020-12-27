@@ -1,4 +1,4 @@
-package com.adnroidapp.modulhw_6
+package com.adnroidapp.modulhw_6.ui.viewModel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -9,7 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MovieListViewModel(application: Application) : AndroidViewModel(application) {
+class ViewModelMovieList(application: Application) : AndroidViewModel(application) {
     val liveDataMovieList = MutableLiveData<List<Movie>>()
 
     private val scope = CoroutineScope(Dispatchers.IO)
