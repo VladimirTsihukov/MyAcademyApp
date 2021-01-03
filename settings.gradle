@@ -1,3 +1,4 @@
+include ':modulHW_7'
 include ':modulHW_6'
 include ':modulHW_5'
 include ':modulHW_4'
