@@ -1,4 +1,4 @@
-package com.adnroidapp.modulhw_6.fragment
+package com.adnroidapp.modulhw_6.ui.fragment
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.modulhw_6.R
-import com.adnroidapp.modulhw_6.adapter.AdapterActors
 import com.adnroidapp.modulhw_6.data.Movie
+import com.adnroidapp.modulhw_6.ui.adapter.AdapterActors
+import com.adnroidapp.modulhw_6.ui.viewModel.ViewModelMovieDetails
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_movies_details.*
 import kotlinx.android.synthetic.main.fragment_movies_details.view.*
@@ -25,7 +27,8 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     private lateinit var star5: ImageView
     private lateinit var listStar: List<ImageView>
 
-    private val movie: Movie? by lazy { arguments?.getParcelable(MOVIES_KEY) }
+    private val mViewModelMovieDetails: ViewModelMovieDetails by viewModels()
+
     private val recyclerView: RecyclerView? by lazy {
         view?.findViewById<RecyclerView>(R.id.rec_actors)?.apply {
             adapter = AdapterActors()
@@ -34,6 +37,27 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mViewModelMovieDetails.initMovie(arguments)
+
+        initView(view)
+
+        initObserver(view)
+    }
+
+    private fun initObserver(view: View) {
+        mViewModelMovieDetails.liveDataMoviesDetails.observe(viewLifecycleOwner, { movie ->
+            movie?.run {
+                getInitLayout(movie, view)
+                if (actors.isEmpty()) {
+                    cast.visibility = View.INVISIBLE
+                } else {
+                    updateDataActors(movie)
+                }
+            }
+        })
+    }
+
+    private fun initView(view: View) {
         imagePoster = view.findViewById(R.id.mask)
 
         star1 = view.findViewById(R.id.mov_list_star_level_1)
@@ -42,20 +66,9 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         star4 = view.findViewById(R.id.mov_list_star_level_4)
         star5 = view.findViewById(R.id.mov_list_star_level_5)
         listStar = listOf(star1, star2, star3, star4, star5)
-
-        movie?.let { getInitLayout(it, view) }
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (movie?.actors?.isEmpty() == true) {
-            cast.visibility = View.INVISIBLE
-        } else {
-            updateDataActors()
-        }
-    }
-
-    private fun updateDataActors() {
+    private fun updateDataActors(movie: Movie) {
         (recyclerView?.adapter as? AdapterActors)
             ?.bindActors((movie ?: return).actors)
     }
@@ -79,7 +92,8 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     }
 
     private fun setImageStars(current: Int) {
-        for (index in listStar.indices) {
+
+        listStar.forEachIndexed { index, _ ->
             if (index < current) {
                 (listStar[index] as? ImageView)?.setImageResource(R.drawable.star_icon_on)
             } else {
