@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.modulhw_7.R
-import com.adnroidapp.modulhw_7.data.Movie
+import com.adnroidapp.modulhw_7.data.MovieData
 import com.bumptech.glide.Glide
 import kotlin.math.roundToInt
 
@@ -17,7 +17,7 @@ class AdapterMovies(
     private val onItemClickListener: OnItemClickListener
 ) : RecyclerView.Adapter<HolderMovies>() {
 
-    private var movies = listOf<Movie>()
+    private var movies = listOf<MovieData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HolderMovies {
         return HolderMovies(
@@ -29,13 +29,13 @@ class AdapterMovies(
     override fun onBindViewHolder(holder: HolderMovies, position: Int) {
         holder.onBind(movies[position], holder.itemView.context)
         holder.imageFilm.setOnClickListener {
-            onItemClickListener.onItemClick(movies[position])
+            onItemClickListener.onItemClick(movies[position].id)
         }
     }
 
     override fun getItemCount(): Int = movies.size
 
-    fun bindMovies(newMovies: List<Movie>?) {
+    fun bindMovies(newMovies: List<MovieData>?) {
         if (newMovies != null) {
             movies = newMovies
             notifyDataSetChanged()
@@ -59,12 +59,12 @@ class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
     private val iconLike: ImageView? = item.findViewById(R.id.holder_icon_like)
 
     @SuppressLint("SetTextI18n")
-    fun onBind(movie: Movie, context: Context) {
+    fun onBind(movie: MovieData, context: Context) {
 
         setPosterIcon(movie.poster, context)
 
         ageCategory?.text = "${movie.minimumAge}+"
-        movieGenre?.text = movie.genres.joinToString { it.name }
+        movieGenre?.text = movie.genres
         setImageStars((movie.ratings / 2).roundToInt())
         reviews?.text = "${movie.numberOfRatings} Reviews"
         filName?.text = movie.title
