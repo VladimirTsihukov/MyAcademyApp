@@ -10,7 +10,7 @@
         android:id="@+id/holder_actor_image"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:src="@drawable/actor_1"
+        tools:src="@tools:sample/avatars"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
