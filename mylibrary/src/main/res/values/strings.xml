@@ -17,4 +17,5 @@
 
     <string name="label_frg_mov_list">FragmentMoviesList</string>
     <string name="label_frg_mov_details">FragmentMoviesDetails</string>
+    <string name="data_loading">Data loading…</string>
 </resources>
