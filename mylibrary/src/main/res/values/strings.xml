@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My App</string>
+    <string name="app_name">My Academy App</string>
     <string name="back">Back</string>
     <string name="str_film_name">Avengers: End Game</string>
     <string name="str_movie_genre">Action, Adventure, Fantasy</string>
@@ -18,4 +18,8 @@
     <string name="label_frg_mov_list">FragmentMoviesList</string>
     <string name="label_frg_mov_details">FragmentMoviesDetails</string>
     <string name="data_loading">Data loading…</string>
+
+    <string name="search">Search</string>
+    <string name="top_rate">Top rate</string>
+    <string name="popular">Popular</string>
 </resources>
