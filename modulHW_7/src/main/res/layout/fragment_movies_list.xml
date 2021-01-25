@@ -11,7 +11,7 @@
         android:id="@+id/top_menu"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,6 +26,7 @@
             tools:ignore="ContentDescription" />
 
         <TextView
+            android:id="@+id/moviesList"
             style="@style/style_roboto_normal_900"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

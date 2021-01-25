@@ -2,44 +2,81 @@ package com.adnroidapp.modulhw_7.ui.fragment
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.adnroidapp.modulhw_7.ui.viewModel.ViewModelMovieList
 import com.adnroidapp.modulhw_7.R
+import com.adnroidapp.modulhw_7.data.MovieData
 import com.adnroidapp.modulhw_7.ui.adapter.AdapterMovies
 import com.adnroidapp.modulhw_7.ui.adapter.OnItemClickListener
-import com.adnroidapp.modulhw_7.data.Movie
+import com.adnroidapp.modulhw_7.ui.viewModelCoroutine.ViewModelMovieListCoroutine
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 
 const val MOVIES_KEY = "MOVIES"
 
 class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
-    private val mViewModelMovieList : ViewModelMovieList by viewModels()
+    private val mViewModelMovieListCoroutine: ViewModelMovieListCoroutine by viewModels()
+
+    private lateinit var bottomNav: BottomNavigationView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       val recycler = view.findViewById<RecyclerView>(R.id.res_view_move_list).apply {
+        initBottomNavigation()
+
+        val recycler = view.findViewById<RecyclerView>(R.id.res_view_move_list).apply {
             adapter = AdapterMovies(click)
             visibility = View.INVISIBLE
         }
 
-        mViewModelMovieList.liveDataMovieList.observe(viewLifecycleOwner, { movie ->
+        mViewModelMovieListCoroutine.liveDataMoviesPopularMovies.observe(viewLifecycleOwner,
+            { movie ->
                 updateData(movie, recycler)
                 recycler.visibility = View.VISIBLE
+            })
+
+        mViewModelMovieListCoroutine.liveDataErrorServerApi.observe(viewLifecycleOwner, {Error ->
+            Snackbar.make(view, "Error $Error", Snackbar.LENGTH_SHORT).show()
         })
     }
 
-    private fun updateData(list: List<Movie>?, recycler: RecyclerView) {
+    private fun initBottomNavigation() {
+        activity?.let {
+            bottomNav = it.findViewById(R.id.bottom_navigation)
+            bottomNav.setOnNavigationItemSelectedListener { item ->
+                when (item.itemId) {
+                    R.id.nav_popular -> {
+                        mViewModelMovieListCoroutine.setLoadMoviesPopularMovies()
+                        true
+                    }
+                    R.id.nav_top -> {
+                        mViewModelMovieListCoroutine.setLoadMovieTopRate()
+                        true
+                    }
+                    R.id.nav_search -> {
+                        Toast.makeText(it, "Search", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    else -> {
+                        true
+                    }
+                }
+            }
+        }
+    }
+
+    private fun updateData(list: List<MovieData>?, recycler: RecyclerView) {
         (recycler.adapter as? AdapterMovies)?.bindMovies(list)
     }
 
     private val click = object : OnItemClickListener {
-        override fun onItemClick(movie: Movie) {
+        override fun onItemClick(id: Long) {
             val bundle = Bundle()
-            bundle.putParcelable(MOVIES_KEY, movie)
+            bundle.putLong(MOVIES_KEY, id)
             findNavController().navigate(
                 R.id.action_fragmentMoviesList_to_fragmentMoviesDetails,
                 bundle

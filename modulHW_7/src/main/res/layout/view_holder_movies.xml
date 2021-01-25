@@ -26,7 +26,7 @@
         android:layout_marginStart="@dimen/space_2x"
         android:foreground="@drawable/mask_poster"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/poster_film_avengers"
+        tools:src="@tools:sample/avatars"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="ContentDescription,MissingConstraints,UnusedAttribute" />
 

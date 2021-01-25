@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">My Academy App</string>
+    <string name="search">Search</string>
+    <string name="top_rate">Top rate</string>
+    <string name="popular">Popular</string>
 </resources>

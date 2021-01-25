@@ -2,6 +2,7 @@ package com.adnroidapp.modulhw_7.ui.fragment
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -9,10 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.modulhw_7.R
-import com.adnroidapp.modulhw_7.data.Movie
+import com.adnroidapp.modulhw_7.data.MovieData
+import com.adnroidapp.modulhw_7.pojo.MovieActors
 import com.adnroidapp.modulhw_7.ui.adapter.AdapterActors
-import com.adnroidapp.modulhw_7.ui.viewModel.ViewModelMovieDetails
+import com.adnroidapp.modulhw_7.ui.viewModelCoroutine.ViewModelMovieDetailsCoroutine
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_movies_details.*
 import kotlinx.android.synthetic.main.fragment_movies_details.view.*
 import kotlin.math.roundToInt
@@ -27,7 +30,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     private lateinit var star5: ImageView
     private lateinit var listStar: List<ImageView>
 
-    private val mViewModelMovieDetails: ViewModelMovieDetails by viewModels()
+    private val mViewModelModelDetailsCoroutine: ViewModelMovieDetailsCoroutine by viewModels()
 
     private val recyclerView: RecyclerView? by lazy {
         view?.findViewById<RecyclerView>(R.id.rec_actors)?.apply {
@@ -37,7 +40,11 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mViewModelMovieDetails.initMovie(arguments)
+
+        arguments?.getLong(MOVIES_KEY)?.let {
+            mViewModelModelDetailsCoroutine.initMovieIdCoroutine(it)
+            mViewModelModelDetailsCoroutine.initMoviesActorsCoroutine(it)
+        }
 
         initView(view)
 
@@ -45,15 +52,28 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     }
 
     private fun initObserver(view: View) {
-        mViewModelMovieDetails.liveDataMoviesDetails.observe(viewLifecycleOwner, { movie ->
-            movie?.run {
-                getInitLayout(movie, view)
-                if (actors.isEmpty()) {
-                    cast.visibility = View.INVISIBLE
-                } else {
-                    updateDataActors(movie)
+        mViewModelModelDetailsCoroutine.liveDataMoviesDetailsCoroutine.observe(viewLifecycleOwner,
+            { movieDetail ->
+                movieDetail?.run {
+                    getInitLayout(movieDetail, view)
                 }
-            }
+            })
+
+        mViewModelModelDetailsCoroutine.liveDataMovieActorsCoroutine.observe(viewLifecycleOwner,
+            { actors ->
+                actors?.let {
+                    if (it.cast.isEmpty()) {
+                        cast.visibility = View.INVISIBLE
+                    } else {
+                        updateDataActors(it)
+                    }
+                }
+            })
+
+        mViewModelModelDetailsCoroutine.liveDataErrorServerApi.observe(viewLifecycleOwner, {Error ->
+            val snackBar = Snackbar.make(view, "Error $Error", Snackbar.LENGTH_LONG)
+            snackBar.setTextColor(Color.RED)
+            snackBar.show()
         })
     }
 
@@ -68,21 +88,22 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         listStar = listOf(star1, star2, star3, star4, star5)
     }
 
-    private fun updateDataActors(movie: Movie) {
+    private fun updateDataActors(movieActors: MovieActors) {
         (recyclerView?.adapter as? AdapterActors)
-            ?.bindActors((movie ?: return).actors)
+            ?.bindActors(movieActors.cast)
     }
 
     @SuppressLint("SetTextI18n")
-    fun getInitLayout(movie: Movie, view: View) {
-        setPosterIcon(movie.backdrop, view.context)
-        view.mov_list_age_category.text = "${movie.minimumAge}+"
-        view.mov_list_movie_genre.text = movie.genres.joinToString { it.name }
-        view.mov_list_text_story_line.text = movie.overview
-        view.mov_list_reviews.text = "${movie.numberOfRatings} Reviews"
-        view.mov_list_film_name.text = movie.title
-        setImageStars((movie.ratings / 2).roundToInt())
+    fun getInitLayout(movieData: MovieData, view: View) {
+        setPosterIcon(movieData.backdrop, view.context)
+        view.mov_list_age_category.text = "${movieData.minimumAge}+"
+        view.mov_list_movie_genre.text = movieData.genres
+        view.mov_list_text_story_line.text = movieData.overview
+        view.mov_list_reviews.text = "${movieData.numberOfRatings} Reviews"
+        view.mov_list_film_name.text = movieData.title
+        setImageStars((movieData.ratings / 2).roundToInt())
 
+        view.dataLoader.visibility = View.INVISIBLE
     }
 
     private fun setPosterIcon(poster: String, context: Context) {
