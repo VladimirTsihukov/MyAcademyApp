@@ -55,7 +55,7 @@ fun Movie.getMovieData(): MovieData {
         ratings = voteAverage,
         numberOfRatings = voteCount.toInt(),
         minimumAge = if (adult) 16 else 13,
-        runtime = 67,
+        runtime = 0,
         genres = "",
     ))
     }
