@@ -37,3 +37,16 @@ data class Cast (
     val department: String? = null,
     val job: String? = null
 )
+
+data class ActorsInfo(
+    val nameActor: String,
+    val profilePath: String? = null,
+)
+
+fun MovieActors.getListActor(listCast: List<Cast>): List<ActorsInfo> {
+    val resultList = mutableListOf<ActorsInfo>()
+    listCast.forEach {
+        resultList.add(ActorsInfo(nameActor = it.name, profilePath = it.profilePath))
+    }
+    return resultList
+}
