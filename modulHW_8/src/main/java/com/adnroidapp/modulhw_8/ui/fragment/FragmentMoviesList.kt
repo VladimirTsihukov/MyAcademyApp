@@ -2,15 +2,14 @@ package com.adnroidapp.modulhw_8.ui.fragment
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.modulhw_8.R
-import com.adnroidapp.modulhw_8.data.MovieData
 import com.adnroidapp.modulhw_8.ui.adapter.AdapterMovies
 import com.adnroidapp.modulhw_8.ui.adapter.OnItemClickListener
+import com.adnroidapp.modulhw_8.ui.data.MovieData
 import com.adnroidapp.modulhw_8.ui.viewModelCoroutine.ViewModelMovieListCoroutine
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -33,14 +32,14 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
             visibility = View.INVISIBLE
         }
 
-        mViewModelMovieListCoroutine.liveDataMoviesPopularMovies.observe(viewLifecycleOwner,
+        mViewModelMovieListCoroutine.liveDataMoviesList.observe(viewLifecycleOwner,
             { movie ->
                 updateData(movie, recycler)
                 recycler.visibility = View.VISIBLE
             })
 
         mViewModelMovieListCoroutine.liveDataErrorServerApi.observe(viewLifecycleOwner, {Error ->
-            Snackbar.make(view, "Error $Error", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(view, Error, Snackbar.LENGTH_SHORT).show()
         })
     }
 
@@ -58,7 +57,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
                         true
                     }
                     R.id.nav_search -> {
-                        Toast.makeText(it, "Search", Toast.LENGTH_SHORT).show()
+                        mViewModelMovieListCoroutine.getMoviesListLike()
                         true
                     }
                     else -> {
@@ -81,6 +80,14 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
                 R.id.action_fragmentMoviesList_to_fragmentMoviesDetails,
                 bundle
             )
+        }
+
+        override fun onClickLikeMovies(movie: MovieData) {
+            mViewModelMovieListCoroutine.addMovieLikeInDb(movie)
+        }
+
+        override fun deleteLikeMovies(movie: MovieData) {
+           mViewModelMovieListCoroutine.deleteMoviesLikeInDb(movie)
         }
     }
 }
