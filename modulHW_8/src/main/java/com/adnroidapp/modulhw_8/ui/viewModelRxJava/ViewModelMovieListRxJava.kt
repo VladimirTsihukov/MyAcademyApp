@@ -6,9 +6,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.adnroidapp.modulhw_8.apiRxJava.ApiFactoryRxJava
 import com.adnroidapp.modulhw_8.apiRxJava.ApiServiceRxJava
-import com.adnroidapp.modulhw_8.data.MovieData
 import com.adnroidapp.modulhw_8.pojo.getMovieData
 import com.adnroidapp.modulhw_8.pojo.getMovieDataInfo
+import com.adnroidapp.modulhw_8.ui.data.MovieData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers

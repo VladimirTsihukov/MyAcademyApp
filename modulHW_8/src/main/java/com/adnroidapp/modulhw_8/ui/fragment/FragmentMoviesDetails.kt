@@ -2,7 +2,6 @@ package com.adnroidapp.modulhw_8.ui.fragment
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -10,9 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.modulhw_8.R
-import com.adnroidapp.modulhw_8.data.MovieData
-import com.adnroidapp.modulhw_8.pojo.MovieActors
+import com.adnroidapp.modulhw_8.pojo.ActorsInfo
 import com.adnroidapp.modulhw_8.ui.adapter.AdapterActors
+import com.adnroidapp.modulhw_8.ui.data.MovieData
 import com.adnroidapp.modulhw_8.ui.viewModelCoroutine.ViewModelMovieDetailsCoroutine
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -42,8 +41,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.getLong(MOVIES_KEY)?.let {
-            mViewModelModelDetailsCoroutine.initMovieIdCoroutine(it)
-            mViewModelModelDetailsCoroutine.initMoviesActorsCoroutine(it)
+            mViewModelModelDetailsCoroutine.initMovieIdDetails(it)
         }
 
         initView(view)
@@ -62,7 +60,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         mViewModelModelDetailsCoroutine.liveDataMovieActorsCoroutine.observe(viewLifecycleOwner,
             { actors ->
                 actors?.let {
-                    if (it.cast.isEmpty()) {
+                    if (it.isEmpty()) {
                         cast.visibility = View.INVISIBLE
                     } else {
                         updateDataActors(it)
@@ -71,8 +69,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
             })
 
         mViewModelModelDetailsCoroutine.liveDataErrorServerApi.observe(viewLifecycleOwner, {Error ->
-            val snackBar = Snackbar.make(view, "Error $Error", Snackbar.LENGTH_LONG)
-            snackBar.setTextColor(Color.RED)
+            val snackBar = Snackbar.make(view, Error, Snackbar.LENGTH_LONG)
             snackBar.show()
         })
     }
@@ -88,9 +85,9 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         listStar = listOf(star1, star2, star3, star4, star5)
     }
 
-    private fun updateDataActors(movieActors: MovieActors) {
+    private fun updateDataActors(movieActors: List<ActorsInfo>) {
         (recyclerView?.adapter as? AdapterActors)
-            ?.bindActors(movieActors.cast)
+            ?.bindActors(movieActors)
     }
 
     @SuppressLint("SetTextI18n")

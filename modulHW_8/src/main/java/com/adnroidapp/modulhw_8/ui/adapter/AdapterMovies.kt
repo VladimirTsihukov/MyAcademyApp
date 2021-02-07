@@ -9,12 +9,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.modulhw_8.R
-import com.adnroidapp.modulhw_8.data.MovieData
+import com.adnroidapp.modulhw_8.ui.data.MovieData
 import com.bumptech.glide.Glide
 import kotlin.math.roundToInt
 
 class AdapterMovies(
-    private val onItemClickListener: OnItemClickListener
+    private val onItemClickListener: OnItemClickListener,
 ) : RecyclerView.Adapter<HolderMovies>() {
 
     private var movies = listOf<MovieData>()
@@ -31,6 +31,16 @@ class AdapterMovies(
         holder.imageFilm.setOnClickListener {
             onItemClickListener.onItemClick(movies[position].id)
         }
+        holder.iconLike.setOnClickListener {
+            if (movies[position].likeMovies) {
+                movies[position].likeMovies = false
+                onItemClickListener.deleteLikeMovies(movies[position])
+            } else {
+                movies[position].likeMovies = true
+                onItemClickListener.onClickLikeMovies(movies[position])
+            }
+            notifyDataSetChanged()
+        }
     }
 
     override fun getItemCount(): Int = movies.size
@@ -46,7 +56,6 @@ class AdapterMovies(
 class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
     val imageFilm: ImageView = item.findViewById(R.id.holder_image_film)
     private val ageCategory: TextView? = item.findViewById(R.id.holder_age_category)
-    private val movieGenre: TextView? = item.findViewById(R.id.holder_movie_genre)
     private val star1: ImageView? = item.findViewById(R.id.holder_star_level_1)
     private val star2: ImageView? = item.findViewById(R.id.holder_star_level_2)
     private val star3: ImageView? = item.findViewById(R.id.holder_star_level_3)
@@ -55,21 +64,21 @@ class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
     private val listStar: List<ImageView> = listOfNotNull(star1, star2, star3, star4, star5)
     private val reviews: TextView? = item.findViewById(R.id.holder_reviews)
     private val filName: TextView? = item.findViewById(R.id.holder_film_name)
-    private val min: TextView? = item.findViewById(R.id.holder_list_min)
-    private val iconLike: ImageView? = item.findViewById(R.id.holder_icon_like)
+    val iconLike: ImageView = item.findViewById(R.id.holder_icon_like)
 
     @SuppressLint("SetTextI18n")
     fun onBind(movie: MovieData, context: Context) {
 
         setPosterIcon(movie.poster, context)
-
         ageCategory?.text = "${movie.minimumAge}+"
-        movieGenre?.text = movie.genres
         setImageStars((movie.ratings / 2).roundToInt())
         reviews?.text = "${movie.numberOfRatings} Reviews"
         filName?.text = movie.title
-        min?.text = "${movie.runtime} min"
-        iconLike?.setImageResource(R.drawable.icon_like_on)
+        iconLike.setImageResource(if (movie.likeMovies) {
+            R.drawable.icon_like_off
+        } else {
+            R.drawable.icon_like_on
+        })
     }
 
     private fun setPosterIcon(poster: String, context: Context) {

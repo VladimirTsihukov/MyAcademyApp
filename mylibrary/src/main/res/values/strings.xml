@@ -20,6 +20,8 @@
     <string name="data_loading">Data loading…</string>
 
     <string name="search">Search</string>
+    <string name="favorite">Favorite</string>
     <string name="top_rate">Top rate</string>
     <string name="popular">Popular</string>
+    <string name="error_internet_not_connect">Error: internet not connect</string>
 </resources>

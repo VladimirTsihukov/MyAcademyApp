@@ -1,7 +1,8 @@
 package com.adnroidapp.modulhw_8.pojo
 
 import com.adnroidapp.modulhw_8.apiRxJava.ApiFactoryRxJava
-import com.adnroidapp.modulhw_8.data.MovieData
+import com.adnroidapp.modulhw_8.database.dbData.DataDBMoviesDetails
+import com.adnroidapp.modulhw_8.ui.data.MovieData
 import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
 
@@ -79,6 +80,26 @@ fun InformationMovies.getMovieDataInfo(): MovieData {
         runtime = runtime,
         genres = genres.joinToString(", ") { it.name },
     ))
+    }
+}
+
+fun InformationMovies.getMovieDetails(): DataDBMoviesDetails {
+
+    return this.run {
+        @Suppress("unused")
+        (DataDBMoviesDetails(
+            id = id,
+            title = title,
+            overview = overview,
+            poster = if (belongsToCollection != null) ApiFactoryRxJava.BASE_URL_MOVIE_IMAGE + belongsToCollection.posterPath
+            else "https://image.tmdb.org/t/p/w500//LdSn17U6ybhtPJT3S6fTNRni5Y.jpg",
+            backdrop = ApiFactoryRxJava.BASE_URL_MOVIE_IMAGE + backdropPath,
+            ratings = voteAverage,
+            numberOfRatings = voteCount.toInt(),
+            minimumAge = if (adult) 16 else 13,
+            runtime = runtime,
+            genres = genres.joinToString(", ") { it.name },
+        ))
     }
 }
 
