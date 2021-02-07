@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/space_2x"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:foreground="@color/app_grey_bg"
+        android:src="@drawable/mask_film_avengers"
+        app:layout_constraintCircleRadius="@dimen/space_2x"
+        app:layout_constraintStart_toStartOf="@id/holder_image_film"
+        app:layout_constraintEnd_toEndOf="@id/holder_image_film"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription,UnusedAttribute" />
+
+    <ImageView
+        android:id="@+id/holder_image_film"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/shape_image"
+        android:layout_marginStart="@dimen/space_2x"
+        android:foreground="@drawable/mask_poster"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="ContentDescription,MissingConstraints,UnusedAttribute" />
+
+    <TextView
+        android:id="@+id/holder_age_category"
+        style="@style/style_roboto_normal_900"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_1.5x"
+        android:layout_marginTop="@dimen/space_3x"
+        android:background="@drawable/shape_image"
+        android:padding="5dp"
+        android:text="@string/str_age_category"
+        android:textColor="@color/app_white"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/holder_image_film"
+        app:layout_constraintTop_toTopOf="@+id/holder_image_film"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/holder_star_level_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_1x"
+        android:layout_marginBottom="@dimen/space_2x"
+        android:src="@drawable/star_icon_on"
+        app:layout_constraintBottom_toBottomOf="@id/holder_image_film"
+        app:layout_constraintStart_toStartOf="@id/holder_image_film"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/holder_star_level_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_1x"
+        android:src="@drawable/star_icon_on"
+        app:layout_constraintBottom_toBottomOf="@+id/holder_star_level_1"
+        app:layout_constraintStart_toEndOf="@id/holder_star_level_1"
+        app:layout_constraintTop_toTopOf="@+id/holder_star_level_1"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/holder_star_level_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_1x"
+        android:src="@drawable/star_icon_on"
+        app:layout_constraintBottom_toBottomOf="@+id/holder_star_level_1"
+        app:layout_constraintStart_toEndOf="@id/holder_star_level_2"
+        app:layout_constraintTop_toTopOf="@+id/holder_star_level_1"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/holder_star_level_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_1x"
+        android:src="@drawable/star_icon_on"
+        app:layout_constraintBottom_toBottomOf="@+id/holder_star_level_1"
+        app:layout_constraintStart_toEndOf="@id/holder_star_level_3"
+        app:layout_constraintTop_toTopOf="@+id/holder_star_level_1"
+        tools:ignore="ContentDescription" />
+
+    <ImageView
+        android:id="@+id/holder_star_level_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_1x"
+        android:src="@drawable/star_icon_off"
+        app:layout_constraintBottom_toBottomOf="@+id/holder_star_level_1"
+        app:layout_constraintStart_toEndOf="@id/holder_star_level_4"
+        app:layout_constraintTop_toTopOf="@+id/holder_star_level_1"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/holder_reviews"
+        style="@style/style_roboto_normal_900"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_1x"
+        android:text="@string/str_reviews"
+        android:textAllCaps="true"
+        android:textColor="@color/app_grey"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@id/holder_star_level_1"
+        app:layout_constraintStart_toEndOf="@id/holder_star_level_5"
+        app:layout_constraintTop_toTopOf="@id/holder_star_level_1"
+        tools:ignore="SmallSp" />
+
+    <TextView
+        android:id="@+id/holder_film_name"
+        style="@style/style_roboto_normal_900"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_1x"
+        android:layout_marginTop="@dimen/space_2x"
+        android:fontFamily="@font/roboto"
+        android:text="@string/str_film_name"
+        android:textColor="@color/app_white"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/holder_image_film"
+        app:layout_constraintTop_toBottomOf="@+id/holder_image_film"
+        tools:targetApi="p" />
+
+    <ImageView
+        android:id="@+id/holder_icon_like"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_3x"
+        android:layout_marginEnd="@dimen/space_2x"
+        android:src="@drawable/icon_like_on"
+        app:layout_constraintEnd_toEndOf="@id/holder_image_film"
+        app:layout_constraintTop_toTopOf="@+id/holder_image_film"
+        tools:ignore="ContentDescription" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
