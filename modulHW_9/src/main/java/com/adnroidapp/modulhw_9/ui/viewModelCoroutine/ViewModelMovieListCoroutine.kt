@@ -3,6 +3,7 @@ package com.adnroidapp.modulhw_9.ui.viewModelCoroutine
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.work.*
 import com.adnroidapp.modulhw_9.R
 import com.adnroidapp.modulhw_9.apiCorutine.ApiFactoryCoroutine
 import com.adnroidapp.modulhw_9.database.SealedMovies
@@ -12,11 +13,13 @@ import com.adnroidapp.modulhw_9.database.dbData.DataDBMoviesTopRate
 import com.adnroidapp.modulhw_9.pojo.MoviesList
 import com.adnroidapp.modulhw_9.pojo.getMovieAllType
 import com.adnroidapp.modulhw_9.pojo.getMovieData
+import com.adnroidapp.modulhw_9.service.WorkerCacheDBMovies
 import com.adnroidapp.modulhw_9.ui.data.MovieData
 import com.adnroidapp.modulhw_9.ui.data.getListMovieData
 import com.adnroidapp.modulhw_9.ui.data.getMovieLike
 import kotlinx.coroutines.*
 import retrofit2.Response
+import java.util.concurrent.TimeUnit
 
 class ViewModelMovieListCoroutine(application: Application) : AndroidViewModel(application) {
 
@@ -29,6 +32,26 @@ class ViewModelMovieListCoroutine(application: Application) : AndroidViewModel(a
 
     init {
         setLoadMoviesPopularMovies()
+
+        val const = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .setRequiresCharging(true)                      //TODO("SetRequiresCharging not work")
+            .build()
+
+        val constrainRequest = PeriodicWorkRequest.Builder(WorkerCacheDBMovies::class.java, 8, TimeUnit.HOURS)
+            .setConstraints(const)
+            .build()
+        WorkManager.getInstance(application)
+            .enqueueUniquePeriodicWork("Update DB", ExistingPeriodicWorkPolicy.KEEP, constrainRequest)
+
+/*         Testing workManager
+        val constrainRequest = OneTimeWorkRequest.Builder(WorkerCacheDB::class.java)
+            .setInitialDelay(5, TimeUnit.SECONDS)
+            .setConstraints(const)
+            .build()
+
+        WorkManager.getInstance(application)
+            .enqueue(constrainRequest)*/
     }
 
     fun setLoadMoviesPopularMovies() {
@@ -141,7 +164,7 @@ class ViewModelMovieListCoroutine(application: Application) : AndroidViewModel(a
                         liveDataMoviesList.postValue(getListMovieData(sealedMovies,
                             dbMovies.moviesTopRateDao()
                                 .getTopRateMoviesList()))
-                    SealedMovies.MoviesLike -> TODO()
+                    SealedMovies.MoviesLike -> liveDataErrorServerApi.postValue("Type MoviesLike not found")
                 }
             }
         }
