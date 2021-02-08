@@ -56,7 +56,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
                         mViewModelMovieListCoroutine.setLoadMovieTopRate()
                         true
                     }
-                    R.id.nav_search -> {
+                    R.id.nav_favorite -> {
                         mViewModelMovieListCoroutine.getMoviesListLike()
                         true
                     }
