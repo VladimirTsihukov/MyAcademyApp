@@ -49,7 +49,7 @@ class ViewModelMovieDetailsCoroutine(application: Application) : AndroidViewMode
                 }
             } catch (e: Exception) {
                 getActorsInDb(id)
-                resultDbDetails.let { liveDataMoviesDetailsCoroutine.postValue(getMovieData(it))}
+                resultDbDetails?.let { liveDataMoviesDetailsCoroutine.postValue(getMovieData(it))}
                 liveDataErrorServerApi.postValue(error)
             }
         }
@@ -87,8 +87,7 @@ class ViewModelMovieDetailsCoroutine(application: Application) : AndroidViewMode
         val listActorsInfo = mutableListOf<ActorsInfo>()
         if (!dbMovieDetails.moviesDetails().getNameActors(id).isNullOrEmpty()) {
             val nameActors = dbMovieDetails.moviesDetails().getNameActors(id).split(SEPARATOR)
-            val listProfilePath =
-                dbMovieDetails.moviesDetails().getProfilePaths(id).split(SEPARATOR)
+            val listProfilePath = dbMovieDetails.moviesDetails().getProfilePaths(id).split(SEPARATOR)
             nameActors.forEachIndexed { index, _ ->
                 listActorsInfo.add(ActorsInfo(nameActors[index], listProfilePath[index]))
             }

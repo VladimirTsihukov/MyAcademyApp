@@ -1,6 +1,6 @@
 package com.adnroidapp.modulhw_9.pojo
 
-import com.adnroidapp.modulhw_9.apiRxJava.ApiFactoryRxJava
+import com.adnroidapp.modulhw_9.apiCorutine.ApiFactoryCoroutine.BASE_URL_MOVIE_IMAGE
 import com.adnroidapp.modulhw_9.database.dbData.DataDBMoviesDetails
 import com.adnroidapp.modulhw_9.ui.data.MovieData
 import com.google.gson.annotations.SerializedName
@@ -71,9 +71,9 @@ fun InformationMovies.getMovieDataInfo(): MovieData {
         id = id,
         title = title,
         overview = overview,
-        poster = if (belongsToCollection != null) ApiFactoryRxJava.BASE_URL_MOVIE_IMAGE + belongsToCollection.posterPath
+        poster = if (belongsToCollection != null) BASE_URL_MOVIE_IMAGE + belongsToCollection.posterPath
         else "https://image.tmdb.org/t/p/w500//LdSn17U6ybhtPJT3S6fTNRni5Y.jpg",
-        backdrop = ApiFactoryRxJava.BASE_URL_MOVIE_IMAGE + backdropPath,
+        backdrop = BASE_URL_MOVIE_IMAGE + backdropPath,
         ratings = voteAverage,
         numberOfRatings = voteCount.toInt(),
         minimumAge = if (adult) 16 else 13,
@@ -91,9 +91,9 @@ fun InformationMovies.getMovieDetails(): DataDBMoviesDetails {
         id = id,
         title = title,
         overview = overview,
-        poster = if (belongsToCollection != null) ApiFactoryRxJava.BASE_URL_MOVIE_IMAGE + belongsToCollection.posterPath
+        poster = if (belongsToCollection != null) BASE_URL_MOVIE_IMAGE + belongsToCollection.posterPath
         else "https://image.tmdb.org/t/p/w500//LdSn17U6ybhtPJT3S6fTNRni5Y.jpg",
-        backdrop = ApiFactoryRxJava.BASE_URL_MOVIE_IMAGE + backdropPath,
+        backdrop = BASE_URL_MOVIE_IMAGE + backdropPath,
         ratings = voteAverage,
         numberOfRatings = voteCount.toInt(),
         minimumAge = if (adult) 16 else 13,

@@ -1,6 +1,6 @@
 package com.adnroidapp.modulhw_9.pojo
 
-import com.adnroidapp.modulhw_9.apiRxJava.ApiFactoryRxJava
+import com.adnroidapp.modulhw_9.apiCorutine.ApiFactoryCoroutine.BASE_URL_MOVIE_IMAGE
 import com.adnroidapp.modulhw_9.database.SealedMovies
 import com.adnroidapp.modulhw_9.database.dbData.DataDBMoviesPopular
 import com.adnroidapp.modulhw_9.database.dbData.DataDBMoviesTopRate
@@ -58,8 +58,8 @@ fun Movie.getMovieData(): MovieData {
         id = id,
         title = title,
         overview = overview,
-        poster = ApiFactoryRxJava.BASE_URL_MOVIE_IMAGE + posterPath,
-        backdrop = ApiFactoryRxJava.BASE_URL_MOVIE_IMAGE + backdropPath,
+        poster = BASE_URL_MOVIE_IMAGE + posterPath,
+        backdrop = BASE_URL_MOVIE_IMAGE + backdropPath,
         ratings = voteAverage,
         numberOfRatings = voteCount.toInt(),
         minimumAge = if (adult) 16 else 13,
@@ -78,8 +78,8 @@ fun getMovieAllType(sealed: SealedMovies, list: List<Movie>): List<Any> {
                     id = it.id,
                     title = it.title,
                     overview = it.overview,
-                    poster = ApiFactoryRxJava.BASE_URL_MOVIE_IMAGE + it.posterPath,
-                    backdrop = ApiFactoryRxJava.BASE_URL_MOVIE_IMAGE + it.backdropPath,
+                    poster = BASE_URL_MOVIE_IMAGE + it.posterPath,
+                    backdrop = BASE_URL_MOVIE_IMAGE + it.backdropPath,
                     ratings = it.voteAverage,
                     numberOfRatings = it.voteCount.toInt(),
                     minimumAge = if (it.adult) 16 else 13,
@@ -94,8 +94,8 @@ fun getMovieAllType(sealed: SealedMovies, list: List<Movie>): List<Any> {
                     id = it.id,
                     title = it.title,
                     overview = it.overview,
-                    poster = ApiFactoryRxJava.BASE_URL_MOVIE_IMAGE + it.posterPath,
-                    backdrop = ApiFactoryRxJava.BASE_URL_MOVIE_IMAGE + it.backdropPath,
+                    poster = BASE_URL_MOVIE_IMAGE + it.posterPath,
+                    backdrop = BASE_URL_MOVIE_IMAGE + it.backdropPath,
                     ratings = it.voteAverage,
                     numberOfRatings = it.voteCount.toInt(),
                     minimumAge = if (it.adult) 16 else 13,
