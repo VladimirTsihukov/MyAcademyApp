@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.modulhw_9.R
-import com.adnroidapp.modulhw_9.apiRxJava.ApiFactoryRxJava
+import com.adnroidapp.modulhw_9.apiCorutine.ApiFactoryCoroutine.BASE_URL_MOVIE_IMAGE
 import com.adnroidapp.modulhw_9.pojo.ActorsInfo
 import com.bumptech.glide.Glide
 
@@ -43,7 +43,7 @@ class HolderActors(item: View) : RecyclerView.ViewHolder(item) {
         nameActors?.text = actor.nameActor
         imageActor?.let {
             Glide.with(itemView.context)
-                .load(ApiFactoryRxJava.BASE_URL_MOVIE_IMAGE + actor.profilePath)
+                .load(BASE_URL_MOVIE_IMAGE + actor.profilePath)
                 .error(R.drawable.placeholder)
                 .into(it)
         }

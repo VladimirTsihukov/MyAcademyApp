@@ -11,6 +11,7 @@ object ApiFactoryCoroutine {
     private const val API_KEY_COR = "api_key"
     private const val QUERY_PARAM_LANGUAGE_COR = "language"
     private const val LANGUAGE_RUS_COR = "ru"
+    const val BASE_URL_MOVIE_IMAGE = "https://image.tmdb.org/t/p/w500/"
 
     private val authInterceptor = Interceptor { chain ->
         val newUrl = chain.request().url()
