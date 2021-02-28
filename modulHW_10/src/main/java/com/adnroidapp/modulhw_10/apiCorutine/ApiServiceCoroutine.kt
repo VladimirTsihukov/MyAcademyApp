@@ -1,6 +1,6 @@
 package com.adnroidapp.modulhw_10.apiCorutine
 
-import com.adnroidapp.modulhw_10.pojo.InformationMovies
+import com.adnroidapp.modulhw_10.pojo.MoviesDetail
 import com.adnroidapp.modulhw_10.pojo.MovieActors
 import com.adnroidapp.modulhw_10.pojo.MoviesList
 import retrofit2.Response
@@ -20,7 +20,7 @@ interface ApiServiceCoroutine {
     @GET("{movie_id}")
     suspend fun getMovieByIdAsync(
         @Path(QUERY_PARAM_MOVIE_ID_COR) movieID: Long,
-    ): Response<InformationMovies>
+    ): Response<MoviesDetail>
 
     @GET("{movie_id}/credits")
     suspend fun getMovieActorsCoroutineAsync(

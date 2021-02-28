@@ -14,7 +14,6 @@ data class DataDBMoviesDetails (
 
     val title: String,
     val overview: String,
-    val poster: String,
     val backdrop: String,
     val ratings: Double,
     val numberOfRatings: Int,

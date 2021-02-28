@@ -84,6 +84,7 @@ class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
     private fun setPosterIcon(poster: String, context: Context) {
         Glide.with(context)
             .load(poster)
+            .placeholder(R.drawable.ph_movie_grey_200)
             .into(imageFilm)
     }
 

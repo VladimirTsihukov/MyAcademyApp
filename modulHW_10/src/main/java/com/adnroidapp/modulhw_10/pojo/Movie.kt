@@ -1,45 +1,28 @@
 package com.adnroidapp.modulhw_10.pojo
 
+import android.os.Parcelable
 import com.adnroidapp.modulhw_10.apiCorutine.ApiFactoryCoroutine.BASE_URL_MOVIE_IMAGE
 import com.adnroidapp.modulhw_10.database.SealedMovies
 import com.adnroidapp.modulhw_10.database.dbData.DataDBMoviesPopular
 import com.adnroidapp.modulhw_10.database.dbData.DataDBMoviesTopRate
 import com.adnroidapp.modulhw_10.ui.data.MovieData
 import com.google.gson.annotations.SerializedName
-import kotlinx.serialization.Serializable
+import kotlinx.android.parcel.Parcelize
 
-@Serializable
+@Parcelize
 data class Movie(
-
-    val adult: Boolean,
-
-    @SerializedName("backdrop_path")
-    val backdropPath: String,
-
-    @SerializedName("genre_ids")
-    val genreIDS: List<Long>,
 
     val id: Long,
 
-    @SerializedName("original_language")
-    val originalLanguage: String,
-
-    @SerializedName("original_title")
-    val originalTitle: String,
+    val title: String,
 
     val overview: String,
-
-    val popularity: Double? = null,
 
     @SerializedName("poster_path")
     val posterPath: String,
 
-    @SerializedName("release_date")
-    val releaseDate: String,
-
-    val title: String,
-
-    val video: Boolean,
+    @SerializedName("backdrop_path")
+    val backdropPath: String,
 
     @SerializedName("vote_average")
     val voteAverage: Double,
@@ -47,8 +30,10 @@ data class Movie(
     @SerializedName("vote_count")
     val voteCount: Long,
 
+    val adult: Boolean,
+
     var likeMovies: Boolean = false,
-)
+) : Parcelable
 
 fun Movie.getMovieData(): MovieData {
 
@@ -67,7 +52,6 @@ fun Movie.getMovieData(): MovieData {
     ))
     }
 }
-
 
 fun getMovieAllType(sealed: SealedMovies, list: List<Movie>): List<Any> {
     val listAny = mutableListOf<Any>()

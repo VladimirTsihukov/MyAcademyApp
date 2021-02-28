@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.modulhw_10.R
+import com.adnroidapp.modulhw_10.database.dbData.DataDBMoviesDetails
 import com.adnroidapp.modulhw_10.pojo.ActorsInfo
 import com.adnroidapp.modulhw_10.ui.adapter.AdapterActors
 import com.adnroidapp.modulhw_10.ui.data.MovieData
@@ -100,7 +101,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     }
 
     @SuppressLint("SetTextI18n")
-    fun getInitLayout(movieData: MovieData, view: View) {
+    fun getInitLayout(movieData: DataDBMoviesDetails, view: View) {
         setPosterIcon(movieData.backdrop, view.context)
         view.mov_list_age_category.text = "${movieData.minimumAge}+"
         view.mov_list_movie_genre.text = movieData.genres

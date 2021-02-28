@@ -40,22 +40,6 @@ fun MovieData.getMovieLike(): DataDBMoviesLike {
     )
 }
 
-fun getMovieData(movieDb: DataDBMoviesDetails): MovieData {
-    return MovieData(
-        id = movieDb.id,
-        title = movieDb.title,
-        overview = movieDb.overview,
-        poster = movieDb.poster,
-        backdrop = movieDb.backdrop,
-        ratings = movieDb.ratings,
-        numberOfRatings = movieDb.numberOfRatings,
-        minimumAge = movieDb.minimumAge,
-        runtime = movieDb.runtime,
-        genres = movieDb.genres,
-        likeMovies = movieDb.likeMovies
-    )
-}
-
 fun getListMovieData(sealedMovies: SealedMovies, listAny: List<Any>): List<MovieData> {
     val listMovieData = mutableListOf<MovieData>()
 

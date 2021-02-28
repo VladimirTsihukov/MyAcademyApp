@@ -7,19 +7,17 @@ import com.adnroidapp.modulhw_10.R
 import com.adnroidapp.modulhw_10.apiCorutine.ApiFactoryCoroutine
 import com.adnroidapp.modulhw_10.database.DatabaseContact.SEPARATOR
 import com.adnroidapp.modulhw_10.database.databaseMoviesList.DbMovies
+import com.adnroidapp.modulhw_10.database.dbData.DataDBMoviesDetails
 import com.adnroidapp.modulhw_10.pojo.ActorsInfo
 import com.adnroidapp.modulhw_10.pojo.getListActor
-import com.adnroidapp.modulhw_10.pojo.getMovieDataInfo
 import com.adnroidapp.modulhw_10.pojo.getMovieDetails
-import com.adnroidapp.modulhw_10.ui.data.MovieData
-import com.adnroidapp.modulhw_10.ui.data.getMovieData
 import kotlinx.coroutines.*
 
 class ViewModelMovieDetailsCoroutine(application: Application) : AndroidViewModel(application) {
 
     private val error = application.resources.getString(R.string.error_internet_not_connect)
     private val dbMovieDetails = DbMovies.instance(application)
-    val liveDataMoviesDetailsCoroutine = MutableLiveData<MovieData>()
+    val liveDataMoviesDetailsCoroutine = MutableLiveData<DataDBMoviesDetails>()
     val liveDataMovieActorsCoroutine = MutableLiveData<List<ActorsInfo>>()
 
     val liveDataErrorServerApi = MutableLiveData<String>()
@@ -34,7 +32,7 @@ class ViewModelMovieDetailsCoroutine(application: Application) : AndroidViewMode
                     ApiFactoryCoroutine.apiServiceMovieCor.getMovieByIdAsync(id)
                 if (movieDetails.isSuccessful) {
                     movieDetails.body()?.let {
-                        liveDataMoviesDetailsCoroutine.postValue(it.getMovieDataInfo())
+                        liveDataMoviesDetailsCoroutine.postValue(it.getMovieDetails())
                         dbMovieDetails.moviesDetails().insertMovieDetail(it.getMovieDetails())
                         initMoviesActors(id)
                     }
@@ -42,14 +40,14 @@ class ViewModelMovieDetailsCoroutine(application: Application) : AndroidViewMode
                     getActorsInDb(id)
                     withContext(Dispatchers.Main) {
                         resultDbDetails.let {
-                            liveDataMoviesDetailsCoroutine.postValue(getMovieData(it))
+                            liveDataMoviesDetailsCoroutine.postValue(it)
                         }
                         liveDataErrorServerApi.postValue(error)
                     }
                 }
             } catch (e: Exception) {
                 getActorsInDb(id)
-                resultDbDetails?.let { liveDataMoviesDetailsCoroutine.postValue(getMovieData(it))}
+                resultDbDetails?.let { liveDataMoviesDetailsCoroutine.postValue(it)}
                 liveDataErrorServerApi.postValue(error)
             }
         }
