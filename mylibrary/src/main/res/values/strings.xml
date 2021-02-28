@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Academy App</string>
+    <string name="app_name">Cinema Academy app</string>
     <string name="back">Back</string>
     <string name="str_film_name">Avengers: End Game</string>
     <string name="str_movie_genre">Action, Adventure, Fantasy</string>

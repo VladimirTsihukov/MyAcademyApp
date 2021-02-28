@@ -5,8 +5,10 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.modulhw_10.R
 import com.adnroidapp.modulhw_10.pojo.ActorsInfo
@@ -28,6 +30,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     private lateinit var star4: ImageView
     private lateinit var star5: ImageView
     private lateinit var listStar: List<ImageView>
+    private lateinit var textBack: TextView
 
     private val mViewModelModelDetailsCoroutine: ViewModelMovieDetailsCoroutine by viewModels()
 
@@ -49,6 +52,22 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         initObserver(view)
     }
 
+    private fun initView(view: View) {
+        imagePoster = view.findViewById(R.id.mask)
+
+        star1 = view.findViewById(R.id.mov_list_star_level_1)
+        star2 = view.findViewById(R.id.mov_list_star_level_2)
+        star3 = view.findViewById(R.id.mov_list_star_level_3)
+        star4 = view.findViewById(R.id.mov_list_star_level_4)
+        star5 = view.findViewById(R.id.mov_list_star_level_5)
+        listStar = listOf(star1, star2, star3, star4, star5)
+        textBack = view.findViewById(R.id.text_back)
+
+        textBack.setOnClickListener {
+            findNavController().navigate(R.id.action_fragmentMoviesDetails_to_fragmentMoviesList)
+        }
+    }
+
     private fun initObserver(view: View) {
         mViewModelModelDetailsCoroutine.liveDataMoviesDetailsCoroutine.observe(viewLifecycleOwner,
             { movieDetail ->
@@ -68,21 +87,11 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
                 }
             })
 
-        mViewModelModelDetailsCoroutine.liveDataErrorServerApi.observe(viewLifecycleOwner, {Error ->
-            val snackBar = Snackbar.make(view, Error, Snackbar.LENGTH_LONG)
-            snackBar.show()
-        })
-    }
-
-    private fun initView(view: View) {
-        imagePoster = view.findViewById(R.id.mask)
-
-        star1 = view.findViewById(R.id.mov_list_star_level_1)
-        star2 = view.findViewById(R.id.mov_list_star_level_2)
-        star3 = view.findViewById(R.id.mov_list_star_level_3)
-        star4 = view.findViewById(R.id.mov_list_star_level_4)
-        star5 = view.findViewById(R.id.mov_list_star_level_5)
-        listStar = listOf(star1, star2, star3, star4, star5)
+        mViewModelModelDetailsCoroutine.liveDataErrorServerApi.observe(viewLifecycleOwner,
+            { Error ->
+                val snackBar = Snackbar.make(view, Error, Snackbar.LENGTH_LONG)
+                snackBar.show()
+            })
     }
 
     private fun updateDataActors(movieActors: List<ActorsInfo>) {
@@ -106,6 +115,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     private fun setPosterIcon(poster: String, context: Context) {
         Glide.with(context)
             .load(poster)
+            .placeholder(R.drawable.ph_movie_grey_400)
             .into(imagePoster)
     }
 
