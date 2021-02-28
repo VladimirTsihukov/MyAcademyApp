@@ -60,7 +60,7 @@ class ViewModelMovieDetailsCoroutine(application: Application) : AndroidViewMode
                     ApiFactoryCoroutine.apiServiceMovieCor.getMovieActorsCoroutineAsync(id)
                 if (movieActors.isSuccessful) {
                     movieActors.body()?.let { MovieActors ->
-                        liveDataMovieActorsCoroutine.postValue(MovieActors.getListActor(MovieActors.cast))
+                        liveDataMovieActorsCoroutine.postValue(getListActor(MovieActors.cast))
                         dbMovieDetails.moviesDetails()
                             .setNameActors(MovieActors.cast.joinToString(SEPARATOR) { it.name }, id)
                         dbMovieDetails.moviesDetails()
