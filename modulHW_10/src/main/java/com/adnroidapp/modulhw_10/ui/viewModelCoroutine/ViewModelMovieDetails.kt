@@ -8,88 +8,123 @@ import com.adnroidapp.modulhw_10.apiCorutine.ApiFactoryCoroutine
 import com.adnroidapp.modulhw_10.database.DatabaseContact.SEPARATOR
 import com.adnroidapp.modulhw_10.database.databaseMoviesList.DbMovies
 import com.adnroidapp.modulhw_10.database.dbData.DataDBMoviesDetails
+import com.adnroidapp.modulhw_10.network.INetworkStatus
 import com.adnroidapp.modulhw_10.pojo.ActorsInfo
+import com.adnroidapp.modulhw_10.pojo.MovieActors
 import com.adnroidapp.modulhw_10.pojo.getListActor
 import com.adnroidapp.modulhw_10.pojo.getMovieDetails
 import kotlinx.coroutines.*
 
-class ViewModelMovieDetails(application: Application) : AndroidViewModel(application) {
+const val TAG_VIEW_DETAIL = "ViewModelMovieDetails"
 
-    private val error = application.resources.getString(R.string.error_internet_not_connect)
+class ViewModelMovieDetails(application: Application, private val networkStatus: INetworkStatus) :
+    AndroidViewModel(application) {
+
+    private val errorInternetNotConnect =
+        application.resources.getString(R.string.error_internet_not_connect)
+    private val errorServerNotConnect =
+        application.resources.getString(R.string.error_server_connect)
     private val dbMovieDetails = DbMovies.instance(application)
-    val liveDataMoviesDetailsCoroutine = MutableLiveData<DataDBMoviesDetails>()
-    val liveDataMovieActorsCoroutine = MutableLiveData<List<ActorsInfo>>()
+    val liveDataMoviesDetails = MutableLiveData<DataDBMoviesDetails>()
+    val liveDataMovieActors = MutableLiveData<List<ActorsInfo>>()
 
     val liveDataErrorServerApi = MutableLiveData<String>()
 
     private val scope = CoroutineScope(Dispatchers.IO)
 
-    fun initMovieIdDetails(id: Long) {
+    fun loadMovieIdDetails(id: Long) {
+        networkStatus.isOnlineSingle().map { online ->
+            if (online) {
+                loadMovieDetailInServer(id)
+            } else {
+                loadMovieDetailInDb(id)
+                liveDataErrorServerApi.postValue(errorInternetNotConnect)
+            }
+        }.subscribe()
+    }
+
+    private fun loadMovieDetailInServer(id: Long) {
         scope.launch {
-            val resultDbDetails = dbMovieDetails.moviesDetails().getMovieDetail(id)
             try {
                 val movieDetails =
                     ApiFactoryCoroutine.apiServiceMovieCor.getMovieByIdAsync(id)
                 if (movieDetails.isSuccessful) {
                     movieDetails.body()?.let {
-                        liveDataMoviesDetailsCoroutine.postValue(it.getMovieDetails())
+                        liveDataMoviesDetails.postValue(it.getMovieDetails())
                         dbMovieDetails.moviesDetails().insertMovieDetail(it.getMovieDetails())
-                        initMoviesActors(id)
+                        loadMoviesActors(id)
                     }
                 } else {
-                    getActorsInDb(id)
-                    withContext(Dispatchers.Main) {
-                        resultDbDetails.let {
-                            liveDataMoviesDetailsCoroutine.postValue(it)
-                        }
-                        liveDataErrorServerApi.postValue(error)
-                    }
+                    loadMovieDetailInDb(id)
+                    liveDataErrorServerApi.postValue(errorServerNotConnect)
                 }
             } catch (e: Exception) {
-                getActorsInDb(id)
-                resultDbDetails?.let { liveDataMoviesDetailsCoroutine.postValue(it)}
-                liveDataErrorServerApi.postValue(error)
+                liveDataErrorServerApi.postValue(errorServerNotConnect)
             }
         }
     }
 
-    private fun initMoviesActors(id: Long) {
+    private fun loadMovieDetailInDb(id: Long) {
+        scope.launch {
+            loadActorsInDb(id)
+            val resultDbDetails = dbMovieDetails.moviesDetails().getMovieDetail(id)
+            resultDbDetails?.let { liveDataMoviesDetails.postValue(it) }
+        }
+    }
+
+    private fun loadMoviesActors(id: Long) {
+        networkStatus.isOnlineSingle().map { online ->
+            if (online) {
+                loadActorsInServer(id)
+            } else {
+                loadActorsInDb(id)
+                liveDataErrorServerApi.postValue(errorInternetNotConnect)
+            }
+        }
+    }
+
+    private fun loadActorsInServer(id: Long) {
         scope.launch {
             try {
                 val movieActors =
                     ApiFactoryCoroutine.apiServiceMovieCor.getMovieActorsCoroutineAsync(id)
                 if (movieActors.isSuccessful) {
                     movieActors.body()?.let { MovieActors ->
-                        liveDataMovieActorsCoroutine.postValue(getListActor(MovieActors.cast))
-                        dbMovieDetails.moviesDetails()
-                            .setNameActors(MovieActors.cast.joinToString(SEPARATOR) { it.name }, id)
-                        dbMovieDetails.moviesDetails()
-                            .setProfilePaths(MovieActors.cast.joinToString(SEPARATOR) {
-                                it.profilePath ?: " "
-                            }, id)
+                        liveDataMovieActors.postValue(getListActor(MovieActors.cast))
+                        loadActorsInDb(MovieActors, id)
                     }
                 } else {
                     withContext(Dispatchers.Main) {
-                        getActorsInDb(id)
-                        liveDataErrorServerApi.postValue(error)
+                        loadActorsInDb(id)
+                        liveDataErrorServerApi.postValue(errorInternetNotConnect)
                     }
                 }
             } catch (e: Exception) {
-                getActorsInDb(id)
-                liveDataErrorServerApi.postValue(error)
+                loadActorsInDb(id)
+                liveDataErrorServerApi.postValue(errorInternetNotConnect)
             }
         }
     }
 
-    private fun getActorsInDb(id: Long) {
+    private fun loadActorsInDb(MovieActors: MovieActors, id: Long) {
+        dbMovieDetails.moviesDetails()
+            .setNameActors(MovieActors.cast.joinToString(SEPARATOR) { it.name }, id)
+        dbMovieDetails.moviesDetails()
+            .setProfilePaths(MovieActors.cast.joinToString(SEPARATOR) {
+                it.profilePath ?: " "
+            }, id)
+    }
+
+    private fun loadActorsInDb(id: Long) {
         val listActorsInfo = mutableListOf<ActorsInfo>()
         if (!dbMovieDetails.moviesDetails().getNameActors(id).isNullOrEmpty()) {
             val nameActors = dbMovieDetails.moviesDetails().getNameActors(id).split(SEPARATOR)
-            val listProfilePath = dbMovieDetails.moviesDetails().getProfilePaths(id).split(SEPARATOR)
+            val listProfilePath =
+                dbMovieDetails.moviesDetails().getProfilePaths(id).split(SEPARATOR)
             nameActors.forEachIndexed { index, _ ->
                 listActorsInfo.add(ActorsInfo(nameActors[index], listProfilePath[index]))
             }
-            liveDataMovieActorsCoroutine.postValue(listActorsInfo)
+            liveDataMovieActors.postValue(listActorsInfo)
         }
     }
 

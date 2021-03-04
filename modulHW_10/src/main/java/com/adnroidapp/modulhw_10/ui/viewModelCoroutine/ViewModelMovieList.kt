@@ -51,7 +51,7 @@ class ViewModelMovieList(application: Application, private val networkStatus: IN
             networkStatus.isOnlineSingle().map { online ->
                 Log.v(TAG_IS_ONLINE, "loadMovies ${typeMovie.name} is online = $online")
                 if (online) {
-                    getMovieInApi(typeMovie)
+                    getMovieInServer(typeMovie)
                 } else {
                     geTMoviesInDb(typeMovie)
                     liveDataErrorServerApi.postValue(errorInternetNotConnect)
@@ -124,7 +124,7 @@ class ViewModelMovieList(application: Application, private val networkStatus: IN
         }
     }
 
-    private fun getMovieInApi(typeMovie: EnumTypeMovie) {
+    private fun getMovieInServer(typeMovie: EnumTypeMovie) {
         scope.launch {
             try {
                 withContext(Dispatchers.IO) {

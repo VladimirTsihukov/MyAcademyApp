@@ -7,14 +7,17 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.adnroidapp.modulhw_10.App
 import com.adnroidapp.modulhw_10.R
 import com.adnroidapp.modulhw_10.database.dbData.DataDBMoviesDetails
 import com.adnroidapp.modulhw_10.pojo.ActorsInfo
 import com.adnroidapp.modulhw_10.ui.adapter.AdapterActors
+import com.adnroidapp.modulhw_10.ui.network.AndroidNetworkStatus
 import com.adnroidapp.modulhw_10.ui.viewModelCoroutine.ViewModelMovieDetails
+import com.adnroidapp.modulhw_10.ui.viewModelCoroutine.mainfacory.MainFactoryMovieDetail
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_movies_details.*
@@ -32,7 +35,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     private lateinit var listStar: List<ImageView>
     private lateinit var textBack: TextView
 
-    private val mViewModelModelDetails: ViewModelMovieDetails by viewModels()
+    lateinit var mViewModelModelDetails: ViewModelMovieDetails
 
     private val recyclerView: RecyclerView? by lazy {
         view?.findViewById<RecyclerView>(R.id.rec_actors)?.apply {
@@ -43,8 +46,13 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mViewModelModelDetails = ViewModelProvider(this,
+            MainFactoryMovieDetail(App.instance, AndroidNetworkStatus(App.instance))).get(
+            ViewModelMovieDetails::class.java
+        )
+
         arguments?.getLong(MOVIES_KEY)?.let {
-            mViewModelModelDetails.initMovieIdDetails(it)
+            mViewModelModelDetails.loadMovieIdDetails(it)
         }
 
         initView(view)
@@ -69,14 +77,14 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     }
 
     private fun initObserver(view: View) {
-        mViewModelModelDetails.liveDataMoviesDetailsCoroutine.observe(viewLifecycleOwner,
+        mViewModelModelDetails.liveDataMoviesDetails.observe(viewLifecycleOwner,
             { movieDetail ->
                 movieDetail?.run {
                     getInitLayout(movieDetail, view)
                 }
             })
 
-        mViewModelModelDetails.liveDataMovieActorsCoroutine.observe(viewLifecycleOwner,
+        mViewModelModelDetails.liveDataMovieActors.observe(viewLifecycleOwner,
             { actors ->
                 actors?.let {
                     if (it.isEmpty()) {

@@ -13,7 +13,7 @@ import com.adnroidapp.modulhw_10.database.dbData.DataDBMovies
 import com.adnroidapp.modulhw_10.ui.adapter.AdapterMovies
 import com.adnroidapp.modulhw_10.ui.adapter.OnItemClickListener
 import com.adnroidapp.modulhw_10.ui.network.AndroidNetworkStatus
-import com.adnroidapp.modulhw_10.ui.viewModelCoroutine.MainFactory
+import com.adnroidapp.modulhw_10.ui.viewModelCoroutine.mainfacory.MainFactoryMovieList
 import com.adnroidapp.modulhw_10.ui.viewModelCoroutine.ViewModelMovieList
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -31,7 +31,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
         mViewModelMovieList =
             ViewModelProvider(this,
-                MainFactory(App.instance, AndroidNetworkStatus(App.instance))).get(
+                MainFactoryMovieList(App.instance, AndroidNetworkStatus(App.instance))).get(
                 ViewModelMovieList::class.java)
 
         initBottomNavigation()
