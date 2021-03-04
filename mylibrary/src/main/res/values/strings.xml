@@ -24,4 +24,5 @@
     <string name="top_rate">Top rate</string>
     <string name="popular">Popular</string>
     <string name="error_internet_not_connect">Error: internet not connect</string>
+    <string name="error_server_connect">Error: server not connect</string>
 </resources>

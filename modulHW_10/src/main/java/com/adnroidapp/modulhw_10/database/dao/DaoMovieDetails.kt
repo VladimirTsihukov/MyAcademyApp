@@ -1,9 +1,6 @@
 package com.adnroidapp.modulhw_10.database.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.adnroidapp.modulhw_10.database.dbData.DataDBMoviesDetails
 
 @Dao

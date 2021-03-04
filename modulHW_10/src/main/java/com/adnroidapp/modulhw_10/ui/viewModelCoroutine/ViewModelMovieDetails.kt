@@ -13,7 +13,7 @@ import com.adnroidapp.modulhw_10.pojo.getListActor
 import com.adnroidapp.modulhw_10.pojo.getMovieDetails
 import kotlinx.coroutines.*
 
-class ViewModelMovieDetailsCoroutine(application: Application) : AndroidViewModel(application) {
+class ViewModelMovieDetails(application: Application) : AndroidViewModel(application) {
 
     private val error = application.resources.getString(R.string.error_internet_not_connect)
     private val dbMovieDetails = DbMovies.instance(application)

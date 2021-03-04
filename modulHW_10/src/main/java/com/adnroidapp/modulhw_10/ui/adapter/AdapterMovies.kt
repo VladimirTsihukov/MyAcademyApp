@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.modulhw_10.R
-import com.adnroidapp.modulhw_10.ui.data.MovieData
+import com.adnroidapp.modulhw_10.database.dbData.DataDBMovies
 import com.bumptech.glide.Glide
 import kotlin.math.roundToInt
 
@@ -17,7 +17,7 @@ class AdapterMovies(
     private val onItemClickListener: OnItemClickListener,
 ) : RecyclerView.Adapter<HolderMovies>() {
 
-    private var movies = listOf<MovieData>()
+    private var movies = listOf<DataDBMovies>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HolderMovies {
         return HolderMovies(
@@ -32,20 +32,15 @@ class AdapterMovies(
             onItemClickListener.onItemClick(movies[position].id)
         }
         holder.iconLike.setOnClickListener {
-            if (movies[position].likeMovies) {
-                movies[position].likeMovies = false
-                onItemClickListener.deleteLikeMovies(movies[position])
-            } else {
-                movies[position].likeMovies = true
-                onItemClickListener.onClickLikeMovies(movies[position])
-            }
+            onItemClickListener.onClickLikeMovies(movies[position].likeMovie, movies[position])
+            movies[position].likeMovie = !movies[position].likeMovie
             notifyDataSetChanged()
         }
     }
 
     override fun getItemCount(): Int = movies.size
 
-    fun bindMovies(newMovies: List<MovieData>?) {
+    fun bindMovies(newMovies: List<DataDBMovies>?) {
         if (newMovies != null) {
             movies = newMovies
             notifyDataSetChanged()
@@ -67,14 +62,14 @@ class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
     val iconLike: ImageView = item.findViewById(R.id.holder_icon_like)
 
     @SuppressLint("SetTextI18n")
-    fun onBind(movie: MovieData, context: Context) {
+    fun onBind(movie: DataDBMovies, context: Context) {
 
-        setPosterIcon(movie.poster, context)
+        setPosterIcon(movie.posterPath, context)
         ageCategory?.text = "${movie.minimumAge}+"
         setImageStars((movie.ratings / 2).roundToInt())
         reviews?.text = "${movie.numberOfRatings} Reviews"
         filName?.text = movie.title
-        iconLike.setImageResource(if (movie.likeMovies) {
+        iconLike.setImageResource(if (movie.likeMovie) {
             R.drawable.icon_like_off
         } else {
             R.drawable.icon_like_on

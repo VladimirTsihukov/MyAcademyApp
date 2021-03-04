@@ -10,7 +10,7 @@ import retrofit2.http.Path
 interface ApiServiceCoroutine {
 
     @GET("popular")
-    suspend fun getPopularMoviesAsync(
+    suspend fun getMoviePopularAsync(
     ): Response<MoviesList>
 
     @GET("top_rated")

@@ -14,8 +14,7 @@ import com.adnroidapp.modulhw_10.R
 import com.adnroidapp.modulhw_10.database.dbData.DataDBMoviesDetails
 import com.adnroidapp.modulhw_10.pojo.ActorsInfo
 import com.adnroidapp.modulhw_10.ui.adapter.AdapterActors
-import com.adnroidapp.modulhw_10.ui.data.MovieData
-import com.adnroidapp.modulhw_10.ui.viewModelCoroutine.ViewModelMovieDetailsCoroutine
+import com.adnroidapp.modulhw_10.ui.viewModelCoroutine.ViewModelMovieDetails
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_movies_details.*
@@ -33,7 +32,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     private lateinit var listStar: List<ImageView>
     private lateinit var textBack: TextView
 
-    private val mViewModelModelDetailsCoroutine: ViewModelMovieDetailsCoroutine by viewModels()
+    private val mViewModelModelDetails: ViewModelMovieDetails by viewModels()
 
     private val recyclerView: RecyclerView? by lazy {
         view?.findViewById<RecyclerView>(R.id.rec_actors)?.apply {
@@ -45,7 +44,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.getLong(MOVIES_KEY)?.let {
-            mViewModelModelDetailsCoroutine.initMovieIdDetails(it)
+            mViewModelModelDetails.initMovieIdDetails(it)
         }
 
         initView(view)
@@ -70,14 +69,14 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     }
 
     private fun initObserver(view: View) {
-        mViewModelModelDetailsCoroutine.liveDataMoviesDetailsCoroutine.observe(viewLifecycleOwner,
+        mViewModelModelDetails.liveDataMoviesDetailsCoroutine.observe(viewLifecycleOwner,
             { movieDetail ->
                 movieDetail?.run {
                     getInitLayout(movieDetail, view)
                 }
             })
 
-        mViewModelModelDetailsCoroutine.liveDataMovieActorsCoroutine.observe(viewLifecycleOwner,
+        mViewModelModelDetails.liveDataMovieActorsCoroutine.observe(viewLifecycleOwner,
             { actors ->
                 actors?.let {
                     if (it.isEmpty()) {
@@ -88,7 +87,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
                 }
             })
 
-        mViewModelModelDetailsCoroutine.liveDataErrorServerApi.observe(viewLifecycleOwner,
+        mViewModelModelDetails.liveDataErrorServerApi.observe(viewLifecycleOwner,
             { Error ->
                 val snackBar = Snackbar.make(view, Error, Snackbar.LENGTH_LONG)
                 snackBar.show()

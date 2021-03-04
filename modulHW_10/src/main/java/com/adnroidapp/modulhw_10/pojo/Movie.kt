@@ -2,10 +2,7 @@ package com.adnroidapp.modulhw_10.pojo
 
 import android.os.Parcelable
 import com.adnroidapp.modulhw_10.apiCorutine.ApiFactoryCoroutine.BASE_URL_MOVIE_IMAGE
-import com.adnroidapp.modulhw_10.database.SealedMovies
-import com.adnroidapp.modulhw_10.database.dbData.DataDBMoviesPopular
-import com.adnroidapp.modulhw_10.database.dbData.DataDBMoviesTopRate
-import com.adnroidapp.modulhw_10.ui.data.MovieData
+import com.adnroidapp.modulhw_10.database.dbData.DataDBMovies
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -32,62 +29,45 @@ data class Movie(
 
     val adult: Boolean,
 
-    var likeMovies: Boolean = false,
-) : Parcelable
+    var typeMovie: String,
+    var likeMovie: Boolean = false,
 
-fun Movie.getMovieData(): MovieData {
+    ) : Parcelable
 
+fun Movie.parsInDataDBMovies(): DataDBMovies {
     return this.run {
         @Suppress("unused")
-        (MovieData(
-        id = id,
-        title = title,
-        overview = overview,
-        poster = BASE_URL_MOVIE_IMAGE + posterPath,
-        backdrop = BASE_URL_MOVIE_IMAGE + backdropPath,
-        ratings = voteAverage,
-        numberOfRatings = voteCount.toInt(),
-        minimumAge = if (adult) 16 else 13,
-        likeMovies = likeMovies
-    ))
+        (DataDBMovies(
+            id = id,
+            title = title,
+            overview = overview,
+            posterPath = BASE_URL_MOVIE_IMAGE + posterPath,
+            backdropPath = BASE_URL_MOVIE_IMAGE + backdropPath,
+            ratings = voteAverage,
+            numberOfRatings = voteCount,
+            minimumAge = if (adult) 16 else 13,
+            likeMovie = likeMovie,
+            typeMovie = typeMovie
+        ))
     }
 }
 
-fun getMovieAllType(sealed: SealedMovies, list: List<Movie>): List<Any> {
-    val listAny = mutableListOf<Any>()
-    when(sealed) {
-        SealedMovies.MoviesPopular -> {
-            list.forEach {
-                listAny.add(DataDBMoviesPopular(
-                    id = it.id,
-                    title = it.title,
-                    overview = it.overview,
-                    poster = BASE_URL_MOVIE_IMAGE + it.posterPath,
-                    backdrop = BASE_URL_MOVIE_IMAGE + it.backdropPath,
-                    ratings = it.voteAverage,
-                    numberOfRatings = it.voteCount.toInt(),
-                    minimumAge = if (it.adult) 16 else 13,
-                    likeMovies = it.likeMovies
-                ))
-            }
-            return listAny
-        }
-        SealedMovies.MoviesTopRate -> {
-            list.forEach {
-                listAny.add(DataDBMoviesTopRate(
-                    id = it.id,
-                    title = it.title,
-                    overview = it.overview,
-                    poster = BASE_URL_MOVIE_IMAGE + it.posterPath,
-                    backdrop = BASE_URL_MOVIE_IMAGE + it.backdropPath,
-                    ratings = it.voteAverage,
-                    numberOfRatings = it.voteCount.toInt(),
-                    minimumAge = if (it.adult) 16 else 13,
-                    likeMovies = it.likeMovies
-                ))
-            }
-            return listAny
-        }
-        SealedMovies.MoviesLike -> return listAny
+fun parsInDataDBMoviesList(moviePopular: String, listMovie: List<Movie>): List<DataDBMovies> {
+    val listDataDBMovies = mutableListOf<DataDBMovies>()
+    listMovie.forEach {
+        listDataDBMovies.add(
+            DataDBMovies(
+                id = it.id,
+                title = it.title,
+                overview = it.overview,
+                posterPath = BASE_URL_MOVIE_IMAGE + it.posterPath,
+                backdropPath = BASE_URL_MOVIE_IMAGE + it.backdropPath,
+                ratings = it.voteAverage,
+                numberOfRatings = it.voteCount,
+                minimumAge = if (it.adult) 16 else 13,
+                likeMovie = it.likeMovie,
+                typeMovie = moviePopular
+            ))
     }
+    return listDataDBMovies
 }

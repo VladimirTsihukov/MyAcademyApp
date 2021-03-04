@@ -22,5 +22,4 @@ data class DataDBMoviesDetails (
     val genres: String = "",
     val nameActors: String = "",
     val profilePaths: String ="",
-    val likeMovies: Boolean = false
 ): Parcelable

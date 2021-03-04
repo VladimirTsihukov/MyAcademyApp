@@ -3,14 +3,18 @@ package com.adnroidapp.modulhw_10.ui.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.adnroidapp.modulhw_10.App
 import com.adnroidapp.modulhw_10.R
+import com.adnroidapp.modulhw_10.ui.EnumTypeMovie
+import com.adnroidapp.modulhw_10.database.dbData.DataDBMovies
 import com.adnroidapp.modulhw_10.ui.adapter.AdapterMovies
 import com.adnroidapp.modulhw_10.ui.adapter.OnItemClickListener
-import com.adnroidapp.modulhw_10.ui.data.MovieData
-import com.adnroidapp.modulhw_10.ui.viewModelCoroutine.ViewModelMovieListCoroutine
+import com.adnroidapp.modulhw_10.ui.network.AndroidNetworkStatus
+import com.adnroidapp.modulhw_10.ui.viewModelCoroutine.MainFactory
+import com.adnroidapp.modulhw_10.ui.viewModelCoroutine.ViewModelMovieList
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 
@@ -18,12 +22,17 @@ const val MOVIES_KEY = "MOVIES"
 
 class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
-    private val mViewModelMovieListCoroutine: ViewModelMovieListCoroutine by viewModels()
+    lateinit var mViewModelMovieList: ViewModelMovieList
 
     private lateinit var bottomNav: BottomNavigationView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        mViewModelMovieList =
+            ViewModelProvider(this,
+                MainFactory(App.instance, AndroidNetworkStatus(App.instance))).get(
+                ViewModelMovieList::class.java)
 
         initBottomNavigation()
 
@@ -32,13 +41,13 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
             visibility = View.INVISIBLE
         }
 
-        mViewModelMovieListCoroutine.liveDataMoviesList.observe(viewLifecycleOwner,
+        mViewModelMovieList.liveDataMoviesList.observe(viewLifecycleOwner,
             { movie ->
                 updateData(movie, recycler)
                 recycler.visibility = View.VISIBLE
             })
 
-        mViewModelMovieListCoroutine.liveDataErrorServerApi.observe(viewLifecycleOwner, {Error ->
+        mViewModelMovieList.liveDataErrorServerApi.observe(viewLifecycleOwner, { Error ->
             Snackbar.make(view, Error, Snackbar.LENGTH_SHORT).show()
         })
     }
@@ -49,15 +58,15 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
             bottomNav.setOnNavigationItemSelectedListener { item ->
                 when (item.itemId) {
                     R.id.nav_popular -> {
-                        mViewModelMovieListCoroutine.setLoadMoviesPopularMovies()
+                        mViewModelMovieList.loadMoviesMovies(EnumTypeMovie.POPULAR)
                         true
                     }
                     R.id.nav_top -> {
-                        mViewModelMovieListCoroutine.setLoadMovieTopRate()
+                        mViewModelMovieList.loadMoviesMovies(EnumTypeMovie.TOP)
                         true
                     }
                     R.id.nav_favorite -> {
-                        mViewModelMovieListCoroutine.getMoviesListLike()
+                        mViewModelMovieList.loadMoviesMovies(EnumTypeMovie.FAVORITE)
                         true
                     }
                     else -> {
@@ -68,7 +77,7 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
         }
     }
 
-    private fun updateData(list: List<MovieData>?, recycler: RecyclerView) {
+    private fun updateData(list: List<DataDBMovies>?, recycler: RecyclerView) {
         (recycler.adapter as? AdapterMovies)?.bindMovies(list)
     }
 
@@ -82,12 +91,12 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
             )
         }
 
-        override fun onClickLikeMovies(movie: MovieData) {
-            mViewModelMovieListCoroutine.addMovieLikeInDb(movie)
-        }
-
-        override fun deleteLikeMovies(movie: MovieData) {
-           mViewModelMovieListCoroutine.deleteMoviesLikeInDb(movie)
+        override fun onClickLikeMovies(iconLike: Boolean, movie: DataDBMovies) {
+            if (iconLike) {
+                mViewModelMovieList.deleteMoviesLikeInDb(movie)
+            } else {
+                mViewModelMovieList.addMovieLikeInDb(movie)
+            }
         }
     }
 }
