@@ -1,7 +1,7 @@
 package com.adnroidapp.modulhw_10.pojo
 
 import android.os.Parcelable
-import com.adnroidapp.modulhw_10.apiCorutine.ApiFactoryCoroutine.BASE_URL_MOVIE_IMAGE
+import com.adnroidapp.modulhw_10.apiCorutine.ApiFactory.BASE_URL_MOVIE_IMAGE
 import com.adnroidapp.modulhw_10.database.dbData.DataDBMovies
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize

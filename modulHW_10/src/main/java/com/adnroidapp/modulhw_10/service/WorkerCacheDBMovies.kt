@@ -4,10 +4,10 @@ import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.adnroidapp.modulhw_10.apiCorutine.ApiFactoryCoroutine
-import com.adnroidapp.modulhw_10.ui.EnumTypeMovie
+import com.adnroidapp.modulhw_10.apiCorutine.ApiFactory
 import com.adnroidapp.modulhw_10.database.databaseMoviesList.DbMovies
 import com.adnroidapp.modulhw_10.pojo.parsInDataDBMoviesList
+import com.adnroidapp.modulhw_10.ui.EnumTypeMovie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -21,7 +21,7 @@ class WorkerCacheDBMovies(context: Context, workerParam: WorkerParameters) :
         try {
             withContext(Dispatchers.IO) {
                 Log.d(TAG, "Start doWorker")
-                val listMovies = ApiFactoryCoroutine.apiServiceMovieCor
+                val listMovies = ApiFactory.API_SERVICE_MOVIE
                     .getMoviePopularAsync().body()?.results ?: listOf()
                 Log.d(TAG, "WorkerCacheDB: listMovies.isNotEmpty = ${listMovies.isNotEmpty()}")
 
