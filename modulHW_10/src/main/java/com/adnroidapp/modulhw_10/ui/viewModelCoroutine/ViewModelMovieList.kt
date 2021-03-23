@@ -6,8 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.work.*
 import com.adnroidapp.modulhw_10.R
-import com.adnroidapp.modulhw_10.apiCorutine.ApiFactoryCoroutine
-import com.adnroidapp.modulhw_10.ui.EnumTypeMovie
+import com.adnroidapp.modulhw_10.apiCorutine.ApiFactory
 import com.adnroidapp.modulhw_10.database.databaseMoviesList.DbMovies
 import com.adnroidapp.modulhw_10.database.dbData.DataDBMovies
 import com.adnroidapp.modulhw_10.database.dbData.parsInDataDBMoviesLike
@@ -17,6 +16,7 @@ import com.adnroidapp.modulhw_10.pojo.Movie
 import com.adnroidapp.modulhw_10.pojo.MoviesList
 import com.adnroidapp.modulhw_10.pojo.parsInDataDBMovies
 import com.adnroidapp.modulhw_10.service.WorkerCacheDBMovies
+import com.adnroidapp.modulhw_10.ui.EnumTypeMovie
 import kotlinx.coroutines.*
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
@@ -36,24 +36,32 @@ class ViewModelMovieList(application: Application, private val networkStatus: IN
     val liveDataMoviesList = MutableLiveData<List<DataDBMovies>>()
     val liveDataErrorServerApi = MutableLiveData<String>()
     private val scope = CoroutineScope(Dispatchers.IO)
-    var movieFavorite = false
+    private var flagMovieFavorite = false
 
     init {
         loadMoviesMovies(EnumTypeMovie.POPULAR)
+        checkedInternet()
         startWorkManager(application)
     }
 
+    private fun checkedInternet() {
+        networkStatus.isOnline().subscribe {
+            Log.v(TAG_IS_ONLINE, "CheckedInternet internet connect = $it")
+        }
+    }
+
     fun loadMoviesMovies(typeMovie: EnumTypeMovie) {
-        movieFavorite = typeMovie.name == EnumTypeMovie.FAVORITE.name
-        if (movieFavorite)  {
+        flagMovieFavorite = typeMovie.name == EnumTypeMovie.FAVORITE.name
+        if (flagMovieFavorite)  {
             getMoviesListLikeForDb()
         } else {
             networkStatus.isOnlineSingle().map { online ->
-                Log.v(TAG_IS_ONLINE, "loadMovies ${typeMovie.name} is online = $online")
                 if (online) {
+                    Log.v(TAG_IS_ONLINE, "loadMoviesMovies internet connect = $online")
                     getMovieInServer(typeMovie)
                 } else {
-                    geTMoviesInDb(typeMovie)
+                    Log.v(TAG_IS_ONLINE, "loadMoviesMovies internet connect = $online")
+                    getMoviesInDb(typeMovie)
                     liveDataErrorServerApi.postValue(errorInternetNotConnect)
                 }
             }.subscribe()
@@ -99,7 +107,7 @@ class ViewModelMovieList(application: Application, private val networkStatus: IN
             try {
                 dbMovies.moviesLike().deleteMoviesLike(movie.id)
                 dbMovies.movies().setMoviesIdLikeInDb(movie.id, movie.likeMovie)
-                if (movieFavorite) {
+                if (flagMovieFavorite) {
                     liveDataMoviesList.postValue(parsInDataDataDBMovies(dbMovies.moviesLike()
                         .getMoviesLike()))
                 }
@@ -109,7 +117,7 @@ class ViewModelMovieList(application: Application, private val networkStatus: IN
         }
     }
 
-    private fun geTMoviesInDb(typeMovie: EnumTypeMovie) {
+    private fun getMoviesInDb(typeMovie: EnumTypeMovie) {
         scope.launch {
             withContext(Dispatchers.IO) {
                 when (typeMovie.name) {
@@ -130,17 +138,17 @@ class ViewModelMovieList(application: Application, private val networkStatus: IN
                 withContext(Dispatchers.IO) {
                     when (typeMovie.name) {
                         EnumTypeMovie.TOP.name -> {
-                            errorHandling(ApiFactoryCoroutine.apiServiceMovieCor.getMovieTopRatedAsync(),
+                            errorHandling(ApiFactory.API_SERVICE_MOVIE.getMovieTopRatedAsync(),
                                 typeMovie)
                         }
                         EnumTypeMovie.POPULAR.name -> {
-                            errorHandling(ApiFactoryCoroutine.apiServiceMovieCor.getMoviePopularAsync(),
+                            errorHandling(ApiFactory.API_SERVICE_MOVIE.getMoviePopularAsync(),
                                 typeMovie)
                         }
                     }
                 }
             } catch (e: Exception) {
-                geTMoviesInDb(typeMovie)
+                getMoviesInDb(typeMovie)
                 liveDataErrorServerApi.postValue(errorServerNotConnect)
             }
         }
@@ -153,7 +161,7 @@ class ViewModelMovieList(application: Application, private val networkStatus: IN
             }
         } else {
             withContext(Dispatchers.Main) {
-                geTMoviesInDb(typeMovie)
+                getMoviesInDb(typeMovie)
                 liveDataErrorServerApi.postValue(errorServerNotConnect)
             }
         }

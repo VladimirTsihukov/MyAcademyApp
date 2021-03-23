@@ -8,13 +8,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.modulhw_10.App
 import com.adnroidapp.modulhw_10.R
-import com.adnroidapp.modulhw_10.ui.EnumTypeMovie
 import com.adnroidapp.modulhw_10.database.dbData.DataDBMovies
+import com.adnroidapp.modulhw_10.ui.EnumTypeMovie
 import com.adnroidapp.modulhw_10.ui.adapter.AdapterMovies
 import com.adnroidapp.modulhw_10.ui.adapter.OnItemClickListener
 import com.adnroidapp.modulhw_10.ui.network.AndroidNetworkStatus
-import com.adnroidapp.modulhw_10.ui.viewModelCoroutine.mainfacory.MainFactoryMovieList
 import com.adnroidapp.modulhw_10.ui.viewModelCoroutine.ViewModelMovieList
+import com.adnroidapp.modulhw_10.ui.viewModelCoroutine.mainfacory.MainFactoryMovieList
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 
@@ -38,13 +38,11 @@ class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
 
         val recycler = view.findViewById<RecyclerView>(R.id.res_view_move_list).apply {
             adapter = AdapterMovies(click)
-            visibility = View.INVISIBLE
         }
 
         mViewModelMovieList.liveDataMoviesList.observe(viewLifecycleOwner,
             { movie ->
                 updateData(movie, recycler)
-                recycler.visibility = View.VISIBLE
             })
 
         mViewModelMovieList.liveDataErrorServerApi.observe(viewLifecycleOwner, { Error ->

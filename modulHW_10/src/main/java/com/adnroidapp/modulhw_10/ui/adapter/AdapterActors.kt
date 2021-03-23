@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.modulhw_10.R
-import com.adnroidapp.modulhw_10.apiCorutine.ApiFactoryCoroutine.BASE_URL_MOVIE_IMAGE
+import com.adnroidapp.modulhw_10.apiCorutine.ApiFactory.BASE_URL_MOVIE_IMAGE
 import com.adnroidapp.modulhw_10.pojo.ActorsInfo
 import com.bumptech.glide.Glide
 
@@ -18,6 +18,7 @@ class AdapterActors : RecyclerView.Adapter<HolderActors>() {
 
     fun bindActors(newActor: List<ActorsInfo>) {
         actors = newActor
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HolderActors {
@@ -45,6 +46,7 @@ class HolderActors(item: View) : RecyclerView.ViewHolder(item) {
             Glide.with(itemView.context)
                 .load(BASE_URL_MOVIE_IMAGE + actor.profilePath)
                 .error(R.drawable.placeholder)
+                .placeholder(R.drawable.placeholder)
                 .into(it)
         }
     }

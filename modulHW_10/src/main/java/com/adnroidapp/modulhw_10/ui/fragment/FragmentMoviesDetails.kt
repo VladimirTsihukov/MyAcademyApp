@@ -20,8 +20,10 @@ import com.adnroidapp.modulhw_10.ui.viewModelCoroutine.ViewModelMovieDetails
 import com.adnroidapp.modulhw_10.ui.viewModelCoroutine.mainfacory.MainFactoryMovieDetail
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import io.reactivex.rxjava3.core.Observable
 import kotlinx.android.synthetic.main.fragment_movies_details.*
 import kotlinx.android.synthetic.main.fragment_movies_details.view.*
+import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
 class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
@@ -37,14 +39,14 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
 
     lateinit var mViewModelModelDetails: ViewModelMovieDetails
 
-    private val recyclerView: RecyclerView? by lazy {
-        view?.findViewById<RecyclerView>(R.id.rec_actors)?.apply {
-            adapter = AdapterActors()
-        }
-    }
+    lateinit var recyclerView: RecyclerView;
+    private val adapter by lazy { AdapterActors() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        recyclerView = view.findViewById(R.id.rec_actors)
+        recyclerView.adapter = adapter
 
         mViewModelModelDetails = ViewModelProvider(this,
             MainFactoryMovieDetail(App.instance, AndroidNetworkStatus(App.instance))).get(
@@ -81,6 +83,7 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
             { movieDetail ->
                 movieDetail?.run {
                     getInitLayout(movieDetail, view)
+                    setVisibilityDataLoader()
                 }
             })
 
@@ -103,27 +106,32 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     }
 
     private fun updateDataActors(movieActors: List<ActorsInfo>) {
-        (recyclerView?.adapter as? AdapterActors)
-            ?.bindActors(movieActors)
+        adapter.bindActors(movieActors)
     }
 
     @SuppressLint("SetTextI18n")
     fun getInitLayout(movieData: DataDBMoviesDetails, view: View) {
-        setPosterIcon(movieData.backdrop, view.context)
         view.mov_list_age_category.text = "${movieData.minimumAge}+"
         view.mov_list_movie_genre.text = movieData.genres
         view.mov_list_text_story_line.text = movieData.overview
         view.mov_list_reviews.text = "${movieData.numberOfRatings} Reviews"
         view.mov_list_film_name.text = movieData.title
+        setPosterIcon(movieData.backdrop, view.context)
         setImageStars((movieData.ratings / 2).roundToInt())
+    }
 
-        view.dataLoader.visibility = View.INVISIBLE
+    private fun setVisibilityDataLoader() {
+        Observable.timer(1, TimeUnit.SECONDS).subscribe {
+            view?.let {
+                dataLoader.visibility = View.INVISIBLE
+            }
+        }
     }
 
     private fun setPosterIcon(poster: String, context: Context) {
         Glide.with(context)
             .load(poster)
-            .placeholder(R.drawable.ph_movie_grey_400)
+            .error(R.drawable.ph_movie_grey_400)
             .into(imagePoster)
     }
 

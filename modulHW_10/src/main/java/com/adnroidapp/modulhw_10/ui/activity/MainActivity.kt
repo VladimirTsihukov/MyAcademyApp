@@ -15,10 +15,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        findNavController(R.id.nav_host_fragment_container).addOnDestinationChangedListener { controller, destination, arguments ->
+        findNavController(R.id.nav_host_fragment_container).addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.movie_list -> { bottom_navigation.visibility = View.VISIBLE }
                 R.id.movie_detail -> { bottom_navigation.visibility = View.GONE }
+                R.id.movie_list -> { bottom_navigation.visibility = View.VISIBLE
+                }
             }
         }
     }

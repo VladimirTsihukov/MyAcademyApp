@@ -50,25 +50,25 @@ class AdapterMovies(
 
 class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
     val imageFilm: ImageView = item.findViewById(R.id.holder_image_film)
-    private val ageCategory: TextView? = item.findViewById(R.id.holder_age_category)
-    private val star1: ImageView? = item.findViewById(R.id.holder_star_level_1)
-    private val star2: ImageView? = item.findViewById(R.id.holder_star_level_2)
-    private val star3: ImageView? = item.findViewById(R.id.holder_star_level_3)
-    private val star4: ImageView? = item.findViewById(R.id.holder_star_level_4)
-    private val star5: ImageView? = item.findViewById(R.id.holder_star_level_5)
+    private val ageCategory: TextView = item.findViewById(R.id.holder_age_category)
+    private val star1: ImageView = item.findViewById(R.id.holder_star_level_1)
+    private val star2: ImageView = item.findViewById(R.id.holder_star_level_2)
+    private val star3: ImageView = item.findViewById(R.id.holder_star_level_3)
+    private val star4: ImageView = item.findViewById(R.id.holder_star_level_4)
+    private val star5: ImageView = item.findViewById(R.id.holder_star_level_5)
     private val listStar: List<ImageView> = listOfNotNull(star1, star2, star3, star4, star5)
-    private val reviews: TextView? = item.findViewById(R.id.holder_reviews)
-    private val filName: TextView? = item.findViewById(R.id.holder_film_name)
+    private val reviews: TextView = item.findViewById(R.id.holder_reviews)
+    private val filName: TextView = item.findViewById(R.id.holder_film_name)
     val iconLike: ImageView = item.findViewById(R.id.holder_icon_like)
 
     @SuppressLint("SetTextI18n")
     fun onBind(movie: DataDBMovies, context: Context) {
 
         setPosterIcon(movie.posterPath, context)
-        ageCategory?.text = "${movie.minimumAge}+"
+        ageCategory.text = "${movie.minimumAge}+"
         setImageStars((movie.ratings / 2).roundToInt())
-        reviews?.text = "${movie.numberOfRatings} Reviews"
-        filName?.text = movie.title
+        reviews.text = "${movie.numberOfRatings} Reviews"
+        filName.text = movie.title
         iconLike.setImageResource(if (movie.likeMovie) {
             R.drawable.icon_like_off
         } else {

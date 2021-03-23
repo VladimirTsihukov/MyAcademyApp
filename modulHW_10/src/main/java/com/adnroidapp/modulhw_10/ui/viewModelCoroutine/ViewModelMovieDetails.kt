@@ -1,10 +1,11 @@
 package com.adnroidapp.modulhw_10.ui.viewModelCoroutine
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.adnroidapp.modulhw_10.R
-import com.adnroidapp.modulhw_10.apiCorutine.ApiFactoryCoroutine
+import com.adnroidapp.modulhw_10.apiCorutine.ApiFactory
 import com.adnroidapp.modulhw_10.database.DatabaseContact.SEPARATOR
 import com.adnroidapp.modulhw_10.database.databaseMoviesList.DbMovies
 import com.adnroidapp.modulhw_10.database.dbData.DataDBMoviesDetails
@@ -35,8 +36,10 @@ class ViewModelMovieDetails(application: Application, private val networkStatus:
     fun loadMovieIdDetails(id: Long) {
         networkStatus.isOnlineSingle().map { online ->
             if (online) {
+                Log.v(TAG_IS_ONLINE, "loadMovieIdDetails internet connect = $online")
                 loadMovieDetailInServer(id)
             } else {
+                Log.v(TAG_IS_ONLINE, "loadMovieIdDetails internet connect = $online")
                 loadMovieDetailInDb(id)
                 liveDataErrorServerApi.postValue(errorInternetNotConnect)
             }
@@ -47,7 +50,7 @@ class ViewModelMovieDetails(application: Application, private val networkStatus:
         scope.launch {
             try {
                 val movieDetails =
-                    ApiFactoryCoroutine.apiServiceMovieCor.getMovieByIdAsync(id)
+                    ApiFactory.API_SERVICE_MOVIE.getMovieByIdAsync(id)
                 if (movieDetails.isSuccessful) {
                     movieDetails.body()?.let {
                         liveDataMoviesDetails.postValue(it.getMovieDetails())
@@ -80,14 +83,14 @@ class ViewModelMovieDetails(application: Application, private val networkStatus:
                 loadActorsInDb(id)
                 liveDataErrorServerApi.postValue(errorInternetNotConnect)
             }
-        }
+        }.subscribe()
     }
 
     private fun loadActorsInServer(id: Long) {
         scope.launch {
             try {
                 val movieActors =
-                    ApiFactoryCoroutine.apiServiceMovieCor.getMovieActorsCoroutineAsync(id)
+                    ApiFactory.API_SERVICE_MOVIE.getMovieActorsCoroutineAsync(id)
                 if (movieActors.isSuccessful) {
                     movieActors.body()?.let { MovieActors ->
                         liveDataMovieActors.postValue(getListActor(MovieActors.cast))
