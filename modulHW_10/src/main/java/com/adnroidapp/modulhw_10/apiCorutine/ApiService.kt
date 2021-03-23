@@ -1,13 +1,13 @@
 package com.adnroidapp.modulhw_10.apiCorutine
 
-import com.adnroidapp.modulhw_10.pojo.MoviesDetail
 import com.adnroidapp.modulhw_10.pojo.MovieActors
+import com.adnroidapp.modulhw_10.pojo.MoviesDetail
 import com.adnroidapp.modulhw_10.pojo.MoviesList
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-interface ApiServiceCoroutine {
+interface ApiService {
 
     @GET("popular")
     suspend fun getMoviePopularAsync(

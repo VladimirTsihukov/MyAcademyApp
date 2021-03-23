@@ -5,7 +5,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object ApiFactoryCoroutine {
+object ApiFactory {
     private const val BASE_URL_MOVIE_COR = "https://api.themoviedb.org/3/movie/"
     private const val API_KEY_ID_COR = "7d9db2e12493542315f5bcb0f3f0de61"
     private const val API_KEY_COR = "api_key"
@@ -38,6 +38,6 @@ object ApiFactoryCoroutine {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    val apiServiceMovieCor: ApiServiceCoroutine =
-        retrofitMovieCor().create(ApiServiceCoroutine::class.java)
+    val API_SERVICE_MOVIE: ApiService =
+        retrofitMovieCor().create(ApiService::class.java)
 }
