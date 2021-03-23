@@ -3,20 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
-    android:background="@drawable/list_frg_bg">
+    android:background="@drawable/list_frg_bg"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/top_menu"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="UseCompoundDrawables">
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -39,14 +35,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/res_view_move_list"
-        app:layout_constraintEnd_toEndOf="@id/top_menu"
         android:layout_width="match_parent"
-        android:layout_marginTop="24dp"
         android:layout_height="match_parent"
+        android:layout_marginTop="24dp"
         android:gravity="center"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
-        tools:listitem="@layout/view_holder_movies"
-        />
-
+        tools:listitem="@layout/view_holder_movies" />
 </LinearLayout>
