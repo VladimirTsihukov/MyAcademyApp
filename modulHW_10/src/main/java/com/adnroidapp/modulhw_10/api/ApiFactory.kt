@@ -1,4 +1,4 @@
-package com.adnroidapp.modulhw_10.apiCorutine
+package com.adnroidapp.modulhw_10.api
 
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient

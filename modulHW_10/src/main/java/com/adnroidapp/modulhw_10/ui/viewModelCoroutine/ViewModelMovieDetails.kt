@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.adnroidapp.modulhw_10.R
-import com.adnroidapp.modulhw_10.apiCorutine.ApiFactory
+import com.adnroidapp.modulhw_10.api.ApiFactory
 import com.adnroidapp.modulhw_10.database.DatabaseContact.SEPARATOR
 import com.adnroidapp.modulhw_10.database.databaseMoviesList.DbMovies
 import com.adnroidapp.modulhw_10.database.dbData.DataDBMoviesDetails

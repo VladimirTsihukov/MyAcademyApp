@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.work.*
 import com.adnroidapp.modulhw_10.R
-import com.adnroidapp.modulhw_10.apiCorutine.ApiFactory
+import com.adnroidapp.modulhw_10.api.ApiFactory
 import com.adnroidapp.modulhw_10.database.databaseMoviesList.DbMovies
 import com.adnroidapp.modulhw_10.database.dbData.DataDBMovies
 import com.adnroidapp.modulhw_10.database.dbData.parsInDataDBMoviesLike
@@ -17,6 +17,7 @@ import com.adnroidapp.modulhw_10.pojo.MoviesList
 import com.adnroidapp.modulhw_10.pojo.parsInDataDBMovies
 import com.adnroidapp.modulhw_10.service.WorkerCacheDBMovies
 import com.adnroidapp.modulhw_10.ui.EnumTypeMovie
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.*
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
@@ -37,6 +38,7 @@ class ViewModelMovieList(application: Application, private val networkStatus: IN
     val liveDataErrorServerApi = MutableLiveData<String>()
     private val scope = CoroutineScope(Dispatchers.IO)
     private var flagMovieFavorite = false
+    private val disposable: CompositeDisposable = CompositeDisposable()
 
     init {
         loadMoviesMovies(EnumTypeMovie.POPULAR)
@@ -45,9 +47,9 @@ class ViewModelMovieList(application: Application, private val networkStatus: IN
     }
 
     private fun checkedInternet() {
-        networkStatus.isOnline().subscribe {
+        disposable.add(networkStatus.isOnline().subscribe {
             Log.v(TAG_IS_ONLINE, "CheckedInternet internet connect = $it")
-        }
+        })
     }
 
     fun loadMoviesMovies(typeMovie: EnumTypeMovie) {
@@ -55,7 +57,7 @@ class ViewModelMovieList(application: Application, private val networkStatus: IN
         if (flagMovieFavorite)  {
             getMoviesListLikeForDb()
         } else {
-            networkStatus.isOnlineSingle().map { online ->
+            disposable.add(networkStatus.isOnlineSingle().map { online ->
                 if (online) {
                     Log.v(TAG_IS_ONLINE, "loadMoviesMovies internet connect = $online")
                     getMovieInServer(typeMovie)
@@ -64,7 +66,7 @@ class ViewModelMovieList(application: Application, private val networkStatus: IN
                     getMoviesInDb(typeMovie)
                     liveDataErrorServerApi.postValue(errorInternetNotConnect)
                 }
-            }.subscribe()
+            }.subscribe())
         }
     }
 
@@ -184,5 +186,6 @@ class ViewModelMovieList(application: Application, private val networkStatus: IN
     override fun onCleared() {
         super.onCleared()
         scope.cancel()
+        disposable.clear()
     }
 }

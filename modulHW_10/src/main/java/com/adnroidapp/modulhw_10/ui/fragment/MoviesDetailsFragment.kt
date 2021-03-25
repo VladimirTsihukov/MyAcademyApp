@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_movies_details.view.*
 import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
-class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
+class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
 
     private lateinit var imagePoster: ImageView
     private lateinit var star1: ImageView

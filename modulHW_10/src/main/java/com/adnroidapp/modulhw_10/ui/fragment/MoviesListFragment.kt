@@ -20,7 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 
 const val MOVIES_KEY = "MOVIES"
 
-class FragmentMoviesList : Fragment(R.layout.fragment_movies_list) {
+class MoviesListFragment : Fragment(R.layout.fragment_movies_list) {
 
     lateinit var mViewModelMovieList: ViewModelMovieList
 

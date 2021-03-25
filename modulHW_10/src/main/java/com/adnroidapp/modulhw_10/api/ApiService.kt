@@ -1,4 +1,4 @@
-package com.adnroidapp.modulhw_10.apiCorutine
+package com.adnroidapp.modulhw_10.api
 
 import com.adnroidapp.modulhw_10.pojo.MovieActors
 import com.adnroidapp.modulhw_10.pojo.MoviesDetail
