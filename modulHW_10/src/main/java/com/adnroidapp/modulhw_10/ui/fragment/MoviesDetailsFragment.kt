@@ -1,11 +1,9 @@
 package com.adnroidapp.modulhw_10.ui.fragment
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -25,15 +23,6 @@ import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
 class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
-
-    private lateinit var imagePoster: ImageView
-    private lateinit var star1: ImageView
-    private lateinit var star2: ImageView
-    private lateinit var star3: ImageView
-    private lateinit var star4: ImageView
-    private lateinit var star5: ImageView
-    private lateinit var listStar: List<ImageView>
-    private lateinit var textBack: TextView
 
     private val mViewModelModelDetails: ViewModelMovieDetails by viewModels()
 
@@ -56,26 +45,17 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
     }
 
     private fun initView(view: View) {
-        imagePoster = view.findViewById(R.id.mask)
-
-        star1 = view.findViewById(R.id.mov_list_star_level_1)
-        star2 = view.findViewById(R.id.mov_list_star_level_2)
-        star3 = view.findViewById(R.id.mov_list_star_level_3)
-        star4 = view.findViewById(R.id.mov_list_star_level_4)
-        star5 = view.findViewById(R.id.mov_list_star_level_5)
-        listStar = listOf(star1, star2, star3, star4, star5)
-        textBack = view.findViewById(R.id.text_back)
-
-        textBack.setOnClickListener {
+        view.text_back.setOnClickListener {
             findNavController().navigate(R.id.action_fragmentMoviesDetails_to_fragmentMoviesList)
         }
+
     }
 
     private fun initObserver(view: View) {
         mViewModelModelDetails.liveDataMoviesDetails.observe(viewLifecycleOwner,
             { movieDetail ->
                 movieDetail?.run {
-                    getInitLayout(movieDetail, view)
+                    getInitLayout(movieDetail)
                     setVisibilityDataLoader()
                 }
             })
@@ -102,18 +82,20 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
         adapter.actors = movieActors
     }
 
-    private fun getInitLayout(movieData: DataDBMoviesDetails, view: View) {
-        view.mov_list_age_category.text = resources.getString(R.string.fragment_reviews).let {
-            String.format(it, "${movieData.minimumAge}")
+    private fun getInitLayout(movieData: DataDBMoviesDetails) {
+        view?.also {
+            mov_list_age_category.text = resources.getString(R.string.fragment_reviews).let {
+                String.format(it, "${movieData.minimumAge}")
+            }
+            mov_list_movie_genre.text = movieData.genres
+            mov_list_text_story_line.text = movieData.overview
+            mov_list_reviews.text = resources.getString(R.string.fragment_reviews).let {
+                String.format(it, "${movieData.numberOfRatings}")
+            }
+            mov_list_film_name.text = movieData.title
+            setPosterIcon(movieData.backdrop)
+            setImageStars((movieData.ratings / 2).roundToInt())
         }
-        view.mov_list_movie_genre.text = movieData.genres
-        view.mov_list_text_story_line.text = movieData.overview
-        view.mov_list_reviews.text = resources.getString(R.string.fragment_reviews).let {
-            String.format(it, "${movieData.numberOfRatings}")
-        }
-        view.mov_list_film_name.text = movieData.title
-        setPosterIcon(movieData.backdrop, view.context)
-        setImageStars((movieData.ratings / 2).roundToInt())
     }
 
     @SuppressLint("CheckResult")
@@ -127,20 +109,30 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
             }
     }
 
-    private fun setPosterIcon(poster: String, context: Context) {
-        Glide.with(context)
-            .load(poster)
-            .error(R.drawable.ph_movie_grey_400)
-            .into(imagePoster)
+    private fun setPosterIcon(poster: String) {
+        view?.apply {
+            Glide.with(context)
+                .load(poster)
+                .error(R.drawable.ph_movie_grey_400)
+                .into(image_poster)
+        }
     }
 
     private fun setImageStars(current: Int) {
+        view?.apply {
+            val listStar = listOf<ImageView>(
+                mov_list_star_level_1,
+                mov_list_star_level_2,
+                mov_list_star_level_3,
+                mov_list_star_level_4,
+                mov_list_star_level_5)
 
-        listStar.forEachIndexed { index, _ ->
-            if (index < current) {
-                (listStar[index] as? ImageView)?.setImageResource(R.drawable.star_icon_on)
-            } else {
-                (listStar[index] as? ImageView)?.setImageResource(R.drawable.star_icon_off)
+            listStar.forEachIndexed { index, _ ->
+                if (index < current) {
+                    listStar[index].setImageResource(R.drawable.star_icon_on)
+                } else {
+                    listStar[index].setImageResource(R.drawable.star_icon_off)
+                }
             }
         }
     }

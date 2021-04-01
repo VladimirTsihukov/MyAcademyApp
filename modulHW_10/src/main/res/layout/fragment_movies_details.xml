@@ -16,7 +16,7 @@
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/mask"
+                android:id="@+id/image_poster"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:foreground="@drawable/mask_back"
@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="mask" />
+                app:constraint_referenced_ids="image_poster" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidLine"

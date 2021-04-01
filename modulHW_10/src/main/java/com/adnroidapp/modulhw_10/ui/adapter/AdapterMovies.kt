@@ -46,15 +46,7 @@ class AdapterMovies(
 class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
 
     val imageFilm: ImageView = item.findViewById(R.id.holder_image_film)
-
-    private val star1: ImageView = item.findViewById(R.id.holder_star_level_1)
-    private val star2: ImageView = item.findViewById(R.id.holder_star_level_2)
-    private val star3: ImageView = item.findViewById(R.id.holder_star_level_3)
-    private val star4: ImageView = item.findViewById(R.id.holder_star_level_4)
-    private val star5: ImageView = item.findViewById(R.id.holder_star_level_5)
-    private val listStar: List<ImageView> = listOfNotNull(star1, star2, star3, star4, star5)
     val iconLike: ImageView = item.findViewById(R.id.holder_icon_like)
-
 
     fun onBind(movie: DataDBMovies) {
         with(itemView) {
@@ -82,11 +74,20 @@ class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
     }
 
     private fun setImageStars(current: Int) {
-        listStar.forEachIndexed { index, _ ->
-            if (index < current) {
-                (listStar[index] as? ImageView)?.setImageResource(R.drawable.star_icon_on)
-            } else {
-                (listStar[index] as? ImageView)?.setImageResource(R.drawable.star_icon_off)
+        itemView.apply {
+            val listStar = listOf<ImageView>(
+                holder_star_level_1,
+                holder_star_level_2,
+                holder_star_level_3,
+                holder_star_level_4,
+                holder_star_level_5)
+
+            listStar.forEachIndexed { index, _ ->
+                if (index < current) {
+                    (listStar[index] as? ImageView)?.setImageResource(R.drawable.star_icon_on)
+                } else {
+                    (listStar[index] as? ImageView)?.setImageResource(R.drawable.star_icon_off)
+                }
             }
         }
     }
