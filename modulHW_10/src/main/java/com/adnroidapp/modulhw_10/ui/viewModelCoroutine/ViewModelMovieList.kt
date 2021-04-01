@@ -5,30 +5,28 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.work.*
+import com.adnroidapp.modulhw_10.App
 import com.adnroidapp.modulhw_10.R
 import com.adnroidapp.modulhw_10.api.ApiFactory
 import com.adnroidapp.modulhw_10.database.databaseMoviesList.DbMovies
 import com.adnroidapp.modulhw_10.database.dbData.DataDBMovies
 import com.adnroidapp.modulhw_10.database.dbData.parsInDataDBMoviesLike
 import com.adnroidapp.modulhw_10.database.dbData.parsInDataDataDBMovies
-import com.adnroidapp.modulhw_10.network.INetworkStatus
 import com.adnroidapp.modulhw_10.pojo.Movie
 import com.adnroidapp.modulhw_10.pojo.MoviesList
 import com.adnroidapp.modulhw_10.pojo.parsInDataDBMovies
 import com.adnroidapp.modulhw_10.service.WorkerCacheDBMovies
 import com.adnroidapp.modulhw_10.ui.EnumTypeMovie
-import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.*
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
 
 const val TAG_IS_ONLINE = "TAG_IS_ONLINE"
 
-class ViewModelMovieList(application: Application, private val networkStatus: INetworkStatus) :
+class ViewModelMovieList(application: Application) :
     AndroidViewModel(application) {
 
-    private val errorInternetNotConnect =
-        application.resources.getString(R.string.error_internet_not_connect)
     private val errorServerNotConnect =
         application.resources.getString(R.string.error_server_connect)
 
@@ -36,6 +34,7 @@ class ViewModelMovieList(application: Application, private val networkStatus: IN
 
     val liveDataMoviesList = MutableLiveData<List<DataDBMovies>>()
     val liveDataErrorServerApi = MutableLiveData<String>()
+    val liveDataCheckInternet = MutableLiveData<Boolean>()
     private val scope = CoroutineScope(Dispatchers.IO)
     private var flagMovieFavorite = false
     private val disposable: CompositeDisposable = CompositeDisposable()
@@ -47,30 +46,30 @@ class ViewModelMovieList(application: Application, private val networkStatus: IN
     }
 
     private fun checkedInternet() {
-        disposable.add(networkStatus.isOnline().subscribe {
+        disposable.add(App.networkStatus.isOnline().subscribe {
             Log.v(TAG_IS_ONLINE, "CheckedInternet internet connect = $it")
+            liveDataCheckInternet.postValue(it)
         })
     }
 
     fun loadMoviesMovies(typeMovie: EnumTypeMovie) {
         flagMovieFavorite = typeMovie.name == EnumTypeMovie.FAVORITE.name
-        if (flagMovieFavorite)  {
+        if (flagMovieFavorite) {
             getMoviesListLikeForDb()
         } else {
-            disposable.add(networkStatus.isOnlineSingle().map { online ->
+            disposable.add(App.networkStatus.isOnlineSingle().map { online ->
                 if (online) {
                     Log.v(TAG_IS_ONLINE, "loadMoviesMovies internet connect = $online")
                     getMovieInServer(typeMovie)
                 } else {
                     Log.v(TAG_IS_ONLINE, "loadMoviesMovies internet connect = $online")
                     getMoviesInDb(typeMovie)
-                    liveDataErrorServerApi.postValue(errorInternetNotConnect)
                 }
             }.subscribe())
         }
     }
 
-   private fun getMoviesListLikeForDb() {
+    private fun getMoviesListLikeForDb() {
         scope.launch {
             val moviesLike = dbMovies.moviesLike().getMoviesLike()
             liveDataMoviesList.postValue(parsInDataDataDBMovies(moviesLike))
@@ -99,7 +98,7 @@ class ViewModelMovieList(application: Application, private val networkStatus: IN
                 dbMovies.moviesLike().insetMoviesLike(movie.parsInDataDBMoviesLike())
                 dbMovies.movies().setMoviesIdLikeInDb(movie.id, movie.likeMovie)
             } catch (e: Exception) {
-                liveDataErrorServerApi.postValue("Error on db")
+                liveDataErrorServerApi.postValue(errorServerNotConnect)
             }
         }
     }
@@ -114,7 +113,7 @@ class ViewModelMovieList(application: Application, private val networkStatus: IN
                         .getMoviesLike()))
                 }
             } catch (e: Exception) {
-                liveDataErrorServerApi.postValue("Error on db")
+                liveDataErrorServerApi.postValue(errorServerNotConnect)
             }
         }
     }

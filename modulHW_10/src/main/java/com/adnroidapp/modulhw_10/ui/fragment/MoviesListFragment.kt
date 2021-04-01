@@ -2,19 +2,17 @@ package com.adnroidapp.modulhw_10.ui.fragment
 
 import android.os.Bundle
 import android.view.View
+import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.adnroidapp.modulhw_10.App
 import com.adnroidapp.modulhw_10.R
 import com.adnroidapp.modulhw_10.database.dbData.DataDBMovies
 import com.adnroidapp.modulhw_10.ui.EnumTypeMovie
 import com.adnroidapp.modulhw_10.ui.adapter.AdapterMovies
 import com.adnroidapp.modulhw_10.ui.adapter.OnItemClickListener
-import com.adnroidapp.modulhw_10.ui.network.AndroidNetworkStatus
 import com.adnroidapp.modulhw_10.ui.viewModelCoroutine.ViewModelMovieList
-import com.adnroidapp.modulhw_10.ui.viewModelCoroutine.mainfacory.MainFactoryMovieList
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 
@@ -22,17 +20,14 @@ const val MOVIES_KEY = "MOVIES"
 
 class MoviesListFragment : Fragment(R.layout.fragment_movies_list) {
 
-    lateinit var mViewModelMovieList: ViewModelMovieList
+    private val mViewModelMovieList: ViewModelMovieList by viewModels()
 
     private lateinit var bottomNav: BottomNavigationView
 
+    private lateinit var viewLoader: FrameLayout
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        mViewModelMovieList =
-            ViewModelProvider(this,
-                MainFactoryMovieList(App.instance, AndroidNetworkStatus(App.instance))).get(
-                ViewModelMovieList::class.java)
 
         initBottomNavigation()
 
@@ -48,6 +43,27 @@ class MoviesListFragment : Fragment(R.layout.fragment_movies_list) {
         mViewModelMovieList.liveDataErrorServerApi.observe(viewLifecycleOwner, { Error ->
             Snackbar.make(view, Error, Snackbar.LENGTH_SHORT).show()
         })
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewLoader = activity?.let {
+            it.findViewById(R.id.loader_connect_internet)
+        }!!
+
+        mViewModelMovieList.liveDataCheckInternet.observe(viewLifecycleOwner, { checkInternet ->
+            setVisibilityProgressBar(checkInternet)
+        })
+    }
+
+    private fun setVisibilityProgressBar(checkInternet: Boolean) {
+        activity?.let {
+            if (checkInternet) {
+                viewLoader.visibility = View.INVISIBLE
+            } else {
+                viewLoader.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun initBottomNavigation() {

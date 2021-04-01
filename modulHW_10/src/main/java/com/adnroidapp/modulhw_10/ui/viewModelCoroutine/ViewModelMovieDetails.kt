@@ -4,25 +4,21 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.adnroidapp.modulhw_10.App
 import com.adnroidapp.modulhw_10.R
 import com.adnroidapp.modulhw_10.api.ApiFactory
 import com.adnroidapp.modulhw_10.database.DatabaseContact.SEPARATOR
 import com.adnroidapp.modulhw_10.database.databaseMoviesList.DbMovies
 import com.adnroidapp.modulhw_10.database.dbData.DataDBMoviesDetails
-import com.adnroidapp.modulhw_10.network.INetworkStatus
 import com.adnroidapp.modulhw_10.pojo.ActorsInfo
 import com.adnroidapp.modulhw_10.pojo.MovieActors
 import com.adnroidapp.modulhw_10.pojo.getListActor
 import com.adnroidapp.modulhw_10.pojo.getMovieDetails
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.*
 
-const val TAG_VIEW_DETAIL = "ViewModelMovieDetails"
-
-class ViewModelMovieDetails(application: Application, private val networkStatus: INetworkStatus) :
+class ViewModelMovieDetails(application: Application) :
     AndroidViewModel(application) {
-
-    private val errorInternetNotConnect =
-        application.resources.getString(R.string.error_internet_not_connect)
     private val errorServerNotConnect =
         application.resources.getString(R.string.error_server_connect)
     private val dbMovieDetails = DbMovies.instance(application)
@@ -32,18 +28,18 @@ class ViewModelMovieDetails(application: Application, private val networkStatus:
     val liveDataErrorServerApi = MutableLiveData<String>()
 
     private val scope = CoroutineScope(Dispatchers.IO)
+    private val disposable: CompositeDisposable = CompositeDisposable()
 
     fun loadMovieIdDetails(id: Long) {
-        networkStatus.isOnlineSingle().map { online ->
+        disposable.add(App.networkStatus.isOnlineSingle().map { online ->
             if (online) {
                 Log.v(TAG_IS_ONLINE, "loadMovieIdDetails internet connect = $online")
                 loadMovieDetailInServer(id)
             } else {
                 Log.v(TAG_IS_ONLINE, "loadMovieIdDetails internet connect = $online")
                 loadMovieDetailInDb(id)
-                liveDataErrorServerApi.postValue(errorInternetNotConnect)
             }
-        }.subscribe()
+        }.subscribe())
     }
 
     private fun loadMovieDetailInServer(id: Long) {
@@ -76,14 +72,13 @@ class ViewModelMovieDetails(application: Application, private val networkStatus:
     }
 
     private fun loadMoviesActors(id: Long) {
-        networkStatus.isOnlineSingle().map { online ->
+        disposable.add(App.networkStatus.isOnlineSingle().map { online ->
             if (online) {
                 loadActorsInServer(id)
             } else {
                 loadActorsInDb(id)
-                liveDataErrorServerApi.postValue(errorInternetNotConnect)
             }
-        }.subscribe()
+        }.subscribe())
     }
 
     private fun loadActorsInServer(id: Long) {
@@ -99,12 +94,10 @@ class ViewModelMovieDetails(application: Application, private val networkStatus:
                 } else {
                     withContext(Dispatchers.Main) {
                         loadActorsInDb(id)
-                        liveDataErrorServerApi.postValue(errorInternetNotConnect)
                     }
                 }
             } catch (e: Exception) {
                 loadActorsInDb(id)
-                liveDataErrorServerApi.postValue(errorInternetNotConnect)
             }
         }
     }
@@ -114,8 +107,7 @@ class ViewModelMovieDetails(application: Application, private val networkStatus:
             .setNameActors(MovieActors.cast.joinToString(SEPARATOR) { it.name }, id)
         dbMovieDetails.moviesDetails()
             .setProfilePaths(MovieActors.cast.joinToString(SEPARATOR) {
-                it.profilePath ?: " "
-            }, id)
+                it.profilePath ?: " " }, id)
     }
 
     private fun loadActorsInDb(id: Long) {
@@ -134,5 +126,6 @@ class ViewModelMovieDetails(application: Application, private val networkStatus:
     override fun onCleared() {
         super.onCleared()
         scope.cancel()
+        disposable.clear()
     }
 }

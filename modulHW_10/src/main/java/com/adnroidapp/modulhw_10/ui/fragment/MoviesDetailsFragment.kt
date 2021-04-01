@@ -7,20 +7,18 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.adnroidapp.modulhw_10.App
 import com.adnroidapp.modulhw_10.R
 import com.adnroidapp.modulhw_10.database.dbData.DataDBMoviesDetails
 import com.adnroidapp.modulhw_10.pojo.ActorsInfo
 import com.adnroidapp.modulhw_10.ui.adapter.AdapterActors
-import com.adnroidapp.modulhw_10.ui.network.AndroidNetworkStatus
 import com.adnroidapp.modulhw_10.ui.viewModelCoroutine.ViewModelMovieDetails
-import com.adnroidapp.modulhw_10.ui.viewModelCoroutine.mainfacory.MainFactoryMovieDetail
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_movies_details.*
 import kotlinx.android.synthetic.main.fragment_movies_details.view.*
 import java.util.concurrent.TimeUnit
@@ -37,9 +35,9 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
     private lateinit var listStar: List<ImageView>
     private lateinit var textBack: TextView
 
-    lateinit var mViewModelModelDetails: ViewModelMovieDetails
+    private val mViewModelModelDetails: ViewModelMovieDetails by viewModels()
 
-    lateinit var recyclerView: RecyclerView;
+    private lateinit var recyclerView: RecyclerView;
     private val adapter by lazy { AdapterActors() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,11 +45,6 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
 
         recyclerView = view.findViewById(R.id.rec_actors)
         recyclerView.adapter = adapter
-
-        mViewModelModelDetails = ViewModelProvider(this,
-            MainFactoryMovieDetail(App.instance, AndroidNetworkStatus(App.instance))).get(
-            ViewModelMovieDetails::class.java
-        )
 
         arguments?.getLong(MOVIES_KEY)?.let {
             mViewModelModelDetails.loadMovieIdDetails(it)
@@ -109,21 +102,27 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
         adapter.bindActors(movieActors)
     }
 
-    @SuppressLint("SetTextI18n")
-    fun getInitLayout(movieData: DataDBMoviesDetails, view: View) {
-        view.mov_list_age_category.text = "${movieData.minimumAge}+"
+    private fun getInitLayout(movieData: DataDBMoviesDetails, view: View) {
+        view.mov_list_age_category.text = resources.getString(R.string.fragment_reviews).let {
+            String.format(it, "${movieData.minimumAge}")
+        }
         view.mov_list_movie_genre.text = movieData.genres
         view.mov_list_text_story_line.text = movieData.overview
-        view.mov_list_reviews.text = "${movieData.numberOfRatings} Reviews"
+        view.mov_list_reviews.text = resources.getString(R.string.fragment_reviews).let {
+            String.format(it, "${movieData.numberOfRatings}")
+        }
         view.mov_list_film_name.text = movieData.title
         setPosterIcon(movieData.backdrop, view.context)
         setImageStars((movieData.ratings / 2).roundToInt())
     }
 
+    @SuppressLint("CheckResult")
     private fun setVisibilityDataLoader() {
-        Observable.timer(1, TimeUnit.SECONDS).subscribe {
+        Observable.timer(1, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
             view?.let {
-                dataLoader.visibility = View.INVISIBLE
+                data_loader.visibility = View.INVISIBLE
             }
         }
     }
