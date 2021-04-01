@@ -1,25 +1,22 @@
 package com.adnroidapp.modulhw_10.ui.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.modulhw_10.R
 import com.adnroidapp.modulhw_10.api.ApiFactory.BASE_URL_MOVIE_IMAGE
 import com.adnroidapp.modulhw_10.pojo.ActorsInfo
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.view_holder_actor.view.*
 
 class AdapterActors : RecyclerView.Adapter<HolderActors>() {
 
-    private var actors = listOf<ActorsInfo>()
-
-    fun bindActors(newActor: List<ActorsInfo>) {
-        actors = newActor
-        notifyDataSetChanged()
-    }
+    var actors: List<ActorsInfo> = listOf()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HolderActors {
         return HolderActors(
@@ -36,18 +33,15 @@ class AdapterActors : RecyclerView.Adapter<HolderActors>() {
 }
 
 class HolderActors(item: View) : RecyclerView.ViewHolder(item) {
-    private val imageActor: ImageView? = item.findViewById(R.id.holder_actor_image)
-    private val nameActors: TextView? = item.findViewById(R.id.holder_actor_name)
-
-    @SuppressLint("UseCompatLoadingForDrawables")
     fun onBindActor(actor: ActorsInfo) {
-        nameActors?.text = actor.nameActor
-        imageActor?.let {
-            Glide.with(itemView.context)
+        with(itemView) {
+            holder_actor_name.text = actor.nameActor
+
+            Glide.with(context)
                 .load(BASE_URL_MOVIE_IMAGE + actor.profilePath)
                 .error(R.drawable.placeholder)
                 .placeholder(R.drawable.placeholder)
-                .into(it)
+                .into(holder_actor_image)
         }
     }
 }

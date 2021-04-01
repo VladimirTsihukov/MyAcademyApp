@@ -25,19 +25,21 @@ class MoviesListFragment : Fragment(R.layout.fragment_movies_list) {
     private lateinit var bottomNav: BottomNavigationView
 
     private lateinit var viewLoader: FrameLayout
+    private lateinit var recycler: RecyclerView
+    private lateinit var adapterMovies: AdapterMovies
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initBottomNavigation()
 
-        val recycler = view.findViewById<RecyclerView>(R.id.res_view_move_list).apply {
-            adapter = AdapterMovies(click)
-        }
+        recycler = view.findViewById(R.id.res_view_move_list)
+        adapterMovies = AdapterMovies(click)
+        recycler.adapter = adapterMovies
 
         mViewModelMovieList.liveDataMoviesList.observe(viewLifecycleOwner,
             { movie ->
-                updateData(movie, recycler)
+                updateData(movie)
             })
 
         mViewModelMovieList.liveDataErrorServerApi.observe(viewLifecycleOwner, { Error ->
@@ -91,8 +93,10 @@ class MoviesListFragment : Fragment(R.layout.fragment_movies_list) {
         }
     }
 
-    private fun updateData(list: List<DataDBMovies>?, recycler: RecyclerView) {
-        (recycler.adapter as? AdapterMovies)?.bindMovies(list)
+    private fun updateData(list: List<DataDBMovies>?) {
+        list?.let {
+            adapterMovies.movies = it
+        }
     }
 
     private val click = object : OnItemClickListener {

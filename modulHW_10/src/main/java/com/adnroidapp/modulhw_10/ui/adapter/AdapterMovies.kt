@@ -1,23 +1,25 @@
 package com.adnroidapp.modulhw_10.ui.adapter
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.adnroidapp.modulhw_10.R
 import com.adnroidapp.modulhw_10.database.dbData.DataDBMovies
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.view_holder_movies.view.*
 import kotlin.math.roundToInt
 
 class AdapterMovies(
     private val onItemClickListener: OnItemClickListener,
 ) : RecyclerView.Adapter<HolderMovies>() {
 
-    private var movies = listOf<DataDBMovies>()
+    var movies: List<DataDBMovies> = listOf()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HolderMovies {
         return HolderMovies(
@@ -27,7 +29,7 @@ class AdapterMovies(
     }
 
     override fun onBindViewHolder(holder: HolderMovies, position: Int) {
-        holder.onBind(movies[position], holder.itemView.context)
+        holder.onBind(movies[position])
         holder.imageFilm.setOnClickListener {
             onItemClickListener.onItemClick(movies[position].id)
         }
@@ -39,45 +41,40 @@ class AdapterMovies(
     }
 
     override fun getItemCount(): Int = movies.size
-
-    fun bindMovies(newMovies: List<DataDBMovies>?) {
-        if (newMovies != null) {
-            movies = newMovies
-            notifyDataSetChanged()
-        }
-    }
 }
 
 class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
+
     val imageFilm: ImageView = item.findViewById(R.id.holder_image_film)
-    private val ageCategory: TextView = item.findViewById(R.id.holder_age_category)
+
     private val star1: ImageView = item.findViewById(R.id.holder_star_level_1)
     private val star2: ImageView = item.findViewById(R.id.holder_star_level_2)
     private val star3: ImageView = item.findViewById(R.id.holder_star_level_3)
     private val star4: ImageView = item.findViewById(R.id.holder_star_level_4)
     private val star5: ImageView = item.findViewById(R.id.holder_star_level_5)
     private val listStar: List<ImageView> = listOfNotNull(star1, star2, star3, star4, star5)
-    private val reviews: TextView = item.findViewById(R.id.holder_reviews)
-    private val filName: TextView = item.findViewById(R.id.holder_film_name)
     val iconLike: ImageView = item.findViewById(R.id.holder_icon_like)
 
-    @SuppressLint("SetTextI18n")
-    fun onBind(movie: DataDBMovies, context: Context) {
 
-        setPosterIcon(movie.posterPath, context)
-        ageCategory.text = "${movie.minimumAge}+"
+    fun onBind(movie: DataDBMovies) {
+        with(itemView) {
+            holder_reviews.text = context.resources.getString(R.string.fragment_reviews).let {
+                String.format(it, "${movie.numberOfRatings}")
+            }
+            holder_age_category.text = context.getString(R.string.fragment_age_category).let {
+                String.format(it, "${movie.minimumAge}")
+            }
+            holder_film_name.text = movie.title
+        }
+        setPosterIcon(movie.posterPath)
         setImageStars((movie.ratings / 2).roundToInt())
-        reviews.text = "${movie.numberOfRatings} Reviews"
-        filName.text = movie.title
-        iconLike.setImageResource(if (movie.likeMovie) {
-            R.drawable.icon_like_off
-        } else {
-            R.drawable.icon_like_on
-        })
+        iconLike.setImageResource(if (movie.likeMovie) R.drawable.icon_like_off
+        else R.drawable.icon_like_on)
     }
 
-    private fun setPosterIcon(poster: String, context: Context) {
-        Glide.with(context)
+
+    private fun setPosterIcon(poster: String) {
+        Glide.with(itemView.context)
             .load(poster)
             .placeholder(R.drawable.ph_movie_grey_200)
             .error(R.drawable.ph_movie_grey_200)

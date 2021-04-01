@@ -37,8 +37,8 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
 
     private val mViewModelModelDetails: ViewModelMovieDetails by viewModels()
 
-    private lateinit var recyclerView: RecyclerView;
-    private val adapter by lazy { AdapterActors() }
+    private lateinit var recyclerView: RecyclerView
+    private val adapter = AdapterActors()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -99,7 +99,7 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
     }
 
     private fun updateDataActors(movieActors: List<ActorsInfo>) {
-        adapter.bindActors(movieActors)
+        adapter.actors = movieActors
     }
 
     private fun getInitLayout(movieData: DataDBMoviesDetails, view: View) {
@@ -121,10 +121,10 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
         Observable.timer(1, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-            view?.let {
-                data_loader.visibility = View.INVISIBLE
+                view?.let {
+                    data_loader.visibility = View.INVISIBLE
+                }
             }
-        }
     }
 
     private fun setPosterIcon(poster: String, context: Context) {

@@ -1,15 +1,16 @@
 package com.adnroidapp.modulhw_10.pojo
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.serialization.Serializable
+import kotlinx.android.parcel.Parcelize
 
-@Serializable
+@Parcelize
 data class MovieActors (
     val id: Long,
     val cast: List<Cast>,
-)
+) : Parcelable
 
-@Serializable
+@Parcelize
 data class Cast (
 
     val id: Long,
@@ -19,7 +20,7 @@ data class Cast (
     @SerializedName("profile_path")
     val profilePath: String? = null,
 
-)
+) : Parcelable
 
 data class ActorsInfo(
     val nameActor: String,
