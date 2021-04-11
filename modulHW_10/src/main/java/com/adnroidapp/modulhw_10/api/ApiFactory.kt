@@ -1,5 +1,7 @@
 package com.adnroidapp.modulhw_10.api
 
+import com.adnroidapp.modulhw_10.App
+import com.adnroidapp.modulhw_10.R
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -10,14 +12,14 @@ object ApiFactory {
     private const val API_KEY_ID_COR = "7d9db2e12493542315f5bcb0f3f0de61"
     private const val API_KEY_COR = "api_key"
     private const val QUERY_PARAM_LANGUAGE_COR = "language"
-    private const val LANGUAGE_RUS_COR = "ru"
+    private val LANGUAGE_COR = App.instance.getString(R.string.LANGUAGE_API)
     const val BASE_URL_MOVIE_IMAGE = "https://image.tmdb.org/t/p/w500/"
 
     private val authInterceptor = Interceptor { chain ->
         val newUrl = chain.request().url()
             .newBuilder()
             .addQueryParameter(API_KEY_COR, API_KEY_ID_COR)
-            .addQueryParameter(QUERY_PARAM_LANGUAGE_COR, LANGUAGE_RUS_COR)
+            .addQueryParameter(QUERY_PARAM_LANGUAGE_COR, LANGUAGE_COR)
             .build()
 
         val newRequest = chain.request()

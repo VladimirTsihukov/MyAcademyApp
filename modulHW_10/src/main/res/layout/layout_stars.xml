@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="@string/str_reviews"
-        android:textAllCaps="true"
+        android:textAllCaps="false"
         android:textColor="@color/app_grey"
         android:textSize="14sp" />
 </LinearLayout>

@@ -33,7 +33,7 @@
         android:layout_marginStart="@dimen/space_1x"
         tools:text="@string/str_reviews"
         android:layout_marginEnd="@dimen/space_1x"
-        android:textAllCaps="true"
+        android:textAllCaps="false"
         android:textSize="10sp"
         tools:ignore="SmallSp" />
 </LinearLayout>
