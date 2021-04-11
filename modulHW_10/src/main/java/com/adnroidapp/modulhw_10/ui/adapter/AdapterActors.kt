@@ -8,7 +8,8 @@ import com.adnroidapp.modulhw_10.R
 import com.adnroidapp.modulhw_10.api.ApiFactory.BASE_URL_MOVIE_IMAGE
 import com.adnroidapp.modulhw_10.pojo.ActorsInfo
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.view_holder_actor.view.*
+import kotlinx.android.synthetic.main.view_item_holder_actor.view.*
+
 
 class AdapterActors : RecyclerView.Adapter<HolderActors>() {
 
@@ -21,7 +22,7 @@ class AdapterActors : RecyclerView.Adapter<HolderActors>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HolderActors {
         return HolderActors(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.view_holder_actor, parent, false)
+                .inflate(R.layout.view_item_holder_actor, parent, false)
         )
     }
 
@@ -35,13 +36,13 @@ class AdapterActors : RecyclerView.Adapter<HolderActors>() {
 class HolderActors(item: View) : RecyclerView.ViewHolder(item) {
     fun onBindActor(actor: ActorsInfo) {
         with(itemView) {
-            holder_actor_name.text = actor.nameActor
+            tv_holder_actor_name.text = actor.nameActor
 
             Glide.with(context)
                 .load(BASE_URL_MOVIE_IMAGE + actor.profilePath)
-                .error(R.drawable.placeholder)
-                .placeholder(R.drawable.placeholder)
-                .into(holder_actor_image)
+                .error(R.drawable.ic_placeholder_actor)
+                .placeholder(R.drawable.ic_placeholder_actor)
+                .into(img_holder_actor_image)
         }
     }
 }

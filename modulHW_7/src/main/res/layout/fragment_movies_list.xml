@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    android:background="@drawable/list_frg_bg">
+    android:background="@drawable/ic_list_frg_bg">
 
     <LinearLayout
         android:id="@+id/top_menu"
@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_4x"
-            android:src="@drawable/list_frg_shape"
+            android:src="@drawable/ic_list_frg_shape"
             tools:ignore="ContentDescription" />
 
         <TextView

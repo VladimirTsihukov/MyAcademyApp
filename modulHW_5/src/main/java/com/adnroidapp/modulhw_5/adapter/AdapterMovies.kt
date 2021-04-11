@@ -69,7 +69,7 @@ class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
         reviews?.text = "${movie.numberOfRatings} Reviews"
         filName?.text = movie.title
         min?.text = "${movie.runtime} min"
-        iconLike?.setImageResource(R.drawable.icon_like_on)
+        iconLike?.setImageResource(R.drawable.ic_like_on)
     }
 
     private fun setPosterIcon(poster: String, context: Context) {
@@ -81,9 +81,9 @@ class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
     private fun setImageStars(current: Int) {
         for (index in listStar.indices) {
             if (index < current) {
-                (listStar[index] as? ImageView)?.setImageResource(R.drawable.star_icon_on)
+                (listStar[index] as? ImageView)?.setImageResource(R.drawable.ic_star_on)
             } else {
-                (listStar[index] as? ImageView)?.setImageResource(R.drawable.star_icon_off)
+                (listStar[index] as? ImageView)?.setImageResource(R.drawable.ic_star_off)
             }
         }
     }

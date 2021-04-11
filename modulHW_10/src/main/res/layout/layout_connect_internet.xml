@@ -8,9 +8,9 @@
 
     <ProgressBar style="@style/progress_bar_style" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textView"
-        style="@style/text_loader"
+        style="@style/tv_loader"
         android:layout_marginStart="@dimen/space_4x"
         android:text="@string/internet_is_not_connected" />
 </LinearLayout>

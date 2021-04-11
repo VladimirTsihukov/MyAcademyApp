@@ -44,7 +44,7 @@ class HolderActors(item: View) : RecyclerView.ViewHolder(item) {
         imageActor?.let {
             Glide.with(itemView.context)
                 .load(ApiFactoryRxJava.BASE_URL_MOVIE_IMAGE + actor.profilePath)
-                .error(R.drawable.placeholder)
+                .error(R.drawable.ic_placeholder_actor)
                 .into(it)
         }
     }

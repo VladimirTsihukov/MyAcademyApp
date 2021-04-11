@@ -116,9 +116,9 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
 
         listStar.forEachIndexed { index, _ ->
             if (index < current) {
-                (listStar[index] as? ImageView)?.setImageResource(R.drawable.star_icon_on)
+                (listStar[index] as? ImageView)?.setImageResource(R.drawable.ic_star_on)
             } else {
-                (listStar[index] as? ImageView)?.setImageResource(R.drawable.star_icon_off)
+                (listStar[index] as? ImageView)?.setImageResource(R.drawable.ic_star_off)
             }
         }
     }

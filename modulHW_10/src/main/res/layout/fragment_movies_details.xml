@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/app_black">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -16,211 +16,123 @@
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/image_poster"
+                android:id="@+id/img_poster"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:foreground="@drawable/mask_back"
+                android:foreground="@drawable/ic_mask_back"
                 android:scaleType="centerCrop"
-                android:src="@drawable/background_mask"
+                android:src="@drawable/ic_background_mask"
                 app:layout_constraintDimensionRatio="w,3:4"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription,UnusedAttribute" />
+
+            <include
+                layout="@layout/layout_back_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_5x"
+                android:layout_marginStart="@dimen/space_2x"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrierBottomMask"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="image_poster" />
+                app:constraint_referenced_ids="img_poster" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidLine"
+                android:id="@+id/guid_line"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.6" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/path"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_4x"
-                android:layout_marginTop="60dp"
-                android:src="@drawable/ic_path"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="ContentDescription" />
-
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_back"
-                style="@style/style_roboto_normal_300"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_2x"
-                android:text="@string/back"
-                android:textColor="@color/app_grey"
-                app:layout_constraintBottom_toBottomOf="@id/path"
-                app:layout_constraintStart_toEndOf="@id/path"
-                app:layout_constraintTop_toTopOf="@id/path" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/mov_list_film_name"
+                android:id="@+id/tv_mov_list_film_name"
                 style="@style/style_roboto_normal_900"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_4x"
                 android:fontFamily="@font/roboto"
                 android:text="@string/str_film_name"
                 android:textColor="@color/app_white"
                 android:textSize="38sp"
                 app:layout_constraintBottom_toBottomOf="@id/barrierBottomMask"
-                app:layout_constraintEnd_toStartOf="@id/guidLine"
+                app:layout_constraintEnd_toStartOf="@id/guid_line"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/barrierBottomMask"
-                tools:targetApi="p" />
+                app:layout_constraintTop_toTopOf="@id/barrierBottomMask" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/mov_list_age_category"
-                style="@style/style_roboto_normal_900"
+                android:id="@+id/tv_mov_list_age_category"
+                style="@style/style_text_normal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/space_3x"
                 android:text="@string/str_age_category"
-                android:textColor="@color/app_white"
-                android:textSize="@dimen/space_3x"
-                app:layout_constraintBottom_toTopOf="@id/mov_list_film_name"
-                app:layout_constraintStart_toStartOf="@id/mov_list_film_name"
-                tools:ignore="SpUsage" />
+                app:layout_constraintBottom_toTopOf="@id/tv_mov_list_film_name"
+                app:layout_constraintStart_toStartOf="@id/tv_mov_list_film_name" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/mov_list_movie_genre"
-                style="@style/style_roboto_normal_300"
+                android:id="@+id/tv_mov_list_movie_genre"
+                style="@style/style_text_normal_assent"
+                android:layout_width="0dp"
+                android:text="@string/str_movie_genre"
+                app:layout_constraintEnd_toStartOf="@id/guid_line"
+                app:layout_constraintStart_toStartOf="@id/tv_mov_list_film_name"
+                app:layout_constraintTop_toBottomOf="@id/tv_mov_list_film_name" />
+
+            <include
+                android:id="@+id/inc_layout_stars"
+                layout="@layout/layout_stars"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/str_movie_genre"
-                android:textColor="@color/app_assent"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toStartOf="@id/guidLine"
-                app:layout_constraintStart_toStartOf="@id/mov_list_film_name"
-                app:layout_constraintTop_toBottomOf="@id/mov_list_film_name" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/mov_list_star_level_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/space_1x"
-                android:src="@drawable/star_icon_off"
-                app:layout_constraintStart_toStartOf="@id/mov_list_film_name"
-                app:layout_constraintTop_toBottomOf="@id/mov_list_movie_genre"
-                tools:ignore="ContentDescription" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/mov_list_star_level_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/space_1x"
-                android:src="@drawable/star_icon_off"
-                app:layout_constraintStart_toEndOf="@id/mov_list_star_level_1"
-                app:layout_constraintTop_toBottomOf="@id/mov_list_movie_genre"
-                tools:ignore="ContentDescription" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/mov_list_star_level_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/space_1x"
-                android:src="@drawable/star_icon_off"
-                app:layout_constraintStart_toEndOf="@id/mov_list_star_level_2"
-                app:layout_constraintTop_toBottomOf="@id/mov_list_movie_genre"
-                tools:ignore="ContentDescription" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/mov_list_star_level_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/space_1x"
-                android:src="@drawable/star_icon_off"
-                app:layout_constraintStart_toEndOf="@id/mov_list_star_level_3"
-                app:layout_constraintTop_toBottomOf="@id/mov_list_movie_genre"
-                tools:ignore="ContentDescription" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/mov_list_star_level_5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/space_1x"
-                android:src="@drawable/star_icon_off"
-                app:layout_constraintStart_toEndOf="@id/mov_list_star_level_4"
-                app:layout_constraintTop_toBottomOf="@id/mov_list_movie_genre"
-                tools:ignore="ContentDescription" />
+                app:layout_constraintStart_toStartOf="@+id/tv_mov_list_movie_genre"
+                app:layout_constraintTop_toBottomOf="@+id/tv_mov_list_movie_genre" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/mov_list_reviews"
-                style="@style/style_roboto_normal_900"
+                android:id="@+id/tv_mov_list_story_line"
+                style="@style/style_text_normal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="@string/str_reviews"
-                android:textAllCaps="true"
-                android:textColor="@color/app_grey"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@id/mov_list_star_level_1"
-                app:layout_constraintEnd_toStartOf="@id/guidLine"
-                app:layout_constraintStart_toEndOf="@id/mov_list_star_level_5"
-                app:layout_constraintTop_toTopOf="@id/mov_list_star_level_1" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/mov_list_story_line"
-                style="@style/style_roboto_normal_900"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_6x"
                 android:text="@string/str_story_line"
-                android:textColor="@color/app_white"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@id/mov_list_film_name"
-                app:layout_constraintTop_toBottomOf="@id/mov_list_star_level_1" />
+                app:layout_constraintStart_toStartOf="@id/tv_mov_list_film_name"
+                app:layout_constraintTop_toBottomOf="@id/inc_layout_stars" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/mov_list_text_story_line"
-                style="@style/style_roboto_normal_300"
+                android:id="@+id/tv_mov_list_text_story_line"
+                style="@style/style_text_normal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_4x"
                 android:layout_marginTop="@dimen/space_1x"
                 android:layout_marginEnd="@dimen/space_4x"
-                android:text="@string/str_text_story_line"
-                android:textColor="@color/white"
-                android:textSize="14sp"
+                tools:text="@string/str_text_story_line"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/mov_list_story_line" />
+                app:layout_constraintTop_toBottomOf="@id/tv_mov_list_story_line" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/cast"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/tv_mov_list_cast"
+                style="@style/style_text_normal"
                 android:layout_marginStart="@dimen/space_4x"
                 android:layout_marginTop="@dimen/space_6x"
                 android:text="@string/str_cast"
-                android:textColor="@color/app_white"
-                android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/mov_list_text_story_line" />
+                app:layout_constraintTop_toBottomOf="@id/tv_mov_list_text_story_line" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rec_actors"
+                android:id="@+id/rec_view_actors"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_2x"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cast"
-                tools:listitem="@layout/view_holder_actor" />
+                app:layout_constraintTop_toBottomOf="@id/tv_mov_list_cast"
+                tools:listitem="@layout/view_item_holder_actor" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <include
         android:id="@+id/data_loader"
@@ -230,4 +142,3 @@
         android:layout_gravity="center"
         tools:visibility="invisible" />
 </FrameLayout>
-

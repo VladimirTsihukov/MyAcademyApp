@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            android:src="@drawable/background_mask"
+            android:src="@drawable/ic_background_mask"
             app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -25,7 +25,7 @@
             android:id="@+id/mask_gradient"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="@drawable/gradient_mask"
+            android:background="@drawable/ic_gradient_mask"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="@id/mask"
             tools:ignore="ContentDescription" />
@@ -58,7 +58,7 @@
 
         <TextView
             android:id="@+id/text_back"
-            style="@style/style_roboto_normal_300"
+            style="@style/style_text_normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_2x"
@@ -99,7 +99,7 @@
 
         <TextView
             android:id="@+id/movie_genre"
-            style="@style/style_roboto_normal_300"
+            style="@style/style_text_normal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/str_movie_genre"
@@ -114,7 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/space_1x"
-            android:src="@drawable/star_icon_on"
+            android:src="@drawable/ic_star_on"
             app:layout_constraintStart_toStartOf="@id/film_name"
             app:layout_constraintTop_toBottomOf="@id/movie_genre"
             tools:ignore="ContentDescription" />
@@ -124,7 +124,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/space_1x"
-            android:src="@drawable/star_icon_on"
+            android:src="@drawable/ic_star_on"
             app:layout_constraintStart_toEndOf="@id/star_level_1"
             app:layout_constraintTop_toBottomOf="@id/movie_genre"
             tools:ignore="ContentDescription" />
@@ -134,7 +134,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/space_1x"
-            android:src="@drawable/star_icon_on"
+            android:src="@drawable/ic_star_on"
             app:layout_constraintStart_toEndOf="@id/star_level_2"
             app:layout_constraintTop_toBottomOf="@id/movie_genre"
             tools:ignore="ContentDescription" />
@@ -144,7 +144,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/space_1x"
-            android:src="@drawable/star_icon_on"
+            android:src="@drawable/ic_star_on"
             app:layout_constraintStart_toEndOf="@id/star_level_3"
             app:layout_constraintTop_toBottomOf="@id/movie_genre"
             tools:ignore="ContentDescription" />
@@ -154,7 +154,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/space_1x"
-            android:src="@drawable/star_icon_off"
+            android:src="@drawable/ic_star_off"
             app:layout_constraintStart_toEndOf="@id/star_level_4"
             app:layout_constraintTop_toBottomOf="@id/movie_genre"
             tools:ignore="ContentDescription" />
@@ -187,7 +187,7 @@
 
         <TextView
             android:id="@+id/text_story_line"
-            style="@style/style_roboto_normal_300"
+            style="@style/style_text_normal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_4x"

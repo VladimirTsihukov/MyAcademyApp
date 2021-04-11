@@ -63,25 +63,25 @@ class HolderMovies(item: View) : RecyclerView.ViewHolder(item) {
 
         ageCategory?.text = "${film.ageCategory}+"
         movieGenre?.text = film.movieGenre
-        if (film.star1) star1?.setImageResource(R.drawable.star_icon_on) ?: star1?.setImageResource(
-            R.drawable.star_icon_off
+        if (film.star1) star1?.setImageResource(R.drawable.ic_star_on) ?: star1?.setImageResource(
+            R.drawable.ic_star_off
         )
-        if (film.star2) star2?.setImageResource(R.drawable.star_icon_on) ?: star2?.setImageResource(
-            R.drawable.star_icon_off
+        if (film.star2) star2?.setImageResource(R.drawable.ic_star_on) ?: star2?.setImageResource(
+            R.drawable.ic_star_off
         )
-        if (film.star3) star3?.setImageResource(R.drawable.star_icon_on) ?: star3?.setImageResource(
-            R.drawable.star_icon_off
+        if (film.star3) star3?.setImageResource(R.drawable.ic_star_on) ?: star3?.setImageResource(
+            R.drawable.ic_star_off
         )
-        if (film.star4) star4?.setImageResource(R.drawable.star_icon_on) ?: star4?.setImageResource(
-            R.drawable.star_icon_off
+        if (film.star4) star4?.setImageResource(R.drawable.ic_star_on) ?: star4?.setImageResource(
+            R.drawable.ic_star_off
         )
-        if (film.star5) star5?.setImageResource(R.drawable.star_icon_on) ?: star5?.setImageResource(
-            R.drawable.star_icon_off
+        if (film.star5) star5?.setImageResource(R.drawable.ic_star_on) ?: star5?.setImageResource(
+            R.drawable.ic_star_off
         )
         reviews?.text = "${film.reviews} Reviews"
         filName?.text = film.filName
         min?.text = "${film.min} min"
-        if (film.iconLike) iconLike?.setImageResource(R.drawable.icon_like_off)
-            ?: iconLike?.setImageResource(R.drawable.icon_like_on)
+        if (film.iconLike) iconLike?.setImageResource(R.drawable.ic_like_off)
+            ?: iconLike?.setImageResource(R.drawable.ic_like_on)
     }
 }

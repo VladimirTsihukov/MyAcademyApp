@@ -9,5 +9,6 @@
     <dimen name="space_2x">8dp</dimen>
     <dimen name="space_1.5x">6dp</dimen>
     <dimen name="space_1x">4dp</dimen>
+    <dimen name="space_0.5x">2dp</dimen>
 
 </resources>

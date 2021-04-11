@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/list_frg_bg"
+    android:background="@drawable/ic_list_frg_bg"
     android:orientation="vertical">
 
     <LinearLayout
@@ -14,15 +14,15 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_4x"
-            android:src="@drawable/list_frg_shape"
+            android:src="@drawable/ic_list_frg_shape"
             tools:ignore="ContentDescription" />
 
-        <TextView
-            android:id="@+id/moviesList"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_moviesList"
             style="@style/style_roboto_normal_900"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,5 +41,5 @@
         android:gravity="center"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
-        tools:listitem="@layout/view_holder_movies" />
+        tools:listitem="@layout/view_item_holder_movies" />
 </LinearLayout>

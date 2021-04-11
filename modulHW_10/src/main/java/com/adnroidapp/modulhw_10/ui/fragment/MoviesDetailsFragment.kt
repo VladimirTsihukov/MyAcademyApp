@@ -19,6 +19,8 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_movies_details.*
 import kotlinx.android.synthetic.main.fragment_movies_details.view.*
+import kotlinx.android.synthetic.main.layout_back_fragment.view.*
+import kotlinx.android.synthetic.main.layout_stars.*
 import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
@@ -32,7 +34,7 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerView = view.findViewById(R.id.rec_actors)
+        recyclerView = view.findViewById(R.id.rec_view_actors)
         recyclerView.adapter = adapter
 
         arguments?.getLong(MOVIES_KEY)?.let {
@@ -45,10 +47,9 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
     }
 
     private fun initView(view: View) {
-        view.text_back.setOnClickListener {
-            findNavController().navigate(R.id.action_fragmentMoviesDetails_to_fragmentMoviesList)
+        view.tv_back.setOnClickListener {
+            findNavController().popBackStack()
         }
-
     }
 
     private fun initObserver(view: View) {
@@ -64,7 +65,7 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
             { actors ->
                 actors?.let {
                     if (it.isEmpty()) {
-                        cast.visibility = View.INVISIBLE
+                        tv_mov_list_cast.visibility = View.INVISIBLE
                     } else {
                         updateDataActors(it)
                     }
@@ -84,15 +85,15 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
 
     private fun getInitLayout(movieData: DataDBMoviesDetails) {
         view?.also {
-            mov_list_age_category.text = resources.getString(R.string.fragment_reviews).let {
+            tv_mov_list_age_category.text = resources.getString(R.string.fragment_age_category).let {
                 String.format(it, "${movieData.minimumAge}")
             }
-            mov_list_movie_genre.text = movieData.genres
-            mov_list_text_story_line.text = movieData.overview
-            mov_list_reviews.text = resources.getString(R.string.fragment_reviews).let {
+            tv_mov_list_movie_genre.text = movieData.genres
+            tv_mov_list_text_story_line.text = movieData.overview
+            tv_mov_list_reviews.text = resources.getString(R.string.fragment_reviews).let {
                 String.format(it, "${movieData.numberOfRatings}")
             }
-            mov_list_film_name.text = movieData.title
+            tv_mov_list_film_name.text = movieData.title
             setPosterIcon(movieData.backdrop)
             setImageStars((movieData.ratings / 2).roundToInt())
         }
@@ -113,25 +114,25 @@ class MoviesDetailsFragment : Fragment(R.layout.fragment_movies_details) {
         view?.apply {
             Glide.with(context)
                 .load(poster)
-                .error(R.drawable.ph_movie_grey_400)
-                .into(image_poster)
+                .error(R.drawable.ic_ph_movie_grey_400)
+                .into(img_poster)
         }
     }
 
     private fun setImageStars(current: Int) {
         view?.apply {
             val listStar = listOf<ImageView>(
-                mov_list_star_level_1,
-                mov_list_star_level_2,
-                mov_list_star_level_3,
-                mov_list_star_level_4,
-                mov_list_star_level_5)
+                img_mov_list_star_level_1,
+                img_mov_list_star_level_2,
+                img_mov_list_star_level_3,
+                img_mov_list_star_level_4,
+                img_mov_list_star_level_5)
 
             listStar.forEachIndexed { index, _ ->
                 if (index < current) {
-                    listStar[index].setImageResource(R.drawable.star_icon_on)
+                    listStar[index].setImageResource(R.drawable.ic_star_on)
                 } else {
-                    listStar[index].setImageResource(R.drawable.star_icon_off)
+                    listStar[index].setImageResource(R.drawable.ic_star_off)
                 }
             }
         }

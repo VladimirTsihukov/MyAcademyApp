@@ -38,11 +38,11 @@ class FragmentMoviesDetails : Fragment(R.layout.fragment_movies_details) {
     fun getInitLayout(movie: Movies, view: View) {
         view.mov_list_age_category.text = "${movie.ageCategory}+"
         view.mov_list_movie_genre.text = movie.movieGenre
-        if (movie.star1) view.mov_list_star_level_1.setImageResource(R.drawable.star_icon_on)
-        if (movie.star2) view.mov_list_star_level_2.setImageResource(R.drawable.star_icon_on)
-        if (movie.star3) view.mov_list_star_level_3.setImageResource(R.drawable.star_icon_on)
-        if (movie.star4) view.mov_list_star_level_4.setImageResource(R.drawable.star_icon_on)
-        if (movie.star5) view.mov_list_star_level_5.setImageResource(R.drawable.star_icon_on)
+        if (movie.star1) view.mov_list_star_level_1.setImageResource(R.drawable.ic_star_on)
+        if (movie.star2) view.mov_list_star_level_2.setImageResource(R.drawable.ic_star_on)
+        if (movie.star3) view.mov_list_star_level_3.setImageResource(R.drawable.ic_star_on)
+        if (movie.star4) view.mov_list_star_level_4.setImageResource(R.drawable.ic_star_on)
+        if (movie.star5) view.mov_list_star_level_5.setImageResource(R.drawable.ic_star_on)
         view.mov_list_reviews.text = "${movie.reviews} Reviews"
         view.mov_list_film_name.text = movie.filName
     }

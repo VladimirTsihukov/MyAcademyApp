@@ -6,8 +6,8 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/space_2x">
 
-    <ImageView
-        android:id="@+id/holder_actor_image"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_holder_actor_image"
         android:layout_width="80dp"
         android:layout_height="80dp"
         tools:src="@tools:sample/avatars"
@@ -16,15 +16,13 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
-    <TextView
-        android:id="@+id/holder_actor_name"
-        style="@style/style_name_actor"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_holder_actor_name"
+        style="@style/style_text_normal"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/str_name_actor_1"
-        android:textColor="@color/app_grey_name_actor"
-        app:layout_constraintEnd_toEndOf="@id/holder_actor_image"
-        app:layout_constraintStart_toStartOf="@id/holder_actor_image"
-        app:layout_constraintTop_toBottomOf="@id/holder_actor_image" />
+        tools:text="@string/str_name_actor_1"
+        app:layout_constraintEnd_toEndOf="@id/img_holder_actor_image"
+        app:layout_constraintStart_toStartOf="@id/img_holder_actor_image"
+        app:layout_constraintTop_toBottomOf="@id/img_holder_actor_image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

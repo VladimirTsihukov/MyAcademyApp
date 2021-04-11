@@ -9,8 +9,8 @@
 
     <ProgressBar style="@style/progress_bar_style"/>
 
-    <TextView
-        style="@style/text_loader"
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/tv_loader"
         android:text="@string/data_loading"
         android:textColor="@color/app_assent" />
 

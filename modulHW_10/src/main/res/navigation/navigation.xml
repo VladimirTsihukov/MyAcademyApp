@@ -18,9 +18,5 @@
         android:id="@+id/movie_detail"
         android:name="com.adnroidapp.modulhw_10.ui.fragment.MoviesDetailsFragment"
         android:label="@string/label_frg_mov_details"
-        tools:layout="@layout/fragment_movies_details">
-        <action
-            android:id="@+id/action_fragmentMoviesDetails_to_fragmentMoviesList"
-            app:destination="@id/movie_list" />
-    </fragment>
+        tools:layout="@layout/fragment_movies_details"/>
 </navigation>
