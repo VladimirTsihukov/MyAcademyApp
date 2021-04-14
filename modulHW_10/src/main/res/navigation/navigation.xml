@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/movie_list"
-        android:name="com.adnroidapp.modulhw_10.ui.fragment.MoviesListFragment"
+        android:name="com.adnroidapp.modulhw_10.view.ui.fragment.MoviesListFragment"
         android:label="@string/label_frg_mov_list"
         tools:layout="@layout/fragment_movies_list">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/movie_detail"
-        android:name="com.adnroidapp.modulhw_10.ui.fragment.MoviesDetailsFragment"
+        android:name="com.adnroidapp.modulhw_10.view.ui.fragment.FragmentMoviesDetails"
         android:label="@string/label_frg_mov_details"
         tools:layout="@layout/fragment_movies_details"/>
 </navigation>
